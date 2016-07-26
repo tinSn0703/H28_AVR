@@ -23,7 +23,7 @@ class C_IO_base
 	
 #if defined(_AVR_IOM640_H_)
 	E_IO_PORT_ADDR	_mem_io_base_addr :9;
-	E_LOGIC			_mem_io_base_addr_point :1;
+	BOOL			_mem_io_base_addr_point :1;
 	
 #	define PIN	(_mem_io_base_addr_point == TRUE ? _SFR_MEM8(_mem_io_base_addr + 0) : _SFR_IO8(_mem_io_base_addr + 0))
 #	define DDR	(_mem_io_base_addr_point == TRUE ? _SFR_MEM8(_mem_io_base_addr + 1) : _SFR_IO8(_mem_io_base_addr + 1))

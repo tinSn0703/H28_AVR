@@ -44,12 +44,12 @@ class C_TIMER_base
 #	define TIME_SET_BIT ((1<<CS2)|(1<<CS1)|(1<<CS0))
 
 #if defined(_AVR_IOM640_H_)
-	void Set_base (E_TIMER_ADDR ,E_TIMER_MODE ,E_LOGIC );
+	void Set_base (E_TIMER_ADDR ,E_TIMER_MODE ,BOOL );
 #elif defined(_AVR_IOM164_H_)
-	void Set_base (E_TIMER_MODE ,E_LOGIC );
+	void Set_base (E_TIMER_MODE ,BOOL );
 #endif
 
-	void Set_mode(E_TIMER_MODE , E_LOGIC );
+	void Set_mode(E_TIMER_MODE , BOOL );
 	
 	void Set_condition(E_CLOCK ,T_VALUE );
 };
@@ -62,7 +62,7 @@ Set_base
 (
 	E_TIMER_ADDR _arg_timer_base_addr,
 	E_TIMER_MODE _arg_timer_base_mode , 
-	E_LOGIC _arg_timer_base_nf_isr = FALES
+	BOOL _arg_timer_base_nf_isr = FALES
 )
 {
 	_mem_timer_base_addr = _arg_timer_base_addr;
@@ -87,7 +87,7 @@ C_TIMER_base::
 Set_base
 (
 	E_TIMER_MODE _arg_timer_base_mode ,
-	E_LOGIC _arg_timer_base_nf_isr = FALES
+	BOOL _arg_timer_base_nf_isr = FALES
 )
 {
 	TCCRA = 0x00;
@@ -104,7 +104,7 @@ C_TIMER_base::
 Set_mode
 (
 	E_TIMER_MODE _arg_timer_base_mode, 
-	E_LOGIC _arg_timer_base_nf_isr = FALES
+	BOOL _arg_timer_base_nf_isr = FALES
 )
 {
 	_mem_timer_base_mode = _arg_timer_base_mode;

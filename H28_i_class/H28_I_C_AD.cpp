@@ -20,13 +20,13 @@ class C_AD
 	{
 		struct S_AD_MUX
 		{
-			E_LOGIC _mux0 :1;
-			E_LOGIC _mux1 :1;
-			E_LOGIC _mux2 :1;
-			E_LOGIC _mux3 :1;
-			E_LOGIC _mux4 :1;
+			BOOL _mux0 :1;
+			BOOL _mux1 :1;
+			BOOL _mux2 :1;
+			BOOL _mux3 :1;
+			BOOL _mux4 :1;
 #ifdef _AVR_IOM640_H_
-			E_LOGIC _mux5 :1;
+			BOOL _mux5 :1;
 #endif
 		};
 		
@@ -44,11 +44,11 @@ class C_AD
 	void Set_num(E_AD_NUM );
 	
 	void Set_first();
-	void Set(E_AD_NUM ,E_LOGIC );
+	void Set(E_AD_NUM ,BOOL );
 	
 	public:
 	C_AD()	{}
-	C_AD(E_AD_NUM ,E_LOGIC );
+	C_AD(E_AD_NUM ,BOOL );
 
 	usint Do();
 };
@@ -69,7 +69,7 @@ inline void
 C_AD::
 Set_first ()
 {
-	static E_LOGIC _sta_ad_first = FALES;
+	static BOOL _sta_ad_first = FALES;
 	
 	if (_sta_ad_first == FALES)
 	{
@@ -90,7 +90,7 @@ C_AD::
 Set
 (
 	E_AD_NUM _arg_ad_num, 
-	E_LOGIC _arg_ad_io_turn = TRUE
+	BOOL _arg_ad_io_turn = TRUE
 )
 {
 	Set_first();
@@ -153,7 +153,7 @@ C_AD::
 C_AD
 (
 	E_AD_NUM _arg_ad_num, 
-	E_LOGIC _arg_ad_io_turn = TRUE
+	BOOL _arg_ad_io_turn = TRUE
 )
 {	
 	Set(_arg_ad_num, _arg_ad_io_turn);

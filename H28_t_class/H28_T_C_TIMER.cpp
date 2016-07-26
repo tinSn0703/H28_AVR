@@ -16,17 +16,17 @@ class C_TIMER : public virtual C_TIMER_base
 	C_TIMER()	{}
 		
 #if defined(_AVR_IOM640_H_)
-	C_TIMER(E_TIMER_ADDR ,E_TIMER_MODE ,E_LOGIC );
-	C_TIMER(E_TIMER_ADDR ,E_TIMER_MODE ,E_CLOCK ,T_VALUE ,E_LOGIC );
+	C_TIMER(E_TIMER_ADDR ,E_TIMER_MODE ,BOOL );
+	C_TIMER(E_TIMER_ADDR ,E_TIMER_MODE ,E_CLOCK ,T_VALUE ,BOOL );
 #elif defined(_AVR_IOM164_H_)
-	C_TIMER(E_TIMER_MODE ,E_LOGIC );
-	C_TIMER(E_TIMER_MODE ,E_CLOCK ,T_VALUE ,E_LOGIC );
+	C_TIMER(E_TIMER_MODE ,BOOL );
+	C_TIMER(E_TIMER_MODE ,E_CLOCK ,T_VALUE ,BOOL );
 #endif
 
 	void Start();
 	void Start(E_CLOCK ,T_VALUE );
 	
-	E_LOGIC Flag_timer(E_LOGIC );
+	BOOL Flag_timer(BOOL );
 	
 	void Stop();
 };
@@ -39,7 +39,7 @@ C_TIMER
 (
 	E_TIMER_ADDR _arg_timer_addr, 
 	E_TIMER_MODE _arg_timer_mode, 
-	E_LOGIC _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALES
 )
 {
 	C_TIMER_base::Set_base(_arg_timer_addr, _arg_timer_mode, _arg_timer_nf_isr);
@@ -53,7 +53,7 @@ C_TIMER
 	E_TIMER_MODE _arg_timer_mode, 
 	E_CLOCK _arg_timer_clock, 
 	T_VALUE _arg_timer_counter, 
-	E_LOGIC _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALES
 )
 {
 	C_TIMER_base::Set_base(_arg_timer_addr, _arg_timer_mode, _arg_timer_nf_isr);
@@ -65,7 +65,7 @@ C_TIMER::
 C_TIMER
 (
 	E_TIMER_MODE _arg_timer_mode,
-	E_LOGIC _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALES
 )
 {
 	C_TIMER_base::Set_base(_arg_timer_mode, _arg_timer_nf_isr);
@@ -78,7 +78,7 @@ C_TIMER
 	E_TIMER_MODE _arg_timer_mode,
 	E_CLOCK _arg_timer_clock,
 	T_VALUE _arg_timer_counter,
-	E_LOGIC _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALES
 )
 {
 	C_TIMER_base::Set_base(_arg_timer_mode, _arg_timer_nf_isr);
@@ -111,9 +111,9 @@ Start
 	Start();
 }
 
-E_LOGIC 
+BOOL 
 C_TIMER::
-Flag_timer (E_LOGIC _arg_timer_continue = TRUE)
+Flag_timer (BOOL _arg_timer_continue = TRUE)
 {
 	usint mode_bit = 0;
 	

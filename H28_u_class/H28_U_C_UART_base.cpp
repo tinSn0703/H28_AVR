@@ -29,8 +29,8 @@ class C_UART_base
 	void Set_base(E_UART_ADDR );
 
 	public:
-	void Set_bit9(E_LOGIC );
-	E_LOGIC Ret_bit9()	{	return CHECK_BIT_TF(UCSRB,UCSZ2);	}
+	void Set_bit9(BOOL );
+	BOOL Ret_bit9()	{	return CHECK_BIT_TF(UCSRB,UCSZ2);	}
 };
 
 //protected
@@ -66,7 +66,7 @@ UARTの初期設定
 //public
 inline void 
 C_UART_base::
-Set_bit9 (E_LOGIC _arg_uart_base_nf_bit9)
+Set_bit9 (BOOL _arg_uart_base_nf_bit9)
 /*
 9bit通信のONOFF
 8bitと9bitどうしではうまく通信できないので注意
