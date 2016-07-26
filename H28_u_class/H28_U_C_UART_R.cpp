@@ -12,6 +12,9 @@
 #include <H28_AVR/H28_AVR_0/H28_t_class/H28_T_C_TIMER_inside.cpp>
 
 class C_UART_R : public virtual C_UART_base , public C_TIMER_inside
+/*
+UARTで受信を扱うクラス
+*/
 {
 	protected:
 	E_UART_FLAG _mem_uart_r_flag :2; //最後の受信状態の記録
@@ -36,7 +39,16 @@ class C_UART_R : public virtual C_UART_base , public C_TIMER_inside
 	friend bool operator != (C_UART_R &,E_UART_FLAG );
 };
 
-//protevted
+//protevted member
+
+/**
+ * \brief
+ * コンストラクタの中身
+ * 意味がないような気はする
+ * 
+ * \param _arg_uart_r_addr : 使うUART
+ * \param _arg_uart_r_nf_isr : 割り込みのONOFF
+ */
 inline void 
 C_UART_R::
 Set
@@ -44,17 +56,24 @@ Set
 	E_UART_ADDR _arg_uart_r_addr, 
 	BOOL _arg_uart_r_nf_isr
 )
-{
+{	
 	Set_base(_arg_uart_r_addr);
 	
 	Set_isr(_arg_uart_r_nf_isr);
 	
-	C_TIMER_inside::Set(80);
+	C_TIMER_inside::Set(80); //8ms
 	
 	_mem_uart_r_flag = EU_NONE;
 }
 
-//public
+//public member
+
+/**
+ * \brief : コンストラクタ
+ * 
+ * \param _arg_uart_r_addr : 使うUART
+ * \param _arg_uart_r_nf_isr : 割り込み処理の使用のONOFF
+ */
 inline 
 C_UART_R::
 C_UART_R
@@ -66,7 +85,14 @@ C_UART_R
 	Set(_arg_uart_r_addr,_arg_uart_r_nf_isr);
 }
 
-inline void C_UART_R::Set_isr(BOOL _arg_uart_r_nf_isr)
+/**
+ * \brief : 割り込みのONOFF
+ * 
+ * \param _arg_uart_r_nf_isr : ONOFFの設定
+ */
+inline void 
+C_UART_R::
+Set_isr (BOOL _arg_uart_r_nf_isr)
 {
 	switch (_arg_uart_r_nf_isr)
 	{
@@ -75,10 +101,16 @@ inline void C_UART_R::Set_isr(BOOL _arg_uart_r_nf_isr)
 	}
 }
 
+/**
+ * \brief 
+ * 受信ができるかを確認する。結果は_mem_uart_r_flagに格納されるので使うときにそっちを読んでほしい。
+ * 確認中はこの関数で停止します。
+ * 確認には最長で8ms程かかります
+ */
 void 
 C_UART_R::
 Check ()
-{	
+{
 	UCSRB |= (1 << RXEN); //受信許可
 	
 	C_TIMER_inside::Start();
@@ -90,17 +122,24 @@ Check ()
 			C_TIMER_inside::End();
 			
 			_mem_uart_r_flag = EU_SUCCE;
+			
 			break;
 		}
 		
 		if (C_TIMER_inside::Check() == TRUE)	//カウント完了(タイムアウト)
 		{
 			_mem_uart_r_flag = EU_ERROR;
+			
 			break;
 		}
 	}
 }
 
+/**
+ * \brief 受信する 
+ * 
+ * \return T_DATA : 受信したデータ
+ */
 T_DATA 
 C_UART_R::
 In ()
@@ -120,6 +159,13 @@ In ()
 	return _ret_in_data;
 }
 
+/**
+ * \brief 
+ * C_UART_R::In()の演算子バージョン。
+ * 
+ * \param _arg_uart_r : みたまま
+ * \param _arg_uart_r_data_in : 受信データが書き込まれる場所
+ */
 void 
 operator >> 
 (
@@ -130,6 +176,14 @@ operator >>
 	_arg_uart_r_data_in = _arg_uart_r.In();
 }
 
+/**
+ * \brief 
+ * C_UART_R::In()の演算子バージョン。
+ * 8bit通信のとき用
+ * 
+ * \param _arg_uart_r : みたまま
+ * \param _arg_uart_r_data_in : 受信データが書き込まれる場所
+ */
 void 
 operator >> 
 (
@@ -137,9 +191,21 @@ operator >>
 	T_DATA_8 &_arg_uart_r_data_in
 )
 {
+	_arg_uart_r.Set_bit9(FALES);
 	_arg_uart_r_data_in = (T_DATA_8 )_arg_uart_r.In();
 }
 
+/**
+ * \brief 
+ * if文などでの比較用
+ * _mem_uart_r_flagと比較する。
+ * C_UART_R::Check()のあとで使って
+ * 
+ * \param _arg_uart_r : みたまま
+ * \param _arg_uart_r_flag : 比較するやつ
+ * 
+ * \return bool 等しいときtrue
+ */
 bool 
 operator == 
 (
@@ -152,6 +218,17 @@ operator ==
 	return false;
 }
 
+/**
+ * \brief 
+ * if文などでの比較用
+ * _mem_uart_r_flagと比較する。
+ * C_UART_R::Check()のあとで使って
+ * 
+ * \param _arg_uart_r : みたまま
+ * \param _arg_uart_r_flag : 比較するやつ
+ * 
+ * \return bool 等しくないときtrue
+ */
 bool 
 operator != 
 (
