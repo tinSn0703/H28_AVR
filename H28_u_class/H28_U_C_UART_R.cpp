@@ -9,6 +9,7 @@
 #pragma once
 
 #include "H28_U_C_UART_base.cpp"
+#include <H28_AVR/H28_AVR_0/H28_t_class/H28_T_C_TIMER_inside.cpp>
 
 class C_UART_R : public virtual C_UART_base , public C_TIMER_inside
 {

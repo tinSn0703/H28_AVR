@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "H28_t_class.h"
+
 class C_TIMER_inside
 {
 	private:

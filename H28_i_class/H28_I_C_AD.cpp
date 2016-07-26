@@ -11,6 +11,8 @@ AD変換を行うクラス。ポテンジョンメータの値を読むことが
 
 #pragma once
 
+#include "H28_i_class.h"
+
 class C_AD
 {	
 	protected:

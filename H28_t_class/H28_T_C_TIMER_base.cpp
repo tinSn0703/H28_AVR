@@ -10,6 +10,8 @@ TIMER系の基底クラス
 
 #pragma once
 
+#include "H28_t_class.h"
+
 class C_TIMER_base
 {
 	protected:

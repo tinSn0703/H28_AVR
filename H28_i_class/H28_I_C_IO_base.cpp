@@ -13,6 +13,8 @@ IOピン用クラスの基礎。宣言しないでね。
 
 #pragma once
 
+#include "H28_i_class.h"
+
 class C_IO_base
 {
 	protected:

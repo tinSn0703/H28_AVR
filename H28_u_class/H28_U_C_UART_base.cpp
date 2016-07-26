@@ -7,6 +7,8 @@ UART系の基底となるクラス。こいつは宣言しないでね
 
 #pragma once
 
+#include "H28_u_class.h"
+
 class C_UART_base
 {
 	protected:
