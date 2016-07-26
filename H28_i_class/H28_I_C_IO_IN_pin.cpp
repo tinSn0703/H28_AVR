@@ -39,8 +39,8 @@ Set
 	
 	_mem_io_in_pin_bit = _arg_io_in_pin_bit;
 	
-	DDR  |=  (1 << _arg_io_in_pin_bit);
-	PORT &= ~(1 << _arg_io_in_pin_bit);
+	DDR  &= ~(1 << _arg_io_in_pin_bit);
+	PORT |=  (1 << _arg_io_in_pin_bit);
 }
 
 //public

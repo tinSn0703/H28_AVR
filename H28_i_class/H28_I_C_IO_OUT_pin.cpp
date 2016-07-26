@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "H28_I_C_IO_OUT.cpp"
+
 class C_IO_OUT_pin : protected C_IO_OUT
 {
 	private:
@@ -40,8 +42,8 @@ Set
 	
 	_mem_io_out_pin_bit = _arg_io_out_pin_bit;
 	
-	DDR  &= ~(1 << _arg_io_out_pin_bit);
-	PORT |=  (1 << _arg_io_out_pin_bit);
+	DDR  |=  (1 << _arg_io_out_pin_bit);
+	PORT &= ~(1 << _arg_io_out_pin_bit);
 }
 
 //public
