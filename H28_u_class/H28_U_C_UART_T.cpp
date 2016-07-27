@@ -11,7 +11,7 @@
 
 class C_UART_T : public virtual C_UART_base
 {
-	protected:	
+	protected:
 	void Set(E_UART_ADDR ,BOOL );
 	
 	public:
@@ -21,7 +21,7 @@ class C_UART_T : public virtual C_UART_base
 	void Set_isr(BOOL );
 	void Out(T_DATA );
 	
-	friend void operator<<(C_UART_T &,T_DATA );
+	friend void operator << (C_UART_T &,T_DATA );
 };
 
 //protected

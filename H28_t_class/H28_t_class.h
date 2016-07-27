@@ -10,9 +10,8 @@ TIMER系のクラスをincludeするためだけのファイル
 #	error "Include <H28_AVR.h>"
 #endif
 
-#include "H28_T_C_COUNTER.cpp"
-
-#include "H28_T_C_TIMER_base.cpp"
-#include "H28_T_C_TIMER.cpp"
+#include "H28_T_C_COUNTER.h"
+#include "H28_T_C_TIMER_base.h"
+#include "H28_T_C_TIMER.h"
 //#include "H28_T_C_TIMER_overflow.cpp"
-#include "H28_T_C_TIMER_inside.cpp"
+#include "H28_T_C_TIMER_inside.h"

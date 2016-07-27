@@ -8,28 +8,7 @@
 
 #pragma once
 
-#include "H28_T_C_TIMER_base.cpp"
-
-class C_TIMER : public virtual C_TIMER_base
-{
-	public:
-	C_TIMER()	{}
-		
-#if defined(_AVR_IOM640_H_)
-	C_TIMER(E_TIMER_ADDR ,E_TIMER_MODE ,BOOL );
-	C_TIMER(E_TIMER_ADDR ,E_TIMER_MODE ,E_CLOCK ,T_VALUE ,BOOL );
-#elif defined(_AVR_IOM164_H_)
-	C_TIMER(E_TIMER_MODE ,BOOL );
-	C_TIMER(E_TIMER_MODE ,E_CLOCK ,T_VALUE ,BOOL );
-#endif
-
-	void Start();
-	void Start(E_CLOCK ,T_VALUE );
-	
-	BOOL Flag_timer(BOOL );
-	
-	void Stop();
-};
+#include "H28_T_C_TIMER.h"
 
 //public
 #if defined(_AVR_IOM640_H_)
@@ -52,7 +31,7 @@ C_TIMER
 	E_TIMER_ADDR _arg_timer_addr, 
 	E_TIMER_MODE _arg_timer_mode, 
 	E_CLOCK _arg_timer_clock, 
-	T_VALUE _arg_timer_counter, 
+	usint _arg_timer_counter, 
 	BOOL _arg_timer_nf_isr = FALES
 )
 {
@@ -77,7 +56,7 @@ C_TIMER
 (
 	E_TIMER_MODE _arg_timer_mode,
 	E_CLOCK _arg_timer_clock,
-	T_VALUE _arg_timer_counter,
+	usint _arg_timer_counter,
 	BOOL _arg_timer_nf_isr = FALES
 )
 {
@@ -103,7 +82,7 @@ C_TIMER::
 Start
 (
 	E_CLOCK _arg_timer_clock, 
-	T_VALUE _arg_timer_counter
+	usint _arg_timer_counter
 )
 {
 	C_TIMER_base::Set_condition(_arg_timer_clock, _arg_timer_counter);
