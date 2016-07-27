@@ -94,7 +94,8 @@ Set_mode
 	}
 }
 
-//public
+//public member
+
 inline void 
 C_TIMER_base ::
 Set_condition

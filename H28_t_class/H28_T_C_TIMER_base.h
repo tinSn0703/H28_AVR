@@ -66,6 +66,8 @@ protected:
 	 */
 	void Set_mode(E_TIMER_MODE _arg_timer_mode, BOOL _arg_timer_nf_isr);
 	
+public:
+	
 	/**
 	 * \brief 分周値、カウント用レジスタの設定
 	 * 

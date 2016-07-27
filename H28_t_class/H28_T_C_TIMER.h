@@ -3,6 +3,9 @@
 
 #include "H28_T_C_TIMER_base.cpp"
 
+/**
+ * TIMER‚ðˆµ‚¤ƒNƒ‰ƒX
+ */
 class C_TIMER : public virtual C_TIMER_base
 {
 public:
