@@ -4,8 +4,10 @@
 #include "H28_t_class.h"
 
 /**
- * タイマを伴ったカウント用クラス
+ * タイマ-用クラス
+ * 一定時間の計測用。ループしてる中で使ってね
  * C_COUNTERの子にしたさある
+ * そこまで精度はよくないのでプログラムが停止しない待ち時間程度に考えてといて
  * TIMER0を使ってます
  * TIMER2verもつくろかな
  */
@@ -13,37 +15,32 @@ class C_TIMER_inside
 {
 private:
 
-	usint _mem_timer_inside_count :8; //カウンタ
-	usint _mem_timer_inside_limit :8; //カウントの上限
+	usint _mem_timer_inside_count ; //カウンタ
+	usint _mem_timer_inside_limit ; //カウントの上限
 	BOOL _mem_timer_inside_flag  :1;  //カウントの動作フラグ
-	
-protected:
-	
-	/**
-	 * \brief コンストラクタの中身。引数はコンストラクタを参照
-	 */
-	void Set(usint _arg_timer_limit, usint _arg_timer_count, BOOL _arg_timer_flag);
 	
 public:
 	
-	C_TIMER_inside()	{}
-		
+	/**
+	 * \brief 
+	 * コンストラクタ。_mem_timer_inside_limitを0にするだけ
+	 */
+	C_TIMER_inside();
+	
 	/**
 	 * \brief コンストラクタ
 	 * 
-	 * \param _arg_limit : カウント回数。1カウントにつき100us
-	 * \param _arg_count : 最初に埋めて置くカウンタの値
-	 * \param _arg_flag : フラグの初期設定
+	 * \param _arg_limit : カウント上限。1カウントにつき100us
 	 */
-	C_TIMER_inside(usint _arg_timer_limit, usint _arg_timer_count, BOOL _arg_timer_flag);
+	C_TIMER_inside(usint _arg_timer_limit);
 	
 	/**
-	 * \brief タイマカウントの開始
+	 * \brief タイマの開始
 	 */
 	void Start();
 	
 	/**
-	 * \brief タイマカウントの現状の確認 
+	 * \brief タイマの現状の確認 
 	 * 
 	 * \return BOOL 
 	 *	TRUE  -> 完了
@@ -52,7 +49,7 @@ public:
 	BOOL Check();
 	
 	/**
-	 * \brief カウントの終了
+	 * \brief タイマの終了
 	 */
 	void End();
 	
@@ -64,6 +61,37 @@ public:
 	 *	FALES -> カウントを行っていない
 	 */
 	BOOL Ret_flag();
+	
+	/**
+	 * \brief カウントの上限値を変更する演算子
+	 * 
+	 * \param _arg_timer_limit : 新しい上限
+	 */
+	C_TIMER_inside & operator = (usint _arg_timer_limit);
+	
+	/**
+	 * \brief 
+	 * if文などでの比較用の演算子
+	 * C_TIMER_inside::Ret_flag()と比較する
+	 * 
+	 * \param _arg_timer_inside : みたまま
+	 * \param _arg_timer_flag_comp : 比較するやつ
+	 * 
+	 * \return friend bool 等しいときture
+	 */
+	friend bool operator == (C_TIMER_inside &_arg_timer_inside,BOOL _arg_timer_flag_comp);
+	
+	/**
+	 * \brief 
+	 * if文などでの比較用の演算子
+	 * C_TIMER_inside::Ret_flag()と比較する
+	 * 
+	 * \param _arg_timer_inside : みたまま
+	 * \param _arg_timer_flag_comp : 比較するやつ
+	 * 
+	 * \return friend bool 等しくないときture
+	 */
+	friend bool operator != (C_TIMER_inside &_arg_timer_inside,BOOL _arg_timer_flag_comp);
 };
 
 #include "H28_T_C_TIMER_inside.cpp"

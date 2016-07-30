@@ -9,16 +9,21 @@
 
 #include "H28_T_C_TIMER_inside.h"
 
-//protected member
+//public member
 
-inline void 
-C_TIMER_inside::
-Set
-(
-	usint _arg_timer_limit, 
-	usint _arg_timer_count = 0, 
-	BOOL _arg_timer_flag = FALES
-)
+C_TIMER_inside :: 
+C_TIMER_inside ()
+{
+	//overflow
+	TCCR0A = 0;
+	TCCR0B = 0;
+	TIMSK0 = 0;
+	
+	_mem_timer_inside_limit = 0;
+}
+
+C_TIMER_inside ::
+C_TIMER_inside (usint _arg_timer_limit)
 {
 	//overflow
 	TCCR0A = 0;
@@ -26,32 +31,19 @@ Set
 	TIMSK0 = 0;
 
 	_mem_timer_inside_limit = _arg_timer_limit;
-	_mem_timer_inside_count = _arg_timer_count;
-	_mem_timer_inside_flag  = _arg_timer_flag;
-}
-
-//public member
-
-C_TIMER_inside ::
-C_TIMER_inside
-(
-	usint _arg_timer_limit,
-	usint _arg_timer_count = 0,
-	BOOL _arg_timer_flag = FALES
-)
-{
-	Set(_arg_timer_limit,_arg_timer_count,_arg_timer_flag);
+	_mem_timer_inside_count = 0;
+	_mem_timer_inside_flag  = FALES;
 }
 
 inline void 
 C_TIMER_inside ::
 Start ()
 {
-	TCNT0 = 130; //100us
-	TCCR0B = (1<<CS01);
-	
 	_mem_timer_inside_flag = TRUE;
 	_mem_timer_inside_count = 0;
+	
+	TCNT0 = 130; //100us
+	TCCR0B = (1<<CS01);
 }
 
 inline BOOL 
@@ -60,20 +52,18 @@ Check ()
 {
 	if ((_mem_timer_inside_flag & CHECK_BIT_TF(TIFR0,TOV0)) == TRUE)
 	{
+		TCNT0  = 130; //100us
+		
 		TIFR0 |= (1 << TOV0);
 		
 		if (_mem_timer_inside_count < _mem_timer_inside_limit)
 		//カウント中,1周期経過
-		{
-			TCNT0  = 130; //100us
-			TCCR0B = (1<<CS01);
-			
+		{			
 			_mem_timer_inside_count++;
 		}
 		else
 		//カウント完了
-		{
-			TCCR0B = 0;
+		{			
 			End();
 			
 			return TRUE;
@@ -98,4 +88,43 @@ C_TIMER_inside ::
 Ret_flag ()
 {
 	return _mem_timer_inside_flag;
+}
+
+inline C_TIMER_inside &
+C_TIMER_inside :: 
+operator = (usint _arg_timer_limit)
+{
+	_mem_timer_inside_limit = _arg_timer_limit;
+	
+	return *this;
+}
+
+inline bool
+operator == 
+(
+	C_TIMER_inside &_arg_timer_inside,
+	BOOL _arg_timer_flag_comp
+)
+{
+	if (_arg_timer_inside._mem_timer_inside_flag == _arg_timer_flag_comp)
+	{
+		return true;
+	}
+	
+	return false;
+}
+
+inline bool
+operator !=
+(
+	C_TIMER_inside &_arg_timer_inside,
+	BOOL _arg_timer_flag_comp
+)
+{
+	if (_arg_timer_inside._mem_timer_inside_flag != _arg_timer_flag_comp)
+	{
+		return true;
+	}
+	
+	return false;
 }
