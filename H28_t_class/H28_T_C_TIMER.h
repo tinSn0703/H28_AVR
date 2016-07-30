@@ -34,7 +34,6 @@ public:
 	 */
 	C_TIMER(E_TIMER_ADDR _arg_timer_addr, E_TIMER_MODE _arg_timer_mode, E_CLOCK _arg_timer_clock, usint _arg_timer_counter, BOOL _arg_timer_nf_isr);
 #elif defined(_AVR_IOM164_H_)
-	
 	/**
 	 * \brief コンストラクタ
 	 * 
@@ -78,8 +77,26 @@ public:
 	 */
 	BOOL Flag_timer(BOOL _arg_timer_continue);
 	
+	/**
+	 * \brief タイマカウンタの完了を確認する
+	 * 
+	 * \param _arg_timer_continue : 完了時にタイマカウンタを再度行うか
+	 * 
+	 * \return BOOL
+	 *	TRUE  -> 完了
+	 *	FALES -> 未了
+	 */
 	BOOL Flag_timer_overflow(BOOL _arg_timer_continue);
 	
+	/**
+	 * \brief タイマカウンタの完了を確認する
+	 * 
+	 * \param _arg_timer_continue : 完了時にタイマカウンタを再度行うか
+	 * 
+	 * \return BOOL
+	 *	TRUE  -> 完了
+	 *	FALES -> 未了
+	 */
 	BOOL Flag_timer_compare(BOOL _arg_timer_continue);
 	
 	/**

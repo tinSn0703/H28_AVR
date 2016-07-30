@@ -19,7 +19,8 @@ class C_IO : public C_IO_IN , public C_IO_OUT
 	C_IO(E_IO_PORT_ADDR ,E_IO_MODE ,T_PORT );
 };
 
-//prptected
+//prptected member
+
 inline void 
 C_IO::
 Set
@@ -42,7 +43,8 @@ Set
 	}
 }
 
-//public
+//public member
+
 C_IO::
 C_IO
 (

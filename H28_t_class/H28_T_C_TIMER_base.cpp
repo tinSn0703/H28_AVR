@@ -61,7 +61,7 @@ Set_base
 #endif
 
 
-inline void 
+void 
 C_TIMER_base ::
 Set_mode
 (
