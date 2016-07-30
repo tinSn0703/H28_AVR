@@ -7,7 +7,7 @@
  * TIMERを扱うクラス
  */
 class C_TIMER : public virtual C_TIMER_base
-{
+{	
 public:
 
 	C_TIMER()	{}
@@ -77,6 +77,10 @@ public:
 	 *	FALES -> 未了
 	 */
 	BOOL Flag_timer(BOOL _arg_timer_continue);
+	
+	BOOL Flag_timer_overflow(BOOL _arg_timer_continue);
+	
+	BOOL Flag_timer_compare(BOOL _arg_timer_continue);
 	
 	/**
 	 * \brief タイマカウンタを終了する

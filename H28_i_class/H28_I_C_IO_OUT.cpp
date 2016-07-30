@@ -14,10 +14,12 @@ OUTのみのIO系のクラス
 
 class C_IO_OUT : public virtual C_IO_base
 {
-	protected:
+protected:
+
 	void Set(E_IO_PORT_ADDR ,T_PORT );
 	
-	public:
+public:
+
 	C_IO_OUT(){}
 	C_IO_OUT(E_IO_PORT_ADDR ,T_PORT );
 	
@@ -26,7 +28,9 @@ class C_IO_OUT : public virtual C_IO_base
 	void Out_off();
 	
 	void Out_num_on(E_IO_NUM );
+	void Out_num_on(usint );
 	void Out_num_off(E_IO_NUM );
+	void Out_num_off(usint );
 };
 
 //protected
@@ -82,7 +86,21 @@ Out_num_on (E_IO_NUM _arg_io_out_on_num_bit)
 
 inline void 
 C_IO_OUT::
+Out_num_on (usint _arg_io_out_on_num_bit)
+{
+	PORT |= (1 << _arg_io_out_on_num_bit);
+}
+
+inline void 
+C_IO_OUT::
 Out_num_off (E_IO_NUM _arg_io_out_off_num_bit)
+{
+	PORT &= ~(1 << _arg_io_out_off_num_bit);
+}
+
+inline void 
+C_IO_OUT::
+Out_num_off (usint _arg_io_out_off_num_bit)
 {
 	PORT &= ~(1 << _arg_io_out_off_num_bit);
 }

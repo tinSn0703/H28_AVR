@@ -71,8 +71,8 @@ Start ()
 {
 	Stop();
 	
-	COUNTERH = ((_mem_timer_base_counter >> 8) & 0xff);
-	COUNTERL = (_mem_timer_base_counter & 0xff);
+	COUNTERH = (_mem_timer_base_counter >> 8);
+	COUNTERL = _mem_timer_base_counter;
 	
 	TCCRB |= _mem_timer_base_clock;
 }
@@ -90,26 +90,66 @@ Start
 	Start();
 }
 
-BOOL 
-C_TIMER::
-Flag_timer (BOOL _arg_timer_continue = TRUE)
+inline BOOL 
+C_TIMER :: 
+Flag_timer_overflow (BOOL _arg_timer_continue = TRUE)
 {
-	usint mode_bit = 0;
-	
-	switch (_mem_timer_base_mode)
+	if (TIFR & (1 << TOV))
 	{
-		case ET_CAPUTER:	mode_bit = ICF;		break;
-		case ET_COMPARE:	mode_bit = OCFA;	break;
-		case ET_OVERFLOW:	mode_bit = TOV;		break;
+		COUNTERH = (_mem_timer_base_counter >> 8);
+		COUNTERL = _mem_timer_base_counter;
+		
+		if (_arg_timer_continue == FALES)
+		{
+			Stop();
+		}
+		
+		TIFR |= (1 << TOV);
+	
+		return TRUE;	
 	}
 	
-	if (CHECK_BIT_TF(TIFR,mode_bit))
+	return FALES;
+}
+
+inline BOOL
+C_TIMER ::
+Flag_timer_compare (BOOL _arg_timer_continue = TRUE)
+{
+	if (CHECK_BIT_TF(TIFR,OCFA))
 	{
-		TIFR |= (1 << mode_bit);
-		
-		if (_arg_timer_continue)	Start();
-		
+		TIFR |= (1 << OCFA);
+	
+		if (_arg_timer_continue == FALES)
+		{
+			Stop();
+		}
+	
 		return TRUE;
+	}
+	
+	return FALES;
+}
+
+inline BOOL 
+C_TIMER ::
+Flag_timer (BOOL _arg_timer_continue = TRUE)
+{	
+	switch (_mem_timer_base_mode)
+	{
+		case ET_OVERFLOW:
+		{
+			return Flag_timer_overflow(_arg_timer_continue);
+		}
+		case ET_COMPARE:
+		{
+			return Flag_timer_compare(_arg_timer_continue);
+		}
+		case ET_CAPUTER:
+		{
+			
+		}
+		break;
 	}
 	
 	return FALES;
@@ -117,5 +157,5 @@ Flag_timer (BOOL _arg_timer_continue = TRUE)
 
 inline void C_TIMER::Stop()
 {
-	TCCRB &= ~TIME_SET_BIT;
+	TCCRB &= TIME_SET_BIT;
 }

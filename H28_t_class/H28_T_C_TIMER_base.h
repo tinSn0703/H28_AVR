@@ -35,7 +35,6 @@ protected:
 #	define COUNTERH	_SFR_MEM8(0x081 + _mem_timer_base_mode)
 #endif
 	
-#	define TIME_SET_BIT ((1<<CS2)|(1<<CS1)|(1<<CS0))
 
 #if defined(_AVR_IOM640_H_)
 	
