@@ -11,17 +11,21 @@
 #include "H28_U_C_UART_base.cpp"
 #include <H28_AVR/H28_AVR_0/H28_t_class/H28_T_C_TIMER_inside.cpp>
 
-class C_UART_R : public virtual C_UART_base , public C_TIMER_inside
-/*
-UARTで受信を扱うクラス
-*/
+/**
+ * UARTで受信を扱うクラス
+ */
+class C_UART_R : public virtual C_UART_base
 {
-	protected:
+protected:
+
+	C_TIMER_inside _mem_timer;
+	
 	E_UART_FLAG _mem_uart_r_flag :2; //最後の受信状態の記録
 	
 	void Set(E_UART_ADDR ,BOOL );
 	
-	public:
+public:
+
 	C_UART_R() {}
 	C_UART_R(E_UART_ADDR ,BOOL );
 	
@@ -46,22 +50,20 @@ UARTで受信を扱うクラス
  * コンストラクタの中身
  * 意味がないような気はする
  * 
- * \param _arg_uart_r_addr : 使うUART
- * \param _arg_uart_r_nf_isr : 割り込みのONOFF
+ * \param _arg_uart_addr : 使うUART
+ * \param _arg_uart_nf_isr : 割り込みのONOFF
  */
 inline void 
 C_UART_R::
 Set
 (
-	E_UART_ADDR _arg_uart_r_addr, 
-	BOOL _arg_uart_r_nf_isr
+	E_UART_ADDR _arg_uart_addr, 
+	BOOL _arg_uart_nf_isr
 )
 {	
-	Set_base(_arg_uart_r_addr);
+	C_UART_base::Set(_arg_uart_addr);
 	
-	Set_isr(_arg_uart_r_nf_isr);
-	
-	C_TIMER_inside::Set(80); //8ms
+	Set_isr(_arg_uart_nf_isr);
 	
 	_mem_uart_r_flag = EU_NONE;
 }
@@ -71,30 +73,35 @@ Set
 /**
  * \brief : コンストラクタ
  * 
- * \param _arg_uart_r_addr : 使うUART
- * \param _arg_uart_r_nf_isr : 割り込み処理の使用のONOFF
+ * \param _arg_uart_addr : 使うUART
+ * \param _arg_uart_nf_isr : 割り込み処理の使用のONOFF
  */
 inline 
 C_UART_R::
 C_UART_R
 (
-	E_UART_ADDR _arg_uart_r_addr, 
-	BOOL _arg_uart_r_nf_isr = FALES
+	E_UART_ADDR _arg_uart_addr, 
+	BOOL _arg_uart_nf_isr = FALES
 )
-{	
-	Set(_arg_uart_r_addr,_arg_uart_r_nf_isr);
+ : _mem_timer(80) //8ms
+{
+	C_UART_base::Set(_arg_uart_addr);
+	
+	Set_isr(_arg_uart_nf_isr);
+	
+	_mem_uart_r_flag = EU_NONE;
 }
 
 /**
  * \brief : 割り込みのONOFF
  * 
- * \param _arg_uart_r_nf_isr : ONOFFの設定
+ * \param _arg_uart_nf_isr : ONOFFの設定
  */
 inline void 
 C_UART_R::
-Set_isr (BOOL _arg_uart_r_nf_isr)
+Set_isr (BOOL _arg_uart_nf_isr)
 {
-	switch (_arg_uart_r_nf_isr)
+	switch (_arg_uart_nf_isr)
 	{
 		case TRUE:	UCSRB |=  (1 << RXCIE);	break; //On
 		case FALES:	UCSRB &= ~(1 << RXCIE);	break; //Off
@@ -113,20 +120,20 @@ Check ()
 {
 	UCSRB |= (1 << RXEN); //受信許可
 	
-	C_TIMER_inside::Start();
+	_mem_timer.Start();
 	
 	while (1)
 	{
-		if ((C_TIMER_inside::Ret_flag() & CHECK_BIT_TF(UCSRA,RXC)) == TRUE)	//受信完了
+		if ((_mem_timer.Ret_flag() & CHECK_BIT_TF(UCSRA,RXC)) == TRUE)	//受信完了
 		{
-			C_TIMER_inside::End();
+			_mem_timer.End();
 			
 			_mem_uart_r_flag = EU_SUCCE;
 			
 			break;
 		}
 		
-		if (C_TIMER_inside::Check() == TRUE)	//カウント完了(タイムアウト)
+		if (_mem_timer.Check() == TRUE)	//カウント完了(タイムアウト)
 		{
 			_mem_uart_r_flag = EU_ERROR;
 			
@@ -182,17 +189,17 @@ operator >>
  * 8bit通信のとき用
  * 
  * \param _arg_uart_r : みたまま
- * \param _arg_uart_r_data_in : 受信データが書き込まれる場所
+ * \param _arg_uart_data_in : 受信データが書き込まれる場所
  */
 void 
 operator >> 
 (
 	C_UART_R &_arg_uart_r,
-	T_DATA_8 &_arg_uart_r_data_in
+	T_DATA_8 &_arg_uart_data_in
 )
 {
 	_arg_uart_r.Set_bit9(FALES);
-	_arg_uart_r_data_in = (T_DATA_8 )_arg_uart_r.In();
+	_arg_uart_data_in = (T_DATA_8 )_arg_uart_r.In();
 }
 
 /**
@@ -202,7 +209,7 @@ operator >>
  * C_UART_R::Check()のあとで使って
  * 
  * \param _arg_uart_r : みたまま
- * \param _arg_uart_r_flag : 比較するやつ
+ * \param _arg_uart_flag : 比較するやつ
  * 
  * \return bool 等しいときtrue
  */
@@ -225,7 +232,7 @@ operator ==
  * C_UART_R::Check()のあとで使って
  * 
  * \param _arg_uart_r : みたまま
- * \param _arg_uart_r_flag : 比較するやつ
+ * \param _arg_uart_flag : 比較するやつ
  * 
  * \return bool 等しくないときtrue
  */
@@ -233,10 +240,10 @@ bool
 operator != 
 (
 	C_UART_R &_arg_uart_r,
-	E_UART_FLAG _arg_uart_r_flag
+	E_UART_FLAG _arg_uart_flag
 )
 {
-	if (_arg_uart_r._mem_uart_r_flag != _arg_uart_r_flag)	return true;
+	if (_arg_uart_r._mem_uart_r_flag != _arg_uart_flag)	return true;
 	
 	return false;
 }

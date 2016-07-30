@@ -33,7 +33,7 @@ Set
 	BOOL _arg_uart_t_nf_isr = FALES
 )
 {
-	C_UART_base::Set_base(_arg_uart_t_addr);
+	C_UART_base::Set(_arg_uart_t_addr);
 	Set_isr(_arg_uart_t_nf_isr);
 }
 

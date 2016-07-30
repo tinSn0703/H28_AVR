@@ -34,7 +34,7 @@ C_UART
 {
 	_mem_uart_mode = _arg_uart_mode;
 	
-	Set_base(_arg_uart_addr);
+	C_UART_base::Set(_arg_uart_addr);
 	Set_isr(_arg_uart_nf_isr);
 }
 
