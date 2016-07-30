@@ -7,37 +7,13 @@ UART系の基底となるクラス。こいつは宣言しないでね
 
 #pragma once
 
-#include "H28_u_class.h"
+#include "H28_U_C_UART_base.h"
 
-class C_UART_base
-{
-	protected:
-
-#if defined(_AVR_IOM640_H_)
-	E_UART_ADDR _mem_uart_base_addr :9;	//レジスタ用のアドレス
-#elif defined(_AVR_IOM164_H_)
-	E_UART_ADDR _mem_uart_base_addr :8;
-#endif
-
-	#define UCSRA _SFR_MEM8(_mem_uart_base_addr + 0)
-	#define UCSRB _SFR_MEM8(_mem_uart_base_addr + 1)
-	#define UCSRC _SFR_MEM8(_mem_uart_base_addr + 2)
-	#define UBRRL _SFR_MEM8(_mem_uart_base_addr + 4)
-	#define UBRRH _SFR_MEM8(_mem_uart_base_addr + 5)
-	#define UDR	  _SFR_MEM8(_mem_uart_base_addr + 6)
-
-	void Set_base(E_UART_ADDR );
-
-	public:
-	void Set_bit9(BOOL );
-	BOOL Ret_bit9()	{	return CHECK_BIT_TF(UCSRB,UCSZ2);	}
-};
-
-//protected
+//protected member
 
 inline void 
 C_UART_base::
-Set_base (E_UART_ADDR _arg_uart_base_addr)
+Set (E_UART_ADDR _arg_uart_addr)
 /*
 UARTの初期設定
 250[kbps]
@@ -47,7 +23,7 @@ UARTの初期設定
 	_arg_uart_base_addr : 使うUARTのレジスタ
 */
 {
-	_mem_uart_base_addr = _arg_uart_base_addr;
+	_mem_uart_base_addr = _arg_uart_addr;
 	
 	UBRRH = 0x00;
 	UBRRL = 0x04;
@@ -63,10 +39,11 @@ UARTの初期設定
 	//Odd parity mode_i
 }
 
-//public
+//public member
+
 inline void 
 C_UART_base::
-Set_bit9 (BOOL _arg_uart_base_nf_bit9)
+Set_bit9 (BOOL _arg_uart_nf_bit9)
 /*
 9bit通信のONOFF
 8bitと9bitどうしではうまく通信できないので注意
@@ -76,9 +53,16 @@ Set_bit9 (BOOL _arg_uart_base_nf_bit9)
 	FALES -> OFF
 */
 {
-	switch (_arg_uart_base_nf_bit9)
+	switch (_arg_uart_nf_bit9)
 	{
 		case TRUE:	UCSRB |=  (1 << UCSZ2);	break; //On
 		case FALES:	UCSRB &= ~(1 << UCSZ2);	break; //Off
 	}
+}
+
+inline BOOL 
+C_UART_base :: 
+Ret_bit9 ()
+{
+	return CHECK_BIT_TF(UCSRB,UCSZ2);
 }
