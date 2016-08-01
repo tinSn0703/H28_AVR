@@ -11,10 +11,11 @@ IN,OUT両方できるIO系のクラス
 
 class C_IO : public C_IO_IN , public C_IO_OUT
 {
-	protected:
+protected:
+
 	void Set(E_IO_PORT_ADDR ,E_IO_MODE ,T_PORT );
 	
-	public:
+public:
 	C_IO(){}
 	C_IO(E_IO_PORT_ADDR ,E_IO_MODE ,T_PORT );
 };

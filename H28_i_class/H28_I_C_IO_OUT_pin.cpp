@@ -11,10 +11,12 @@
 
 class C_IO_OUT_pin : protected C_IO_OUT
 {
-	private:
+private:
+
 	E_IO_NUM _mem_io_out_pin_bit;
 	
-	protected:
+protected:
+
 	void Set(E_IO_PORT_ADDR ,E_IO_NUM );
 	
 	public:

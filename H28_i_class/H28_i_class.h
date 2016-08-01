@@ -12,12 +12,12 @@ IOŒn‚ÌƒNƒ‰ƒX‚ðinclude‚·‚é‚¾‚¯
 #endif
 
 //#include "H28_I_C_IO_adju.cpp"
-#include "H28_I_C_IO_base.cpp"
+#include "H28_I_C_IO_base.h"
 #include "H28_I_C_IO_IN.cpp"
 #include "H28_I_C_IO_IN_pin.cpp"
 //#include "H28_I_C_IO_IN_time.cpp"
 #include "H28_I_C_IO_OUT.cpp"
 #include "H28_I_C_IO_OUT_pin.cpp"
 #include "H28_I_C_IO.cpp"
-#include "H28_I_C_AD.cpp"
+#include "H28_I_C_AD.h"
 //#include "H28_I_C_AD_mem.cpp"

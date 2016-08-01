@@ -10,7 +10,7 @@ INのみ可能なIO系のクラス
 
 #pragma once
 
-#include "H28_I_C_IO_base.cpp"
+#include "H28_I_C_IO_base.h"
 
 class C_IO_IN : public virtual C_IO_base
 {
@@ -25,9 +25,10 @@ class C_IO_IN : public virtual C_IO_base
 	BOOL In_num(E_IO_NUM );
 };
 
-//protected
+//protected member
+
 inline void 
-C_IO_IN::
+C_IO_IN ::
 Set
 (
 	E_IO_PORT_ADDR _arg_io_in_addr, 
@@ -38,7 +39,8 @@ Set
 }
 
 //public
-C_IO_IN::
+
+C_IO_IN ::
 C_IO_IN
 (
 	E_IO_PORT_ADDR _arg_io_in_addr, 
@@ -49,14 +51,14 @@ C_IO_IN
 }
 
 inline T_PORT 
-C_IO_IN::
+C_IO_IN ::
 In ()
 {
 	return PIN;
 }
 
 inline BOOL 
-C_IO_IN::
+C_IO_IN ::
 In_num (E_IO_NUM _arg_io_in_num_bit)
 {		
 	return CHECK_BIT_TF(PIN, _arg_io_in_num_bit);
