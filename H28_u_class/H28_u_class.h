@@ -10,8 +10,8 @@ includeするだけのヘッダファイルそれ以上でもそれ以下でもない
 #	error "Include <H28_AVR.h>"
 #endif
 
-#include "H28_U_C_UART_base.cpp"
-#include "H28_U_C_UART_R.cpp"
-#include "H28_U_C_UART2_R.cpp"
-#include "H28_U_C_UART_T.cpp"
+#include "H28_U_C_UART_base.h"
+#include "H28_U_C_UART_R.h"
+#include "H28_U_C_UART_R2.h"
+#include "H28_U_C_UART_T.h"
 #include "H28_U_C_UART.cpp"

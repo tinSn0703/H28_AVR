@@ -7,22 +7,7 @@
 
 #pragma once
 
-#include "H28_U_C_UART_R.cpp"
-#include "H28_U_C_UART_T.cpp"
-
-class C_UART : public C_UART_R , public C_UART_T
-{
-	E_UART_MODE _mem_uart_mode :1;	//モードの記録
-	
-	void Set(E_UART_ADDR ,BOOL );
-	
-	public:
-	C_UART() {}
-	C_UART(E_UART_ADDR ,E_UART_MODE ,BOOL);
-	
-	void Chan_mode(E_UART_MODE );
-	void Set_isr(BOOL );
-};
+#include "H28_U_C_UART.h"
 
 C_UART::
 C_UART
@@ -31,18 +16,18 @@ C_UART
 	E_UART_MODE _arg_uart_mode, 
 	BOOL _arg_uart_nf_isr = FALES
 )
+: C_UART_R(_arg_uart_addr)
 {
 	_mem_uart_mode = _arg_uart_mode;
 	
-	C_UART_base::Set(_arg_uart_addr);
 	Set_isr(_arg_uart_nf_isr);
 }
 
 inline void 
 C_UART::
-Chan_mode (E_UART_MODE _arg_uart_mode_chan)
+Chan_mode (E_UART_MODE _arg_uart_mode)
 {
-	_mem_uart_mode = _arg_uart_mode_chan;
+	_mem_uart_mode = _arg_uart_mode;
 }
 
 inline void 

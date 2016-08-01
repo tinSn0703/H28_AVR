@@ -14,14 +14,6 @@ UART系の基底となるクラス。こいつは宣言しないでね
 inline void 
 C_UART_base::
 Set (E_UART_ADDR _arg_uart_addr)
-/*
-UARTの初期設定
-250[kbps]
-倍速
-奇数パリティ
-
-	_arg_uart_base_addr : 使うUARTのレジスタ
-*/
 {
 	_mem_uart_base_addr = _arg_uart_addr;
 	
@@ -41,17 +33,15 @@ UARTの初期設定
 
 //public member
 
+inline C_UART_base :: 
+C_UART_base (E_UART_ADDR _arg_uart_addr)
+{
+	Set(_arg_uart_addr);
+};
+
 inline void 
 C_UART_base::
 Set_bit9 (BOOL _arg_uart_nf_bit9)
-/*
-9bit通信のONOFF
-8bitと9bitどうしではうまく通信できないので注意
-
-	_arg_uart_base_nf_bit9 : ON/OFF
-	TRUE  -> ON
-	FALES -> OFF
-*/
 {
 	switch (_arg_uart_nf_bit9)
 	{
