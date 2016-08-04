@@ -12,8 +12,6 @@ class C_UART_R : public virtual C_UART_base
 private:
 
 	C_TIMER_inside _mem_timer;
-
-protected:
 	
 	E_UART_FLAG _mem_uart_r_flag :2; //ÅŒã‚ÌóMó‘Ô‚Ì‹L˜^
 	

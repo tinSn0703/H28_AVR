@@ -15,7 +15,7 @@ C_COUNTER
 (
 	T_VALUE _arg_counter_limit, 
 	T_COUNT _arg_counter_count = 0, 
-	BOOL _arg_counter_nf = FALES
+	BOOL _arg_counter_nf = FALSE
 )
 {
 	_mem_counter_count = _arg_counter_count;
@@ -34,7 +34,7 @@ inline void
 C_COUNTER::
 Off ()
 {
-	_mem_counter_nf = FALES;
+	_mem_counter_nf = FALSE;
 }
 
 BOOL 
@@ -53,7 +53,7 @@ Count ()
 		}
 	}
 	
-	return FALES;
+	return FALSE;
 }
 
 inline void 
@@ -76,7 +76,7 @@ Check_limit ()
 {
 	if (_mem_counter_count == _mem_counter_limit)	return TRUE;
 	
-	return FALES;
+	return FALSE;
 }
 
 inline void 
@@ -91,5 +91,5 @@ C_COUNTER::
 End ()
 {
 	_mem_counter_count = 0;
-	_mem_counter_nf = FALES;
+	_mem_counter_nf = FALSE;
 }

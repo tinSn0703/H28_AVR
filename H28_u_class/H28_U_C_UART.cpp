@@ -14,7 +14,7 @@ C_UART
 (
 	E_UART_ADDR _arg_uart_addr, 
 	E_UART_MODE _arg_uart_mode, 
-	BOOL _arg_uart_nf_isr = FALES
+	BOOL _arg_uart_nf_isr = FALSE
 )
 : C_UART_R(_arg_uart_addr)
 {

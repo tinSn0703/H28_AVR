@@ -54,12 +54,12 @@ inline T_PORT
 C_IO_IN ::
 In ()
 {
-	return PIN;
+	return __PIN__;
 }
 
 inline BOOL 
 C_IO_IN ::
 In_num (E_IO_NUM _arg_io_in_num_bit)
 {		
-	return CHECK_BIT_TF(PIN, _arg_io_in_num_bit);
+	return CHECK_BIT_TF(__PIN__, _arg_io_in_num_bit);
 }

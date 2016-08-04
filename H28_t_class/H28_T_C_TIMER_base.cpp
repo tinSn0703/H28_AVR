@@ -21,7 +21,7 @@ Set_base
 (
 	E_TIMER_ADDR _arg_timer_addr,
 	E_TIMER_MODE _arg_timer_mode , 
-	BOOL _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALSE
 )
 {
 	_mem_timer_base_clock = EC_0;
@@ -37,11 +37,11 @@ Set_base
 		case ET_TIMER5:	_mem_timer_base_addr_plus = 5;	break;
 	}
 
-	TCCRA = 0x00;
+	__TCCRA__ = 0x00;
 	
 	Set_mode(_arg_timer_mode, _arg_timer_nf_isr);
 	
-	TCCRC = 0x00;
+	__TCCRC__ = 0x00;
 }
 #elif defined(_AVR_IOM164_H_)
 inline void
@@ -49,14 +49,14 @@ C_TIMER_base ::
 Set_base
 (
 	E_TIMER_MODE _arg_timer_mode ,
-	BOOL _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALSE
 )
 {
-	TCCRA = 0x00;
+	__TCCRA__ = 0x00;
 	
 	Set_mode(_arg_timer_mode, _arg_timer_nf_isr);
 	
-	TCCRC = 0x00;
+	__TCCRC__ = 0x00;
 }
 #endif
 
@@ -66,7 +66,7 @@ C_TIMER_base ::
 Set_mode
 (
 	E_TIMER_MODE _arg_timer_mode, 
-	BOOL _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALSE
 )
 {
 	_mem_timer_base_mode = _arg_timer_mode;
@@ -75,20 +75,20 @@ Set_mode
 	{
 		case ET_CAPUTER:	//比較
 		{
-			TCCRB = ((1<<WGM3) | (1<<WGM2));
-			TIMSK = (_arg_timer_nf_isr << ICIE);
+			__TCCRB__ = ((1<<WGM3) | (1<<WGM2));
+			__TIMSK__ = (_arg_timer_nf_isr << ICIE);
 			break;
 		}
 		case ET_COMPARE:	//捕獲
 		{
-			TCCRB = (1<<WGM2);
-			TIMSK = (_arg_timer_nf_isr << OCIEA);
+			__TCCRB__ = (1<<WGM2);
+			__TIMSK__ = (_arg_timer_nf_isr << OCIEA);
 			break;
 		}
 		case ET_OVERFLOW:	//溢れ
 		{
-			TCCRB = 0x00;
-			TIMSK = (_arg_timer_nf_isr << TOIE);
+			__TCCRB__ = 0x00;
+			__TIMSK__ = (_arg_timer_nf_isr << TOIE);
 			break;
 		}
 	}

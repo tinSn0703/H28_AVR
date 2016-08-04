@@ -60,7 +60,7 @@ inline void
 C_IO_OUT::
 Out (T_PORT _arg_io_out_num_byte)
 {
-	PORT = _arg_io_out_num_byte;
+	__PORT__ = _arg_io_out_num_byte;
 }
 
 inline void 
@@ -81,26 +81,26 @@ inline void
 C_IO_OUT::
 Out_num_on (E_IO_NUM _arg_io_out_on_num_bit)
 {
-	PORT |= (1 << _arg_io_out_on_num_bit);
+	__PORT__ |= (1 << _arg_io_out_on_num_bit);
 }
 
 inline void 
 C_IO_OUT::
 Out_num_on (usint _arg_io_out_on_num_bit)
 {
-	PORT |= (1 << _arg_io_out_on_num_bit);
+	__PORT__ |= (1 << _arg_io_out_on_num_bit);
 }
 
 inline void 
 C_IO_OUT::
 Out_num_off (E_IO_NUM _arg_io_out_off_num_bit)
 {
-	PORT &= ~(1 << _arg_io_out_off_num_bit);
+	__PORT__ &= ~(1 << _arg_io_out_off_num_bit);
 }
 
 inline void 
 C_IO_OUT::
 Out_num_off (usint _arg_io_out_off_num_bit)
 {
-	PORT &= ~(1 << _arg_io_out_off_num_bit);
+	__PORT__ &= ~(1 << _arg_io_out_off_num_bit);
 }

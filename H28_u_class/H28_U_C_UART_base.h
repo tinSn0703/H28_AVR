@@ -8,18 +8,18 @@ class C_UART_base
 {
 protected:
 
-#if defined(_AVR_IOM640_H_)
+#	if defined(_AVR_IOM640_H_)
 	E_UART_ADDR _mem_uart_base_addr :9;	//レジスタ用のアドレス
-#elif defined(_AVR_IOM164_H_)
+#	elif defined(_AVR_IOM164_H_)
 	E_UART_ADDR _mem_uart_base_addr :8;
-#endif
+#	endif
 
-#	define UCSRA _SFR_MEM8(_mem_uart_base_addr + 0)
-#	define UCSRB _SFR_MEM8(_mem_uart_base_addr + 1)
-#	define UCSRC _SFR_MEM8(_mem_uart_base_addr + 2)
-#	define UBRRL _SFR_MEM8(_mem_uart_base_addr + 4)
-#	define UBRRH _SFR_MEM8(_mem_uart_base_addr + 5)
-#	define UDR	 _SFR_MEM8(_mem_uart_base_addr + 6)
+#	define __UCSRA__ _SFR_MEM8(_mem_uart_base_addr + 0)
+#	define __UCSRB__ _SFR_MEM8(_mem_uart_base_addr + 1)
+#	define __UCSRC__ _SFR_MEM8(_mem_uart_base_addr + 2)
+#	define __UBRRL__ _SFR_MEM8(_mem_uart_base_addr + 4)
+#	define __UBRRH__ _SFR_MEM8(_mem_uart_base_addr + 5)
+#	define __UDR__	 _SFR_MEM8(_mem_uart_base_addr + 6)
 
 	/**
 	 * \brief コンストラクタの中身。

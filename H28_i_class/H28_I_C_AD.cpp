@@ -22,9 +22,9 @@ C_AD
 	BOOL _arg_ad_io_turn = TRUE
 )
 {	
-	static BOOL _sta_ad_flag_first = FALES;
+	static BOOL _sta_ad_flag_first = FALSE;
 	
-	if (_sta_ad_flag_first == FALES)
+	if (_sta_ad_flag_first == FALSE)
 	{
 		ADMUX  = (1<<REFS0);
 		ADCSRA = ((1 << ADEN) | (1 << ADPS1) | (1 << ADPS0));
@@ -53,7 +53,7 @@ C_AD
 			
 			break;
 		}
-		case FALES:
+		case FALSE:
 		{
 			DDRF  |=  (TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
 			PORTF &= ~(TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
@@ -77,7 +77,7 @@ C_AD
 			
 			break;
 		}
-		case FALES:
+		case FALSE:
 		{
 			DDRA  |=  (1 << _mem_ad._ad_num);
 			PORTA &= ~(1 << _mem_ad._ad_num);

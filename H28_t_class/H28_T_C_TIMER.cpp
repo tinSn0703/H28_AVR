@@ -18,7 +18,7 @@ C_TIMER
 (
 	E_TIMER_ADDR _arg_timer_addr, 
 	E_TIMER_MODE _arg_timer_mode, 
-	BOOL _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALSE
 )
 {
 	C_TIMER_base::Set_base(_arg_timer_addr, _arg_timer_mode, _arg_timer_nf_isr);
@@ -32,7 +32,7 @@ C_TIMER
 	E_TIMER_MODE _arg_timer_mode, 
 	E_CLOCK _arg_timer_clock, 
 	usint _arg_timer_counter, 
-	BOOL _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALSE
 )
 {
 	C_TIMER_base::Set_base(_arg_timer_addr, _arg_timer_mode, _arg_timer_nf_isr);
@@ -44,7 +44,7 @@ C_TIMER::
 C_TIMER
 (
 	E_TIMER_MODE _arg_timer_mode,
-	BOOL _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALSE
 )
 {
 	C_TIMER_base::Set_base(_arg_timer_mode, _arg_timer_nf_isr);
@@ -57,7 +57,7 @@ C_TIMER
 	E_TIMER_MODE _arg_timer_mode,
 	E_CLOCK _arg_timer_clock,
 	usint _arg_timer_counter,
-	BOOL _arg_timer_nf_isr = FALES
+	BOOL _arg_timer_nf_isr = FALSE
 )
 {
 	C_TIMER_base::Set_base(_arg_timer_mode, _arg_timer_nf_isr);
@@ -71,10 +71,10 @@ Start ()
 {
 	Stop();
 	
-	COUNTERH = (_mem_timer_base_counter >> 8);
-	COUNTERL = _mem_timer_base_counter;
+	__COUNTERH__ = (_mem_timer_base_counter >> 8);
+	__COUNTERL__ = _mem_timer_base_counter;
 	
-	TCCRB |= _mem_timer_base_clock;
+	__TCCRB__ |= _mem_timer_base_clock;
 }
 
 inline void 
@@ -94,33 +94,33 @@ inline BOOL
 C_TIMER :: 
 Flag_timer_overflow (BOOL _arg_timer_continue = TRUE)
 {
-	if (TIFR & (1 << TOV))
+	if (__TIFR__ & (1 << TOV))
 	{
-		COUNTERH = (_mem_timer_base_counter >> 8);
-		COUNTERL = _mem_timer_base_counter;
+		__COUNTERH__ = (_mem_timer_base_counter >> 8);
+		__COUNTERL__ = _mem_timer_base_counter;
 		
-		if (_arg_timer_continue == FALES)
+		if (_arg_timer_continue == FALSE)
 		{
 			Stop();
 		}
 		
-		TIFR |= (1 << TOV);
+		__TIFR__ |= (1 << TOV);
 	
 		return TRUE;	
 	}
 	
-	return FALES;
+	return FALSE;
 }
 
 inline BOOL
 C_TIMER ::
 Flag_timer_compare (BOOL _arg_timer_continue = TRUE)
 {
-	if (CHECK_BIT_TF(TIFR,OCFA))
+	if (CHECK_BIT_TF(__TIFR__,OCFA))
 	{
-		TIFR |= (1 << OCFA);
+		__TIFR__ |= (1 << OCFA);
 	
-		if (_arg_timer_continue == FALES)
+		if (_arg_timer_continue == FALSE)
 		{
 			Stop();
 		}
@@ -128,7 +128,7 @@ Flag_timer_compare (BOOL _arg_timer_continue = TRUE)
 		return TRUE;
 	}
 	
-	return FALES;
+	return FALSE;
 }
 
 inline BOOL 
@@ -152,10 +152,10 @@ Flag_timer (BOOL _arg_timer_continue = TRUE)
 		break;
 	}
 	
-	return FALES;
+	return FALSE;
 }
 
 inline void C_TIMER::Stop()
 {
-	TCCRB &= TIME_SET_BIT;
+	__TCCRB__ &= TIME_SET_BIT;
 }

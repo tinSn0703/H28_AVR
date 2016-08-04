@@ -28,8 +28,8 @@ C_UART_R2
 (
 	E_UART_ADDR _arg_uart_addr_0,
 	E_UART_ADDR _arg_uart_addr_1,
-	BOOL _arg_uart_nf_isr_0 = FALES,
-	BOOL _arg_uart_nf_isr_1 = FALES
+	BOOL _arg_uart_nf_isr_0 = FALSE,
+	BOOL _arg_uart_nf_isr_1 = FALSE
 )
 : _mem_timer(80)
 {
@@ -51,8 +51,8 @@ Set_isr_0 (BOOL _arg_uart_nf_isr)
 {
 	switch (_arg_uart_nf_isr)
 	{
-		case TRUE:	UCSRB_0 |=  (1 << RXCIE);	break; //On
-		case FALES:	UCSRB_0 &= ~(1 << RXCIE);	break; //Off
+		case TRUE:	__UCSRB_0__ |=  (1 << RXCIE);	break; //On
+		case FALSE:	__UCSRB_0__ &= ~(1 << RXCIE);	break; //Off
 	}
 }
 
@@ -62,8 +62,8 @@ Set_isr_1 (BOOL _arg_uart_nf_isr)
 {
 	switch (_arg_uart_nf_isr)
 	{
-		case TRUE:	UCSRB_1 |=  (1 << RXCIE);	break; //On
-		case FALES:	UCSRB_1 &= ~(1 << RXCIE);	break; //Off
+		case TRUE:	__UCSRB_1__ |=  (1 << RXCIE);	break; //On
+		case FALSE:	__UCSRB_1__ &= ~(1 << RXCIE);	break; //Off
 	}
 }
 
@@ -73,8 +73,8 @@ Set_bit9_0 (BOOL _arg_uart_nf_bit9)
 {	
 	switch (_arg_uart_nf_bit9)
 	{
-		case TRUE:	UCSRB_0 |=  (1 << UCSZ2);	break; //On
-		case FALES:	UCSRB_0 &= ~(1 << UCSZ2);	break; //Off
+		case TRUE:	__UCSRB_0__ |=  (1 << UCSZ2);	break; //On
+		case FALSE:	__UCSRB_0__ &= ~(1 << UCSZ2);	break; //Off
 	}
 }
 
@@ -84,8 +84,8 @@ Set_bit9_1 (BOOL _arg_uart_nf_bit9)
 {
 	switch (_arg_uart_nf_bit9)
 	{
-		case TRUE:	UCSRB_1 |=  (1 << UCSZ2);	break; //On
-		case FALES:	UCSRB_1 &= ~(1 << UCSZ2);	break; //Off
+		case TRUE:	__UCSRB_1__ |=  (1 << UCSZ2);	break; //On
+		case FALSE:	__UCSRB_1__ &= ~(1 << UCSZ2);	break; //Off
 	}
 }
 
@@ -94,18 +94,18 @@ C_UART_R2::
 Check ()
 //受信しなかった方を受信禁止にしたらうまくいった。
 {
-	UCSRB_0 |= (1 << RXEN);
-	UCSRB_1 |= (1 << RXEN);
+	__UCSRB_0__ |= (1 << RXEN);
+	__UCSRB_1__ |= (1 << RXEN);
 	
 	_mem_timer.Start();
 	
 	while (1)
 	{
-		if (CHECK_BIT_TF(UCSRA_0,RXC) & _mem_timer.Ret_flag())	//UART0受信完了
+		if (CHECK_BIT_TF(__UCSRA_0__,RXC) & _mem_timer.Ret_flag())	//UART0受信完了
 		{
 			_mem_timer.End();
 			
-			UCSRB_1 &= ~(1 << RXEN);
+			__UCSRB_1__ &= ~(1 << RXEN);
 			
 			_mem_uart_r2_flag = EU_SUCCE;
 			
@@ -114,11 +114,11 @@ Check ()
 			break;
 		}
 		
-		if (CHECK_BIT_TF(UCSRA_1,RXC) & _mem_timer.Ret_flag())	//UART1受信完了
+		if (CHECK_BIT_TF(__UCSRA_1__,RXC) & _mem_timer.Ret_flag())	//UART1受信完了
 		{
 			_mem_timer.End();
 			
-			UCSRB_0 &= ~(1 << RXEN);
+			__UCSRB_0__ &= ~(1 << RXEN);
 			
 			_mem_uart_r2_flag = EU_SUCCE;
 			
@@ -148,12 +148,12 @@ In ()
 	
 	_mem_uart_base_addr = _mem_arr_uart_r2_addr[_mem_uart_r2_num];	//受信成功したポートにする
 	
-	if (UCSRB & ((1<<UCSZ2) | (1<<RXB8)))
+	if (__UCSRB__ & ((1<<UCSZ2) | (1<<RXB8)))
 	{
 		_ret_in_data |= (1 << 8);	//9bit通信時
 	}
 	
-	_ret_in_data |= UDR;
+	_ret_in_data |= __UDR__;
 	
 	_mem_uart_r2_flag = EU_NONE;
 	

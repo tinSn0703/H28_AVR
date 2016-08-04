@@ -17,17 +17,17 @@ Set (E_UART_ADDR _arg_uart_addr)
 {
 	_mem_uart_base_addr = _arg_uart_addr;
 	
-	UBRRH = 0x00;
-	UBRRL = 0x04;
+	__UBRRH__ = 0x00;
+	__UBRRL__ = 0x04;
 	//F_CPU=10MHz 250kbps
 	
-	UCSRA = (1<<U2X);
+	__UCSRA__ = (1<<U2X);
 	//Double teransmission spead
 	
-	UCSRB &= ~((1<<RXCIE) | (1<<TXCIE) | (1<<UDRIE));
+	__UCSRB__ &= ~((1<<RXCIE) | (1<<TXCIE) | (1<<UDRIE));
 	//割り込み許可以外は全部OFF。おあとに設定してね
 	
-	UCSRC = ((1<<UPM1) | (1<<UPM0) | (1<<UCSZ1) | (1<<UCSZ0));
+	__UCSRC__ = ((1<<UPM1) | (1<<UPM0) | (1<<UCSZ1) | (1<<UCSZ0));
 	//Odd parity mode_i
 }
 
@@ -45,8 +45,8 @@ Set_bit9 (BOOL _arg_uart_nf_bit9)
 {
 	switch (_arg_uart_nf_bit9)
 	{
-		case TRUE:	UCSRB |=  (1 << UCSZ2);	break; //On
-		case FALES:	UCSRB &= ~(1 << UCSZ2);	break; //Off
+		case TRUE:	__UCSRB__ |=  (1 << UCSZ2);	break; //On
+		case FALSE:	__UCSRB__ &= ~(1 << UCSZ2);	break; //Off
 	}
 }
 
@@ -54,5 +54,5 @@ inline BOOL
 C_UART_base :: 
 Ret_bit9 ()
 {
-	return CHECK_BIT_TF(UCSRB,UCSZ2);
+	return CHECK_BIT_TF(__UCSRB__,UCSZ2);
 }

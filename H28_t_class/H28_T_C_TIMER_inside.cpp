@@ -32,7 +32,7 @@ C_TIMER_inside (usint _arg_timer_limit)
 
 	_mem_timer_inside_limit = _arg_timer_limit;
 	_mem_timer_inside_count = 0;
-	_mem_timer_inside_flag  = FALES;
+	_mem_timer_inside_flag  = FALSE;
 }
 
 inline void 
@@ -70,7 +70,7 @@ Check ()
 		}
 	}
 	
-	return FALES;
+	return FALSE;
 }
 
 inline void 
@@ -80,7 +80,7 @@ End ()
 	TCCR0B = 0;
 	
 	_mem_timer_inside_count = 0;
-	_mem_timer_inside_flag = FALES;
+	_mem_timer_inside_flag = FALSE;
 }
 
 inline BOOL

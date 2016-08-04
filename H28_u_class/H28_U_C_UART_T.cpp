@@ -15,7 +15,7 @@ C_UART_T ::
 C_UART_T
 (
 	E_UART_ADDR _arg_uart_addr, 
-	BOOL _arg_uart_nf_isr = FALES
+	BOOL _arg_uart_nf_isr = FALSE
 )
 : C_UART_base(_arg_uart_addr)
 {	
@@ -28,8 +28,8 @@ Set_isr (BOOL _arg_uart_nf_isr)
 {
 	switch (_arg_uart_nf_isr)
 	{
-		case TRUE:	UCSRB |=  (1 << UDRIE);	break; //On
-		case FALES:	UCSRB &= ~(1 << UDRIE);	break; //Off
+		case TRUE:	__UCSRB__ |=  (1 << UDRIE);	break; //On
+		case FALSE:	__UCSRB__ &= ~(1 << UDRIE);	break; //Off
 	}
 }
 
@@ -37,35 +37,35 @@ void
 C_UART_T::
 Out (T_DATA _arg_uart_data_out)
 {	
-	UCSRB |= (1 << TXEN); //送信許可する。
+	__UCSRB__ |= (1 << TXEN); //送信許可する。
 	
-	while (!(UCSRA & (1 << UDRE))); //送信が可能になるまで待機
+	while (!(__UCSRA__ & (1 << UDRE))); //送信が可能になるまで待機
 	
 	if ((C_UART_base::Ret_bit9() & CHECK_BIT_TF(_arg_uart_data_out,8)) == TRUE)
 	{
-		UCSRB |= (1 << TXB8);
+		__UCSRB__ |= (1 << TXB8);
 	}
 
-	UDR = (_arg_uart_data_out & 0xff);
+	__UDR__ = (_arg_uart_data_out & 0xff);
 	
-	while (!(UCSRA & (1 << TXC))); //送信完了まで待機
+	while (!(__UCSRA__ & (1 << TXC))); //送信完了まで待機
 	
-	UCSRA |= (1 << TXC);
+	__UCSRA__ |= (1 << TXC);
 }
 
 void
 C_UART_T::
 Out (T_DATA_8 _arg_uart_data_out)
 {
-	UCSRB |= (1 << TXEN); //送信許可する。
+	__UCSRB__ |= (1 << TXEN); //送信許可する。
 	
-	while (!(UCSRA & (1 << UDRE))); //送信が可能になるまで待機
+	while (!(__UCSRA__ & (1 << UDRE))); //送信が可能になるまで待機
 
-	UDR = _arg_uart_data_out;
+	__UDR__ = _arg_uart_data_out;
 	
-	while (!(UCSRA & (1 << TXC))); //送信完了まで待機
+	while (!(__UCSRA__ & (1 << TXC))); //送信完了まで待機
 	
-	UCSRA |= (1 << TXC);
+	__UCSRA__ |= (1 << TXC);
 }
 
 inline void 

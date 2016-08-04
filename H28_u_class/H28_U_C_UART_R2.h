@@ -10,25 +10,26 @@ private:
 	
 	C_TIMER_inside _mem_timer;
 	
-protected:
-
-	E_UART_ADDR _mem_arr_uart_r2_addr[2];	//レジスタ用のアドレス
 	E_UART_FLAG _mem_uart_r2_flag :2;
 	T_NUM _mem_uart_r2_num :1;
 	
-#	define UCSRA_0	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 0)
-#	define UCSRB_0	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 1)
-#	define UCSRC_0	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 2)
-#	define UBRRL_0	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 4)
-#	define UBRRH_0	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 5)
-#	define UDR_0	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 6)
+protected:
+
+	E_UART_ADDR _mem_arr_uart_r2_addr[2];	//レジスタ用のアドレス
 	
-#	define UCSRA_1	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 0)
-#	define UCSRB_1	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 1)
-#	define UCSRC_1	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 2)
-#	define UBRRL_1	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 4)
-#	define UBRRH_1	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 5)
-#	define UDR_1	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 6)
+#	define __UCSRA_0__	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 0)
+#	define __UCSRB_0__	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 1)
+#	define __UCSRC_0__	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 2)
+#	define __UBRRL_0__	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 4)
+#	define __UBRRH_0__	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 5)
+#	define __UDR_0__	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 6)
+	
+#	define __UCSRA_1__	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 0)
+#	define __UCSRB_1__	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 1)
+#	define __UCSRC_1__	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 2)
+#	define __UBRRL_1__	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 4)
+#	define __UBRRH_1__	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 5)
+#	define __UDR_1__	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 6)
 	
 public:
 	

@@ -44,8 +44,8 @@ Set
 	
 	_mem_io_out_pin_bit = _arg_io_out_pin_bit;
 	
-	DDR  |=  (1 << _arg_io_out_pin_bit);
-	PORT &= ~(1 << _arg_io_out_pin_bit);
+	__DDR__  |=  (1 << _arg_io_out_pin_bit);
+	__PORT__ &= ~(1 << _arg_io_out_pin_bit);
 }
 
 //public
@@ -66,7 +66,7 @@ Out (BOOL _arg_io_out_pin_nf)
 	switch (_arg_io_out_pin_nf)
 	{
 		case TRUE:	C_IO_OUT::Out_num_on(_mem_io_out_pin_bit);	break;
-		case FALES:	C_IO_OUT::Out_num_off(_mem_io_out_pin_bit);	break;
+		case FALSE:	C_IO_OUT::Out_num_off(_mem_io_out_pin_bit);	break;
 	}
 }
 

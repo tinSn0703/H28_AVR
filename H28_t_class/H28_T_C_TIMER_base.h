@@ -18,21 +18,21 @@ protected:
 	E_TIMER_ADDR	_mem_timer_base_addr :9;
 	T_NUM			_mem_timer_base_addr_plus :3;
 
-#	define TCCRA	_SFR_MEM8(_mem_timer_base_addr + 0)
-#	define TCCRB	_SFR_MEM8(_mem_timer_base_addr + 1)
-#	define TCCRC	_SFR_MEM8(_mem_timer_base_addr + 2)
-#	define TIMSK	_SFR_MEM8(_mem_timer_base_addr_plus + 0x6e)
-#	define TIFR		_SFR_MEM8(_mem_timer_base_addr_plus + 0x35)
-#	define COUNTERL	_SFR_MEM8(_mem_timer_base_addr + _mem_timer_base_mode + 0)
-#	define COUNTERH	_SFR_MEM8(_mem_timer_base_addr + _mem_timer_base_mode + 1)
-#elif defined(_AVR_IOM164_H_)
-#	define TCCRA	TCCR1A
-#	define TCCRB	TCCR1B
-#	define TCCRC	TCCR1C
-#	define TIMSK	TIMSK1
-#	define TIFR		TIFR1
-#	define COUNTERL	_SFR_MEM8(0x080 + _mem_timer_base_mode)
-#	define COUNTERH	_SFR_MEM8(0x081 + _mem_timer_base_mode)
+#	define __TCCRA__	_SFR_MEM8(_mem_timer_base_addr + 0)
+#	define __TCCRB__	_SFR_MEM8(_mem_timer_base_addr + 1)
+#	define __TCCRC__	_SFR_MEM8(_mem_timer_base_addr + 2)
+#	define __TIMSK__	_SFR_MEM8(_mem_timer_base_addr_plus + 0x6e)
+#	define __TIFR__		_SFR_MEM8(_mem_timer_base_addr_plus + 0x35)
+#	define __COUNTERL__	_SFR_MEM8(_mem_timer_base_addr + _mem_timer_base_mode + 0)
+#	define __COUNTERH__	_SFR_MEM8(_mem_timer_base_addr + _mem_timer_base_mode + 1)
+#elif defined(_AVR_IOM164_H_) || defined(_AVR_IOM88P_H_)
+#	define __TCCRA__	TCCR1A
+#	define __TCCRB__	TCCR1B
+#	define __TCCRC__	TCCR1C
+#	define __TIMSK__	TIMSK1
+#	define __TIFR__		TIFR1
+#	define __COUNTERL__	_SFR_MEM8(0x080 + _mem_timer_base_mode)
+#	define __COUNTERH__	_SFR_MEM8(0x081 + _mem_timer_base_mode)
 #endif
 	
 #	define TIME_SET_BIT 0x07 //((1 << CS2) | (1 << CS1) | (1 << CS0))

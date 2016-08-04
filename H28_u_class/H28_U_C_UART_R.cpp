@@ -25,7 +25,7 @@ C_UART_R::
 C_UART_R
 (
 	E_UART_ADDR _arg_uart_addr, 
-	BOOL _arg_uart_nf_isr = FALES
+	BOOL _arg_uart_nf_isr = FALSE
 )
  : C_UART_base(_arg_uart_addr)
  , _mem_timer(80) //8ms
@@ -41,8 +41,8 @@ Set_isr (BOOL _arg_uart_nf_isr)
 {
 	switch (_arg_uart_nf_isr)
 	{
-		case TRUE:	UCSRB |=  (1 << RXCIE);	break; //On
-		case FALES:	UCSRB &= ~(1 << RXCIE);	break; //Off
+		case TRUE:	__UCSRB__ |=  (1 << RXCIE);	break; //On
+		case FALSE:	__UCSRB__ &= ~(1 << RXCIE);	break; //Off
 	}
 }
 
@@ -50,13 +50,13 @@ void
 C_UART_R::
 Check ()
 {
-	UCSRB |= (1 << RXEN); //受信許可
+	__UCSRB__ |= (1 << RXEN); //受信許可
 	
 	_mem_timer.Start();
 	
 	while (1)
 	{
-		if ((_mem_timer.Ret_flag() & CHECK_BIT_TF(UCSRA,RXC)) == TRUE)	//受信完了
+		if ((_mem_timer.Ret_flag() & CHECK_BIT_TF(__UCSRA__,RXC)) == TRUE)	//受信完了
 		{
 			_mem_timer.End();
 			
@@ -84,9 +84,9 @@ In ()
 	
 	T_DATA _ret_in_data = 0;
 		
-	if (UCSRB & ((1<<UCSZ2) | (1<<RXB8)))	_ret_in_data = (1 << 8);	//9bit通信時
+	if (__UCSRB__ & ((1<<UCSZ2) | (1<<RXB8)))	_ret_in_data = (1 << 8);	//9bit通信時
 	
-	_ret_in_data |= UDR;
+	_ret_in_data |= __UDR__;
 	
 	_mem_uart_r_flag = EU_NONE;
 	
@@ -117,7 +117,7 @@ operator >>
 	T_DATA_8 &_arg_uart_data_in
 )
 {
-	_arg_uart_r.Set_bit9(FALES);
+	_arg_uart_r.Set_bit9(FALSE);
 	_arg_uart_data_in = (T_DATA_8 )_arg_uart_r.In();
 }
 

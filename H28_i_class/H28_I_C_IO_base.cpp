@@ -49,15 +49,15 @@ Set_base
 	{
 		case EI_IN:
 		{
-			DDR  = ~_arg_io_num;
-			PORT =  _arg_io_num;
+			__DDR__  = ~_arg_io_num;
+			__PORT__ =  _arg_io_num;
 			
 			break;
 		}
 		case EI_OUT:
 		{
-			DDR  =  _arg_io_num;
-			PORT = ~_arg_io_num;
+			__DDR__  =  _arg_io_num;
+			__PORT__ = ~_arg_io_num;
 			
 			break;
 		}
@@ -92,7 +92,7 @@ C_IO_base ::
 {
 	switch (_mem_io_base_mode)
 	{
-		case EI_IN:	 DDR  &= ~DDR;	break;
-		case EI_OUT: PORT &= ~PORT;	break;
+		case EI_IN:	 __DDR__  &= ~__DDR__;	break;
+		case EI_OUT: __PORT__ &= ~__PORT__;	break;
 	}
 }
