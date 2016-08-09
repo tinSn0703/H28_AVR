@@ -10,9 +10,6 @@ TIMER系のクラスや関数を使うためのマクロやtypdef
 #	error "Include <H28_AVR.h>"
 #endif
 
-#include "H28_u_macro.h"
-#include "H28_i_macro.h"
-
 typedef float T_TIME;
 
 #ifdef _AVR_IOM640_H_

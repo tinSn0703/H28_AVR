@@ -10,9 +10,6 @@ IO系のクラスや関数を使うためのマクロやtypdef
 #	error "Include <H28_AVR.h>"
 #endif
 
-#include "H28_u_macro.h"
-#include "H28_t_macro.h"
-
 typedef unsigned char T_PORT;
 
 enum E_IO_PORT_ADDR

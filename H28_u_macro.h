@@ -10,9 +10,6 @@ UART系のクラスや関数を使うためのマクロやtypdef
 #	error "Include <H28_AVR.h>"
 #endif
 
-#include "H28_i_macro.h"
-#include "H28_t_macro.h"
-
 //UART
 typedef unsigned char T_DATA_8;
 typedef unsigned short int T_DATA;
