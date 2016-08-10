@@ -55,6 +55,19 @@ public:
 	 */
 	void Set_bit9(BOOL _arg_uart_nf_bit9);
 	
+	/**
+	 * \brief 
+	 * 9bit通信をONにする
+	 * 8bitと9bitどうしではうまく通信できないので注意
+	 */
+	void Set_bit9_on();
+	
+	/**
+	 * \brief 
+	 * 9bit通信をOFFにする
+	 * 8bitと9bitどうしではうまく通信できないので注意
+	 */
+	void Set_bit9_off();
 	
 	/**
 	 * \brief 

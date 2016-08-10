@@ -12,7 +12,7 @@ UART系の基底となるクラス。こいつは宣言しないでね
 //protected member
 
 inline void 
-C_UART_base::
+C_UART_base ::
 Set (E_UART_ADDR _arg_uart_addr)
 {
 	_mem_uart_base_addr = _arg_uart_addr;
@@ -40,7 +40,7 @@ C_UART_base (E_UART_ADDR _arg_uart_addr)
 };
 
 inline void 
-C_UART_base::
+C_UART_base ::
 Set_bit9 (BOOL _arg_uart_nf_bit9)
 {
 	switch (_arg_uart_nf_bit9)
@@ -48,6 +48,20 @@ Set_bit9 (BOOL _arg_uart_nf_bit9)
 		case TRUE:	__UCSRB__ |=  (1 << UCSZ2);	break; //On
 		case FALSE:	__UCSRB__ &= ~(1 << UCSZ2);	break; //Off
 	}
+}
+
+inline void 
+C_UART_base ::
+Set_bit9_on ()
+{
+	__UCSRB__ |=  (1 << UCSZ2);
+}
+
+inline void 
+C_UART_base :: 
+Set_bit9_off ()
+{
+	__UCSRB__ &= ~(1 << UCSZ2);
 }
 
 inline BOOL 
