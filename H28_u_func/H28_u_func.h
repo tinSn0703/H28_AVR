@@ -24,36 +24,104 @@
 void F_uart_set(E_UART_ADDR _arg_uart_addr);
 
 /**
- * \brief 
+ * \brief 9bit通信の設定を行う
  * 
  * \param _arg_uart_addr : 設定するUART
- * \param _arg_uart_nf_bit9 :
+ * \param _arg_uart_nf_bit9 : ON/OFF
  */
 void F_uart_bit9(E_UART_ADDR _arg_uart_addr, BOOL _arg_uart_nf_bit9);
 
+/**
+ * \brief 9bit通信をONにする
+ * 
+ * \param _arg_uart_addr : 設定するUART
+ */
 void F_uart_bit9_on(E_UART_ADDR _arg_uart_addr);
 
+/**
+ * \brief 9bit通信をOFFにする
+ * 
+ * \param _arg_uart_addr : 設定するUART
+ */
 void F_uart_bit9_off(E_UART_ADDR _arg_uart_addr);
 
+/**
+ * \brief 割り込み処理の設定
+ * 
+ * \param _arg_uart_addr : 設定するUART
+ * \param _arg_uart_mode
+ *		EM_REC -> 受信完了割り込み
+ *		EM_TRA -> 送信データレジスタ空き割り込み
+ *
+ * \param _arg_uart_nf_isr : ON/OFF
+ */
 void F_uart_isr(E_UART_ADDR _arg_uart_addr, E_UART_MODE _arg_uart_mode, BOOL _arg_uart_nf_isr);
 
+/**
+ * \brief 送信データレジスタ空き割り込みをONにする
+ * 
+ * \param _arg_uart_addr : 設定するUART
+ */
 void F_uart_t_isr_on(E_UART_ADDR _arg_uart_addr);
 
+/**
+ * \brief 受信完了割り込みをONにする
+ * 
+ * \param _arg_uart_addr : 設定するUART
+ */
 void F_uart_r_isr_on(E_UART_ADDR _arg_uart_addr);
 
+/**
+ * \brief 送信データレジスタ空き割り込みをOFFにする
+ * 
+ * \param _arg_uart_addr : 設定するUART
+ */
 void F_uart_t_isr_off(E_UART_ADDR _arg_uart_addr);
 
+/**
+ * \brief 受信完了割り込みをOFFにする
+ * 
+ * \param _arg_uart_addr : 設定するUART
+ */
 void F_uart_r_isr_off(E_UART_ADDR _arg_uart_addr);
 
+/**
+ * \brief 送信する
+ * 
+ * \param _arg_uart_addr : 使うUART
+ * \param _arg_uart_out_data : 送信するデータ
+ */
 void F_uart_out(E_UART_ADDR _arg_uart_addr, T_DATA _arg_uart_out_data);
 
+/**
+ * \brief 送信する。8bit通信の時用。確認とかはしてないから気を付けてね
+ *
+ * \param _arg_uart_addr : 使うUART
+ * \param _arg_uart_out_data : 送信するデータ
+ */
 void F_uart_out_8(E_UART_ADDR _arg_uart_addr, T_DATA_8 _arg_uart_out_data);
 
+/**
+ * \brief 受信する
+ * 
+ * \param _arg_uart_addr : 使うUART
+ * 
+ * \return T_DATA 受信したデータ
+ */
 T_DATA F_uart_in(E_UART_ADDR _arg_uart_addr);
 
+/**
+ * \brief 受信する。8bit通信の時用
+ * 
+ * \param _arg_uart_addr : 使うUART
+ * 
+ * \return T_DATA_8 受信したデータ
+ */
 T_DATA_8 F_uart_in_8(E_UART_ADDR _arg_uart_addr);
 
 #include "H28_u_func.c"
+
+#include "H28_U_S_UART.h"
 
 #ifdef __cplusplus
 }

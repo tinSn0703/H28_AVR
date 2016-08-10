@@ -12,7 +12,8 @@ IO系のクラスや関数を使うためのマクロやtypdef
 
 typedef unsigned char T_PORT;
 
-enum E_IO_PORT_ADDR
+typedef enum 
+E_IO_PORT_ADDR
 {
 	EI_PORTA = 0x000,
 	EI_PORTB = 0x003,
@@ -29,9 +30,11 @@ enum E_IO_PORT_ADDR
 	EI_PORTL = 0x109,
 #endif
 
-};
+}
+E_IO_PORT_ADDR;
 
-enum E_IO_NUM
+typedef enum 
+E_IO_NUM
 {
 	EI_IO0 = 0,
 	EI_IO1 = 1,
@@ -41,15 +44,19 @@ enum E_IO_NUM
 	EI_IO5 = 5,
 	EI_IO6 = 6,
 	EI_IO7 = 7,	
-};
+}
+E_IO_NUM;
 
-enum E_IO_MODE
+typedef enum 
+E_IO_MODE
 {
 	EI_IN  = 0,
 	EI_OUT = 1,
-};
+}
+E_IO_MODE;
 
-enum E_AD_NUM
+typedef enum 
+E_AD_NUM
 {
 	EA_AD0 = 0b000000,
 	EA_AD1 = 0b000001,
@@ -71,7 +78,8 @@ enum E_AD_NUM
 	EA_ADF = 0b100111,
 #endif
 
-};
+}
+E_AD_NUM;
 
 #define AD_ERROR 0xffff
 

@@ -10,28 +10,31 @@ TIMER系のクラスや関数を使うためのマクロやtypdef
 #	error "Include <H28_AVR.h>"
 #endif
 
-typedef float T_TIME;
-
 #ifdef _AVR_IOM640_H_
-enum E_TIMER_ADDR
+typedef enum 
+E_TIMER_ADDR
 //タイマーの番号。9bit
 {
 	ET_TIMER1 = 0x080,/*TIMER1*/
 	ET_TIMER3 = 0x090,/*TIMER3*/
 	ET_TIMER4 = 0x0a0,/*TIMER4*/
 	ET_TIMER5 = 0x120,/*TIMER5*/
-};
+}
+E_TIMER_ADDR;
 #endif
 
-enum E_TIMER_MODE
+typedef enum 
+E_TIMER_MODE
 //タイマーのモード。4bit
 {
 	ET_OVERFLOW = 4,/*溢れ*/
 	ET_CAPUTER  = 6,/*捕獲*/
 	ET_COMPARE  = 8,/*比較*/
-};
+}
+E_TIMER_MODE;
 
-enum E_CLOCK
+typedef enum 
+E_CLOCK
 //クロック。3bit
 {
 	EC_0    = 0x1,
@@ -39,7 +42,8 @@ enum E_CLOCK
 	EC_64   = 0x3,
 	EC_256  = 0x4,
 	EC_1024 = 0x5,
-};
+}
+E_CLOCK;
 
 //bit TCCRA
 #define WGM0  0

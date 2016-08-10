@@ -14,42 +14,41 @@ UART系のクラスや関数を使うためのマクロやtypdef
 typedef unsigned char T_DATA_8;
 typedef unsigned short int T_DATA;
 
-#define IN_ERROR 0xfff 
-//このマクロは12bit以上ないと使えないからな気を付けろよ。by H28 May 13のSn
+#define IN_ERROR 0xfff
 
-
-enum E_UART_FLAG
-//UART FLAG COMAND
+typedef enum 
+E_UART_FLAG
 {
 	EU_NONE  = 0,	
 	EU_SUCCE = 1,	//受信成功
 	EU_ERROR = 2,	//受信失敗
-};
+}
+E_UART_FLAG;
 
-#if defined(_AVR_IOM640_H_)
-enum E_UART_ADDR
-//UART NUMBER SET COMAND
+typedef enum 
+E_UART_ADDR
 {
+	
+#if defined(_AVR_IOM640_H_)
 	EU_UART0 = 0xc0,
 	EU_UART1 = 0xc8,
 	EU_UART2 = 0xd0,
 	EU_UART3 = 0x130,
-};
 #elif defined(_AVR_IOM164_H_)
-enum E_UART_ADDR
-//UART NUMBER SET COMAND
-{
 	EU_UART0 = 0xc0,
 	EU_UART1 = 0xc8,
-};
 #endif
+	
+}
+E_UART_ADDR;
 
-enum E_UART_MODE
-//UART MODE SET COMAND
+typedef enum 
+E_UART_MODE
 {
 	EU_TRA  = 0, //送信
 	EU_REC  = 1, //受信
-};
+}
+E_UART_MODE;
 
 //bit UCSRA
 #define RXC  7
@@ -81,4 +80,5 @@ enum E_UART_MODE
 #define UCSZ0  1
 #define UCPOL  0
 
+#include "H28_u_func/H28_u_func.h"
 #include "H28_u_class/H28_u_class.h"
