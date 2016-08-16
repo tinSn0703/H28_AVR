@@ -155,7 +155,23 @@ Flag_timer (BOOL _arg_timer_continue = TRUE)
 	return FALSE;
 }
 
-inline void C_TIMER::Stop()
+inline void 
+C_TIMER :: 
+Stop ()
 {
 	__TCCRB__ &= TIME_SET_BIT;
+}
+
+inline usint 
+C_TIMER :: 
+Ret_time ()
+{	
+	return ((__TCNTH__ << 8) | __TCNTL__);
+}
+
+inline E_CLOCK 
+C_TIMER :: 
+Ret_clock ()
+{
+	return _mem_timer_base_clock;
 }

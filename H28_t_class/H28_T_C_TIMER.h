@@ -103,6 +103,20 @@ public:
 	 * \brief タイマカウンタを終了する
 	 */
 	void Stop();
+	
+	/**
+	 * \brief TCNTの値を返す。
+	 * 
+	 * \return usint : TCNTの値。10bit
+	 */
+	usint Ret_time();
+	
+	/**
+	 * \brief 分周値の設定を返す
+	 * 
+	 * \return E_CLOCK return
+	 */
+	E_CLOCK Ret_clock();
 };
 
 #include "H28_T_C_TIMER.cpp"
