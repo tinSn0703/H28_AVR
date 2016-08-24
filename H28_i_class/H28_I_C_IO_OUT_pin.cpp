@@ -17,7 +17,7 @@ C_IO_OUT_pin
 	E_IO_PORT_ADDR _arg_io_addr, 
 	E_IO_NUM _arg_io_bit
 )
-: C_IO_base(_arg_io_addr,EI_OUT)
+: C_IO_base(_arg_io_addr)
 {
 	_mem_io_out_pin_nf_set = FALSE;
 	_mem_io_out_pin_bit = _arg_io_bit;

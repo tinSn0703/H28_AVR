@@ -15,7 +15,11 @@ typedef unsigned char T_PORT;
 typedef enum 
 E_IO_PORT_ADDR
 {
+	
+#ifndef _AVR_IOM88_H_
 	EI_PORTA = 0x000,
+#endif
+	
 	EI_PORTB = 0x003,
 	EI_PORTC = 0x006,
 	EI_PORTD = 0x009,

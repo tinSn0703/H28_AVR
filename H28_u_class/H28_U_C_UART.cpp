@@ -9,6 +9,7 @@
 
 #include "H28_U_C_UART.h"
 
+#if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 C_UART::
 C_UART
 (
@@ -22,6 +23,20 @@ C_UART
 	
 	Set_isr(_arg_uart_nf_isr);
 }
+#elif defined(_AVR_IOM88_H_)
+C_UART::
+C_UART
+(
+	E_UART_MODE _arg_uart_mode,
+	BOOL _arg_uart_nf_isr = FALSE
+)
+: C_UART_R()
+{
+	_mem_uart_mode = _arg_uart_mode;
+	
+	Set_isr(_arg_uart_nf_isr);
+}
+#endif
 
 inline void 
 C_UART::

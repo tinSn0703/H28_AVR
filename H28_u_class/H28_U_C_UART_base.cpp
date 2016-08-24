@@ -9,6 +9,7 @@ UART系の基底となるクラス。こいつは宣言しないでね
 
 #include "H28_U_C_UART_base.h"
 
+#if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 //protected member
 
 inline void 
@@ -38,6 +39,26 @@ C_UART_base (E_UART_ADDR _arg_uart_addr)
 {
 	Set(_arg_uart_addr);
 };
+#elif defined(_AVR_IOM88_H_)
+//public member
+
+inline C_UART_base ::
+C_UART_base ()
+{
+	__UBRRH__ = 0x00;
+	__UBRRL__ = 0x04;
+	//F_CPU=10MHz 250kbps
+	
+	__UCSRA__ = (1<<U2X);
+	//Double teransmission spead
+	
+	__UCSRB__ &= ~((1<<RXCIE) | (1<<TXCIE) | (1<<UDRIE));
+	//割り込み許可以外は全部OFF。おあとに設定してね
+	
+	__UCSRC__ = ((1<<UPM1) | (1<<UPM0) | (1<<UCSZ1) | (1<<UCSZ0));
+	//Odd parity mode_i
+};
+#endif
 
 inline void 
 C_UART_base ::

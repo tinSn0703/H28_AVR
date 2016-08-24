@@ -16,7 +16,8 @@ private:
 	E_UART_FLAG _mem_uart_r_flag :2; //最後の受信状態の記録
 	
 public:
-
+	
+#if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 	/**
 	 * \brief 
 	 * コンストラクタ
@@ -34,7 +35,18 @@ public:
 	 * \param _arg_uart_nf_isr : 受信完了割り込みのONOFF
 	 */
 	C_UART_R(E_UART_ADDR _arg_uart_addr, BOOL _arg_uart_nf_isr);
-	
+#elif defined(_AVR_IOM88_H_)
+	/**
+	 * \brief 
+	 * コンストラクタ
+	 * 初期設定を行う。詳細はC_UART_base参照
+	 * あと内部タイマの設定も
+	 * 
+	 * \param _arg_uart_nf_isr : 受信完了割り込みのONOFF
+	 */
+	C_UART_R(BOOL _arg_uart_nf_isr);
+#endif
+
 	/**
 	 * \brief 受信完了割り込みのONOFF
 	 * 

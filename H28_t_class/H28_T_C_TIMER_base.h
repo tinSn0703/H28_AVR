@@ -31,7 +31,7 @@ protected:
 #	define __COUNTERH__	_SFR_MEM8(_mem_timer_base_addr + _mem_timer_base_mode + 1)
 #	define __TIMSK__	_SFR_MEM8(_mem_timer_base_addr_plus + 0x6e)
 #	define __TIFR__		_SFR_MEM8(_mem_timer_base_addr_plus + 0x35)
-#elif defined(_AVR_IOM164_H_) || defined(_AVR_IOM88P_H_)
+#elif defined(_AVR_IOM164_H_) || defined(_AVR_IOM88_H_)
 #	define __TCCRA__	TCCR1A
 #	define __TCCRB__	TCCR1B
 #	define __TCCRC__	TCCR1C
@@ -58,7 +58,7 @@ protected:
 	 * \param _arg_timer_nf_isr : 割り込み処理を用いるかどうか
 	 */
 	void Set_base (E_TIMER_ADDR _arg_timer_addr, E_TIMER_MODE _arg_timer_mode, BOOL _arg_timer_nf_isr);
-#elif defined(_AVR_IOM164_H_)
+#elif defined(_AVR_IOM164_H_) || defined(_AVR_IOM88_H_)
 	/**
 	 * \brief レジスタの初期設定を行う
 	 *

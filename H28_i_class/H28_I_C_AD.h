@@ -31,7 +31,7 @@ protected:
 		
 #if defined(_AVR_IOM640_H_)
 		E_AD_NUM _mux_admux :6;
-#elif defined(_AVR_IOM164_H_)
+#elif defined(_AVR_IOM164_H_) || defined(_AVR_IOM88_H_)
 		E_AD_NUM _mux_admux :5;
 #endif
 

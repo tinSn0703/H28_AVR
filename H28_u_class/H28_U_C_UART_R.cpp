@@ -12,8 +12,9 @@
 
 //public member
 
-inline 
-C_UART_R :: 
+#if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
+inline
+C_UART_R ::
 C_UART_R ()
 : _mem_timer(80)
 {
@@ -34,6 +35,18 @@ C_UART_R
 	
 	_mem_uart_r_flag = EU_NONE;
 }
+#elif defined(_AVR_IOM88_H_)
+inline
+C_UART_R::
+C_UART_R (BOOL _arg_uart_nf_isr = FALSE)
+: C_UART_base()
+, _mem_timer(80) //8ms
+{
+	Set_isr(_arg_uart_nf_isr);
+	
+	_mem_uart_r_flag = EU_NONE;
+}
+#endif
 
 inline void 
 C_UART_R::

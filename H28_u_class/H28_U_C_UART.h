@@ -13,7 +13,12 @@ protected:
 public:
 
 	C_UART() {}
+
+#if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 	C_UART(E_UART_ADDR ,E_UART_MODE ,BOOL);
+#elif defined(_AVR_IOM88_H_)
+	C_UART(E_UART_MODE ,BOOL);
+#endif
 	
 	void Chan_mode(E_UART_MODE );
 	

@@ -9,7 +9,8 @@
 class C_UART_T : public virtual C_UART_base
 {
 public:
-
+	
+#if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 	/**
 	 * \brief 
 	 * 空のコンストラクタ。ほんとに何もしない
@@ -25,6 +26,16 @@ public:
 	 * \param _arg_uart_nf_isr : 送信データレジスタ空き割り込みのONOFF
 	 */
 	C_UART_T(E_UART_ADDR _aeg_uart_addr, BOOL _arg_uart_nf_isr);
+#elif defined(_AVR_IOM88_H_)
+	/**
+	 * \brief 
+	 * コンストラクタ
+	 * 初期設定を行う。詳細はC_UART_base参照
+	 * 
+	 * \param _arg_uart_nf_isr : 送信データレジスタ空き割り込みのONOFF
+	 */
+	C_UART_T(BOOL _arg_uart_nf_isr);
+#endif
 	
 	/**
 	 * \brief 

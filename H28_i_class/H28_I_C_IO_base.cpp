@@ -21,8 +21,7 @@ inline void
 C_IO_base::
 Set_base
 (
-	E_IO_PORT_ADDR _arg_io_addr, 
-	E_IO_MODE _arg_io_mode
+	E_IO_PORT_ADDR _arg_io_addr
 )
 {
 	_mem_io_base_addr = _arg_io_addr;
@@ -30,8 +29,7 @@ Set_base
 #ifdef _AVR_IOM640_H_
 	_mem_io_base_addr_point = CHECK_BIT_TF(_arg_io_addr,8);
 #endif
-	
-	_mem_io_base_mode = _arg_io_mode;
+
 }
 
 inline void 
@@ -43,7 +41,7 @@ Set_base
 	T_PORT _arg_io_num
 )
 {	
-	Set_base(_arg_io_addr,_arg_io_mode);
+	Set_base(_arg_io_addr);
 	
 	switch (_arg_io_mode)
 	{
@@ -69,11 +67,10 @@ Set_base
 C_IO_base :: 
 C_IO_base
 (
-	E_IO_PORT_ADDR _arg_io_addr,
-	E_IO_MODE _arg_io_mode
+	E_IO_PORT_ADDR _arg_io_addr
 )
 {
-	Set_base(_arg_io_addr,_arg_io_mode);
+	Set_base(_arg_io_addr);
 }
 
 C_IO_base ::
@@ -85,14 +82,4 @@ C_IO_base
 )
 {
 	Set_base(_arg_io_addr,_arg_io_mode,_arg_io_num);
-}
-
-C_IO_base :: 
-~ C_IO_base ()
-{
-	switch (_mem_io_base_mode)
-	{
-		case EI_IN:	 __DDR__  &= ~__DDR__;	break;
-		case EI_OUT: __PORT__ &= ~__PORT__;	break;
-	}
 }

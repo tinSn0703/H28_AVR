@@ -25,6 +25,7 @@ E_UART_FLAG
 }
 E_UART_FLAG;
 
+#ifndef _AVR_IOM88_H_
 typedef enum 
 E_UART_ADDR
 {
@@ -41,6 +42,7 @@ E_UART_ADDR
 	
 }
 E_UART_ADDR;
+#endif
 
 typedef enum 
 E_UART_MODE
@@ -80,5 +82,8 @@ E_UART_MODE;
 #define UCSZ0  1
 #define UCPOL  0
 
-#include "H28_u_func/H28_u_func.h"
+#ifndef _AVR_IOM88_H_
+#	include "H28_u_func/H28_u_func.h"
+#endif
+
 #include "H28_u_class/H28_u_class.h"

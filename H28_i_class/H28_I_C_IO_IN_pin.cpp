@@ -11,13 +11,16 @@
 
 class C_IO_IN_pin : protected C_IO_IN
 {
-	private:
+private:
+
 	E_IO_NUM _mem_io_in_pin_bit;
 	
-	protected:
+protected:
+
 	void Set(E_IO_PORT_ADDR ,E_IO_NUM );
 	
-	public:
+public:
+
 	C_IO_IN_pin()	{}
 	C_IO_IN_pin(E_IO_PORT_ADDR ,E_IO_NUM );
 	
@@ -35,7 +38,7 @@ Set
 	E_IO_NUM _arg_io_in_pin_bit
 )
 {
-	C_IO_base::Set_base(_arg_io_in_pin_addr,EI_IN);
+	C_IO_base::Set_base(_arg_io_in_pin_addr);
 	
 	_mem_io_in_pin_bit = _arg_io_in_pin_bit;
 	

@@ -14,13 +14,23 @@ protected:
 	E_UART_ADDR _mem_uart_base_addr :8;
 #	endif
 
+#if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 #	define __UCSRA__ _SFR_MEM8(_mem_uart_base_addr + 0)
 #	define __UCSRB__ _SFR_MEM8(_mem_uart_base_addr + 1)
 #	define __UCSRC__ _SFR_MEM8(_mem_uart_base_addr + 2)
 #	define __UBRRL__ _SFR_MEM8(_mem_uart_base_addr + 4)
 #	define __UBRRH__ _SFR_MEM8(_mem_uart_base_addr + 5)
 #	define __UDR__	 _SFR_MEM8(_mem_uart_base_addr + 6)
+#elif defined(_AVR_IOM88_H_)
+#	define __UCSRA__ _SFR_MEM8(0xc0)
+#	define __UCSRB__ _SFR_MEM8(0xc1)
+#	define __UCSRC__ _SFR_MEM8(0xc2)
+#	define __UBRRL__ _SFR_MEM8(0xc4)
+#	define __UBRRH__ _SFR_MEM8(0xc5)
+#	define __UDR__	 _SFR_MEM8(0xc6)
+#endif
 
+#if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 	/**
 	 * \brief コンストラクタの中身。
 	 * 
@@ -45,7 +55,20 @@ public:
 	 * \param _arg_uart_addr : 使うUART
 	 */
 	C_UART_base(E_UART_ADDR _arg_uart_addr);
+#elif defined(_AVR_IOM88_H_)
 	
+public:
+	
+	/**
+	 * \brief 
+	 * コンストラクタ。UARTの初期設定を行う
+	 *		250[kbps]
+	 *		倍速許可
+	 *		奇数パリティ
+	 */
+	C_UART_base();
+#endif
+
 	/**
 	 * \brief 
 	 * 9bit通信の設定

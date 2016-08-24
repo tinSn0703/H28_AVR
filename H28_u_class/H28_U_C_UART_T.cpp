@@ -11,6 +11,7 @@
 
 //public member
 
+#if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 C_UART_T ::
 C_UART_T
 (
@@ -21,6 +22,14 @@ C_UART_T
 {	
 	Set_isr(_arg_uart_nf_isr);
 }
+#elif defined(_AVR_IOM88_H_)
+C_UART_T :: 
+C_UART_T (BOOL _arg_uart_nf_isr = FALSE)
+: C_UART_base()
+{
+	Set_isr(_arg_uart_nf_isr);
+}
+#endif
 
 inline void 
 C_UART_T::
