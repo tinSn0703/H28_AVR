@@ -10,10 +10,6 @@ UART系のクラスや関数を使うためのマクロやtypdef
 #	error "Include <H28_AVR.h>"
 #endif
 
-//UART
-typedef unsigned char T_DATA_8;
-typedef unsigned short int T_DATA;
-
 #define IN_ERROR 0xfff
 
 typedef enum 
