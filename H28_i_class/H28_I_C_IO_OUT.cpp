@@ -44,6 +44,28 @@ Out_off ()
 }
 
 inline void 
+C_IO_OUT :: 
+Out_num
+(
+	E_IO_NUM _arg_num, 
+	BOOL _arg_nf
+)
+{
+	__PORT__ |= (_arg_nf << _arg_num);
+}
+
+inline void
+C_IO_OUT ::
+Out_num
+(
+	usint _arg_num,
+	BOOL _arg_nf
+)
+{
+	__PORT__ |= (_arg_nf << _arg_num);
+}
+
+inline void 
 C_IO_OUT ::
 Out_num_on (E_IO_NUM _arg_io_num_bit)
 {
