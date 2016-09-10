@@ -20,16 +20,16 @@ Set (E_UART_ADDR _arg_uart_addr)
 	
 	__UBRRH__ = 0x00;
 	__UBRRL__ = 0x04;
-	//F_CPU=10MHz 250kbps
+	//F_CPU = 10[MHz] 250[kbps]
 	
 	__UCSRA__ = (1<<U2X);
-	//Double teransmission spead
+	//倍速許可
 	
 	__UCSRB__ &= ~((1<<RXCIE) | (1<<TXCIE) | (1<<UDRIE));
 	//割り込み許可以外は全部OFF。おあとに設定してね
 	
 	__UCSRC__ = ((1<<UPM1) | (1<<UPM0) | (1<<UCSZ1) | (1<<UCSZ0));
-	//Odd parity mode_i
+	//奇数パリティ
 }
 
 //public member
