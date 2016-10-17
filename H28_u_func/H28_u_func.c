@@ -17,6 +17,24 @@ F_uart_set (E_UART_ADDR _arg_uart_addr)
 }
 
 inline void 
+F_uart_set_detail
+(
+	E_UART_ADDR _arg_uart_addr, 
+	T_DATA _arg_bps, 
+	E_UART_PARITY _arg_parity
+)
+{
+	__UBRRH_F(_arg_uart_addr) = ((_arg_bps >> 8) & 0xff);
+	__UBRRL_F(_arg_uart_addr) = (_arg_bps & 0xff);
+	
+	__UCSRA_F(_arg_uart_addr) = (1<<U2X);
+	
+	__UCSRB_F(_arg_uart_addr) &= ~((1<<RXCIE) | (1<<TXCIE) | (1<<UDRIE));
+	
+	__UCSRC_F(_arg_uart_addr) = ((_arg_parity << UPM0) | (1<<UCSZ1) | (1<<UCSZ0));
+}
+
+inline void 
 F_uart_bit9
 (
 	E_UART_ADDR _arg_uart_addr, 
@@ -123,39 +141,65 @@ F_uart_out_8
 	
 	while (!(__UCSRA_F(_arg_uart_addr) & (1 << UDRE))); //送信が可能になるまで待機
 
-	__UDR_F(_arg_uart_addr) = (_arg_uart_out_data & 0xff);
+	__UDR_F(_arg_uart_addr) = _arg_uart_out_data;
 	
 	while (!(__UCSRA_F(_arg_uart_addr) & (1 << TXC))); //送信完了まで待機
 	
 	__UCSRA_F(_arg_uart_addr) |= (1 << TXC);
 }
 
-T_DATA 
-F_uart_in (E_UART_ADDR _arg_uart_addr)
+E_UART_FLAG 
+F_uart_in 
+(
+	E_UART_ADDR _arg_uart_addr,
+	T_DATA *_arg_uart_in_data
+)
 {
-	T_DATA _ret_data = 0;
-	
 	while(!(__UCSRA_F(_arg_uart_addr) & (1 << RXC)));
 	
-	if (__UCSRB_F(_arg_uart_addr) & ((1<<UCSZ2) | (1<<RXB8)))
+	if (__UCSRA_F(_arg_uart_addr) & ((1 << FE) | (1 << DOR) | (1 << UPE)))
 	{
-		_ret_data = (1 << 8);	//9bit通信時
+		*_arg_uart_in_data = __UDR_F(_arg_uart_addr);
+		*_arg_uart_in_data = __UCSRA_F(_arg_uart_addr);
+		
+		return EU_ERROR;
+	}
+	else
+	{
+		if (__UCSRB_F(_arg_uart_addr) & ((1<<UCSZ2) | (1<<RXB8)))
+		{
+			*_arg_uart_in_data = (1 << 8);	//9bit通信時
+		}
+		
+		*_arg_uart_in_data |= __UDR_F(_arg_uart_addr);
+		
+		return EU_SUCCE;
 	}
 	
-	_ret_data |= __UDR_F(_arg_uart_addr);
-	
-	return _ret_data;
+	return EU_NONE;
 }
 
-T_DATA_8 
-F_uart_in_8 (E_UART_ADDR _arg_uart_addr)
+E_UART_FLAG 
+F_uart_in_8 
+(
+	E_UART_ADDR _arg_uart_addr,
+	T_DATA_8 *_arg_uart_in_data
+)
 {
-	T_DATA_8 _ret_data = 0;
+	if (__UCSRA_F(_arg_uart_addr) & ((1 << FE) | (1 << DOR) | (1 << UPE)))
+	{
+		*_arg_uart_in_data = __UDR_F(_arg_uart_addr);
+		*_arg_uart_in_data = __UCSRA_F(_arg_uart_addr);
+		
+		return EU_ERROR;
+	}
+	else
+	{		
+		*_arg_uart_in_data = __UDR_F(_arg_uart_addr);
+		
+		return EU_SUCCE;
+	}
 	
-	while(!(__UCSRA_F(_arg_uart_addr) & (1 << RXC)));
-	
-	_ret_data |= __UDR_F(_arg_uart_addr);
-	
-	return _ret_data;
+	return EU_NONE;
 }
 

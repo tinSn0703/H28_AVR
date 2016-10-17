@@ -17,12 +17,12 @@ private:
 	
 protected:
 
-	void Set(E_IO_PORT_ADDR ,E_IO_NUM );
+	void Set(E_IO_PORT_ADDR ,E_IO_NUM ,BOOL );
 	
 public:
 
 	C_IO_IN_pin()	{}
-	C_IO_IN_pin(E_IO_PORT_ADDR ,E_IO_NUM );
+	C_IO_IN_pin(E_IO_PORT_ADDR ,E_IO_NUM ,BOOL );
 	
 	BOOL In();
 	BOOL In_turn();
@@ -35,7 +35,8 @@ C_IO_IN_pin::
 Set
 (
 	E_IO_PORT_ADDR _arg_io_in_pin_addr, 
-	E_IO_NUM _arg_io_in_pin_bit
+	E_IO_NUM _arg_io_in_pin_bit,
+	BOOL _arg_nf_port
 )
 {
 	C_IO_base::Set_base(_arg_io_in_pin_addr);
@@ -43,7 +44,15 @@ Set
 	_mem_io_in_pin_bit = _arg_io_in_pin_bit;
 	
 	__DDR__  &= ~(1 << _arg_io_in_pin_bit);
-	__PORT__ |=  (1 << _arg_io_in_pin_bit);
+	
+	if (_arg_nf_port)
+	{
+		__PORT__ |=  (1 << _arg_io_in_pin_bit);
+	}
+	else
+	{
+		__PORT__ &= ~(1 << _arg_io_in_pin_bit);
+	}
 }
 
 //public
@@ -51,10 +60,11 @@ C_IO_IN_pin::
 C_IO_IN_pin
 (
 	E_IO_PORT_ADDR _arg_io_in_pin_addr, 
-	E_IO_NUM _arg_io_in_pin_bit
+	E_IO_NUM _arg_io_in_pin_bit,
+	BOOL _arg_nf_port = TRUE
 )
 {
-	Set(_arg_io_in_pin_addr, _arg_io_in_pin_bit);
+	Set(_arg_io_in_pin_addr, _arg_io_in_pin_bit, _arg_nf_port);
 }
 
 inline BOOL 

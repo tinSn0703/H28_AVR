@@ -12,6 +12,14 @@
 #define __UBRRH_F(_def_addr)	_SFR_MEM8(_def_addr + 5)
 #define __UDR_F(_def_addr)		_SFR_MEM8(_def_addr + 6)
 
+typedef enum
+{
+	EU_NON  = 0b00,	//パリティ禁止
+	EU_EVEN = 0b10,	//偶数パリティ
+	EU_ODD  = 0b11	//奇数パリティ
+}
+E_UART_PARITY; 
+
 /**
  * \brief 
  * UARTの初期設定を行う
@@ -22,6 +30,19 @@
  * \param _arg_uart_addr : 設定するUART
  */
 void F_uart_set(E_UART_ADDR _arg_uart_addr);
+
+/**
+ * \brief 
+ * UARTの初期設定を行う
+ * 倍速許可
+ * bpsは_arg_bpsから
+ * パリティについては_arg_parityから 
+ *
+ * \param _arg_uart_addr : 設定するUART
+ * \param _arg_bps		 : 値はデータシート参照
+ * \param _arg_parity	 : 禁止、偶数パリティ、奇数パリティから
+ */
+void F_uart_set_detail(E_UART_ADDR _arg_uart_addr, T_DATA _arg_bps, E_UART_PARITY _arg_parity);
 
 /**
  * \brief 9bit通信の設定を行う
@@ -108,7 +129,7 @@ void F_uart_out_8(E_UART_ADDR _arg_uart_addr, T_DATA_8 _arg_uart_out_data);
  * 
  * \return T_DATA 受信したデータ
  */
-T_DATA F_uart_in(E_UART_ADDR _arg_uart_addr);
+E_UART_FLAG F_uart_in(E_UART_ADDR _arg_uart_addr, T_DATA *_arg_uart_in_data);
 
 /**
  * \brief 受信する。8bit通信の時用
@@ -117,7 +138,7 @@ T_DATA F_uart_in(E_UART_ADDR _arg_uart_addr);
  * 
  * \return T_DATA_8 受信したデータ
  */
-T_DATA_8 F_uart_in_8(E_UART_ADDR _arg_uart_addr);
+E_UART_FLAG F_uart_in_8(E_UART_ADDR _arg_uart_addr, T_DATA_8 *_arg_uart_in_data);
 
 #include "H28_u_func.c"
 

@@ -13,6 +13,7 @@
 //public member
 
 #if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
+
 inline
 C_UART_R ::
 C_UART_R ()
@@ -35,7 +36,9 @@ C_UART_R
 	
 	_mem_uart_r_flag = EU_NONE;
 }
+
 #elif defined(_AVR_IOM88_H_)
+
 inline
 C_UART_R::
 C_UART_R (BOOL _arg_uart_nf_isr = FALSE)
@@ -46,6 +49,7 @@ C_UART_R (BOOL _arg_uart_nf_isr = FALSE)
 	
 	_mem_uart_r_flag = EU_NONE;
 }
+
 #endif
 
 inline void 
@@ -65,11 +69,13 @@ Check ()
 {
 	__UCSRB__ |= (1 << RXEN); //受信許可
 	
+	_mem_uart_r_flag = EU_NONE;
+	
 	_mem_timer.Start();
 	
 	while (1)
 	{
-		if ((_mem_timer.Ret_flag() & CHECK_BIT_TF(__UCSRA__,RXC)) == TRUE)	//受信完了
+		if ((_mem_timer.Ret_flag() & CHECK_BIT_TF(__UCSRA__, RXC)) == TRUE)	//受信完了
 		{
 			_mem_timer.End();
 			
@@ -96,12 +102,27 @@ In ()
 	if (_mem_uart_r_flag == EU_ERROR)	return IN_ERROR;	//受信失敗
 	
 	T_DATA _ret_in_data = 0;
+	
+	if (__UCSRA__ & ((1 << FE) | (1 << DOR) | (1 << UPE)))
+	{
+		_mem_uart_r_flag = EU_ERROR;
 		
-	if (__UCSRB__ & ((1<<UCSZ2) | (1<<RXB8)))	_ret_in_data = (1 << 8);	//9bit通信時
-	
-	_ret_in_data |= __UDR__;
-	
-	_mem_uart_r_flag = EU_NONE;
+		_ret_in_data = __UDR__;
+		
+		return __UCSRA__;
+	}
+	else
+	{
+		T_DATA _ret_in_data_9 = 0;
+		
+		if (__UCSRB__ & ((1<<UCSZ2) | (1<<RXB8)))	_ret_in_data_9 = (1 << 8);	//9bit通信時
+			
+		_ret_in_data = __UDR__;
+		
+		_ret_in_data |= _ret_in_data_9;
+		
+		_mem_uart_r_flag = EU_NONE;
+	}
 	
 	return _ret_in_data;
 }

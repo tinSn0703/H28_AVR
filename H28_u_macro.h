@@ -78,8 +78,8 @@ E_UART_MODE;
 #define UCSZ0  1
 #define UCPOL  0
 
-#ifndef _AVR_IOM88_H_
-#	include "H28_u_func/H28_u_func.h"
+#ifndef __NOT_USE_FUNK_UART__
+#include "H28_u_func/H28_u_func.h"
 #endif
 
 #include "H28_u_class/H28_u_class.h"

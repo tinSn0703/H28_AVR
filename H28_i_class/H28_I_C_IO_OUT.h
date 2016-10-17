@@ -8,13 +8,16 @@
  */
 class C_IO_OUT : public virtual C_IO_base
 {
-	public:
+private:
+
+	T_PORT _mem_io_out_port_rev :8;
+	
+public:
 
 	/**
-	 * \brief 空のコンストラクタ。特に何も起こらない
+	 * \brief 空のコンストラクタ。_mem_io_out_dataを初期化するぐらい
 	 */
-	C_IO_OUT ()	{}
-	
+	C_IO_OUT ();
 	
 	/**
 	 * \brief 
@@ -26,6 +29,14 @@ class C_IO_OUT : public virtual C_IO_base
 	 */
 	C_IO_OUT (E_IO_PORT_ADDR _arg_io_addr, T_PORT _arg_data_set);
 	
+	void Set (T_PORT _arg_data_set);
+	
+	void Set_or (T_PORT _arg_data_set);
+	
+	void Set_and (T_PORT _arg_data_set);
+	
+	T_PORT Ret ();
+	
 	/**
 	 * \brief _arg_io_num_byteを出力する
 	 * 
@@ -33,14 +44,8 @@ class C_IO_OUT : public virtual C_IO_base
 	 */
 	void Out (T_PORT _arg_data_out);
 	
-	/**
-	 * \brief 設定されたbitを全てONにする 
-	 */
 	void Out_on ();
 	
-	/**
-	 * \brief 設定されたbitを全てOFFにする
-	 */
 	void Out_off ();
 	
 	/**

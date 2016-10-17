@@ -21,3 +21,5 @@ IOŒn‚ÌƒNƒ‰ƒX‚ðinclude‚·‚é‚¾‚¯
 #include "H28_I_C_IO.cpp"
 #include "H28_I_C_AD.h"
 //#include "H28_I_C_AD_mem.cpp"
+
+//#include "H28_I_C_AD_school.h"
