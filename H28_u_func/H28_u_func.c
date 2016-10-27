@@ -186,6 +186,8 @@ F_uart_in_8
 	T_DATA_8 *_arg_uart_in_data
 )
 {
+	while(!(__UCSRA_F(_arg_uart_addr) & (1 << RXC)));
+	
 	if (__UCSRA_F(_arg_uart_addr) & ((1 << FE) | (1 << DOR) | (1 << UPE)))
 	{
 		*_arg_uart_in_data = __UDR_F(_arg_uart_addr);

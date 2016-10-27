@@ -73,7 +73,7 @@ public:
 	void Set_bit9_0(BOOL _arg_uart_nf_bit9);
 	
 	/**
-	 * \brief 0”Ô‚Ì9nit’ÊM‚ÌONOFF
+	 * \brief 1”Ô‚Ì9nit’ÊM‚ÌONOFF
 	 * 
 	 * \param _arg_uart_nf_bit9 : ONOFF‚Ìİ’è
 	 */

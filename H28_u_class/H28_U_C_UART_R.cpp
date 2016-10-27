@@ -95,11 +95,18 @@ Check ()
 
 T_DATA 
 C_UART_R::
-In ()
+In (BOOL _arg_nf_auto_cut = TRUE)
 {
-	Check(); //受信チェック
-	
-	if (_mem_uart_r_flag == EU_ERROR)	return IN_ERROR;	//受信失敗
+	do 
+	{
+		Check(); //受信チェック
+		
+		if ((_arg_nf_auto_cut == TRUE) && (_mem_uart_r_flag == EU_ERROR))
+		{
+			return IN_ERROR;	//受信失敗
+		}
+	}
+	while (_mem_uart_r_flag != EU_SUCCE); //受信成功まで繰り返し
 	
 	T_DATA _ret_in_data = 0;
 	

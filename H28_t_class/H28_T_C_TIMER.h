@@ -33,7 +33,9 @@ public:
 	 * \param _arg_timer_nf_isr : 割り込み処理の使用について
 	 */
 	C_TIMER(E_TIMER_ADDR _arg_timer_addr, E_TIMER_MODE _arg_timer_mode, E_CLOCK _arg_timer_clock, usint _arg_timer_counter, BOOL _arg_timer_nf_isr);
+
 #elif defined(_AVR_IOM164_H_)
+
 	/**
 	 * \brief コンストラクタ
 	 * 
@@ -51,6 +53,7 @@ public:
 	 * \param _arg_timer_nf_isr : 割り込み処理の使用について
 	 */
 	C_TIMER(E_TIMER_MODE _arg_timer_mode, E_CLOCK _arg_timer_clock, usint _arg_timer_counter, BOOL _arg_timer_nf_isr);
+
 #endif
 
 	/**

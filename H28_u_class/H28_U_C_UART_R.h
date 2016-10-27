@@ -65,9 +65,11 @@ public:
 	/**
 	 * \brief 受信する 
 	 * 
+	 * \param _arg_nf_auto_cut : 自動で通信を終了するかの使用について
+	 *
 	 * \return T_DATA : 受信したデータ
 	 */
-	T_DATA In();
+	T_DATA In(BOOL _arg_nf_auto_cut);
 
 	/**
 	 * \brief 直前の受信状態をreturnする。
