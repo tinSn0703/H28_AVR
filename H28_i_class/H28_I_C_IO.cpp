@@ -35,7 +35,7 @@ Set
 	{
 		case EI_IN:
 		{
-			C_IO_IN::Set(_arg_io_addr,_arg_io_set);		break;
+			//C_IO_IN :: Set_io_in(_arg_io_addr,_arg_io_set);		break;
 		}
 		case EI_OUT:
 		{

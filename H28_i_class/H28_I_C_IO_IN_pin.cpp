@@ -1,82 +1,38 @@
 ﻿
-/*
-1ピンのみ。センサなどに使えばいいんじゃないかな
-
- H28 06 12 ver0.0.0 
-*/
-
 #pragma once
 
-#include "H28_I_C_IO_IN.cpp"
-
-class C_IO_IN_pin : protected C_IO_IN
-{
-private:
-
-	E_IO_NUM _mem_io_in_pin_bit;
-	
-protected:
-
-	void Set(E_IO_PORT_ADDR ,E_IO_NUM ,BOOL );
-	
-public:
-
-	C_IO_IN_pin()	{}
-	C_IO_IN_pin(E_IO_PORT_ADDR ,E_IO_NUM ,BOOL );
-	
-	BOOL In();
-	BOOL In_turn();
-	
-	E_IO_NUM Ret_bit()	{	return _mem_io_in_pin_bit;	}
-};
-
-inline void 
-C_IO_IN_pin::
-Set
-(
-	E_IO_PORT_ADDR _arg_io_in_pin_addr, 
-	E_IO_NUM _arg_io_in_pin_bit,
-	BOOL _arg_nf_port
-)
-{
-	C_IO_base::Set_base(_arg_io_in_pin_addr);
-	
-	_mem_io_in_pin_bit = _arg_io_in_pin_bit;
-	
-	__DDR__  &= ~(1 << _arg_io_in_pin_bit);
-	
-	if (_arg_nf_port)
-	{
-		__PORT__ |=  (1 << _arg_io_in_pin_bit);
-	}
-	else
-	{
-		__PORT__ &= ~(1 << _arg_io_in_pin_bit);
-	}
-}
+#include "H28_I_C_IO_IN_pin.h"
 
 //public
+
 C_IO_IN_pin::
 C_IO_IN_pin
 (
-	E_IO_PORT_ADDR _arg_io_in_pin_addr, 
-	E_IO_NUM _arg_io_in_pin_bit,
-	BOOL _arg_nf_port = TRUE
+	E_IO_PORT_ADDR	_arg_io_addr, 
+	E_IO_NUM		_arg_io_bit,
+	BOOL			_arg_nf_port = TRUE
 )
 {
-	Set(_arg_io_in_pin_addr, _arg_io_in_pin_bit, _arg_nf_port);
+	C_IO_base :: Set_io_base(_arg_io_addr);
+	
+	_mem_io_in_pin_bit = _arg_io_bit;
+	
+	__DDR__  &= ~(1 << _arg_io_bit);
+	
+	if (_arg_nf_port)	__PORT__ |=  (1 << _arg_io_bit);
+	else				__PORT__ &= ~(1 << _arg_io_bit);
 }
 
 inline BOOL 
 C_IO_IN_pin::
 In ()
 {
-	return C_IO_IN::In_num(_mem_io_in_pin_bit);
+	return C_IO_IN :: In_num(_mem_io_in_pin_bit);
 }
 
 inline BOOL 
 C_IO_IN_pin::
 In_turn ()
 {
-	return TURN_TF(C_IO_IN::In_num(_mem_io_in_pin_bit));
+	return TURN_TF(C_IO_IN :: In_num(_mem_io_in_pin_bit));
 }

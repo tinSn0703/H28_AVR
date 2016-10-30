@@ -1,22 +1,30 @@
 
+/*
+1ピン用
+
+ H28 06 13 ver0.0.0
+*/
+
+
 #pragma once
 
 #include "H28_I_C_IO_OUT.h"
 
 class C_IO_OUT_pin : protected C_IO_OUT
 {
+	
 private:
 
-	E_IO_NUM _mem_io_out_pin_bit :3;
+	E_IO_NUM _mem_io_out_pin_bit :3;	//使用するbit
 	
-	BOOL _mem_io_out_pin_nf_set :1;
+	BOOL _mem_io_out_pin_data :1;	//出力する値の記憶
 	
 public:
 
 	/**
 	 * \brief 空のコンストラクタ。
 	 */
-	C_IO_OUT_pin()	{}
+	C_IO_OUT_pin();
 	
 	/**
 	 * \brief 
@@ -29,39 +37,59 @@ public:
 	C_IO_OUT_pin(E_IO_PORT_ADDR _arg_io_addr, E_IO_NUM _arg_io_bit);
 	
 	/**
-	 * \brief 出力の予約の設定を返す
+	 * \brief 
+	 *	クラスに、出力する値を書き込む
 	 * 
-	 * \return BOOL 出力の設定
+	 * \param _arg_data : 書き込む値
 	 */
-	BOOL Ret();
-	
-	/**
-	 * \brief 出力の予約を設定する
-	 * 
-	 * \param _arg_nf_set : 予約
-	 */
-	void Set(BOOL _arg_nf_set);
+	void Write_data(BOOL _arg_data);
 
 	/**
-	 * \brief 予約の設定を反転させる
+	 * \brief 
+	 *	クラスに記憶された出力の値を反転させる
 	 */
-	void Chen();
+	void Turn_data();
 	
 	/**
-	 * \brief 予約した設定を出力する
+	 * \brief
+	 *	クラスに記録された値を出力する
 	 */
 	void Out();
 	
 	/**
 	 * \brief 
+	 *	引数の値をIOピンに出力する
 	 * 
-	 * \param _arg_nf : 
+	 * \param _arg_nf : 出力する値
 	 */
 	void Out(BOOL _arg_nf);
 	
+	/**
+	 * \brief 
+	 *	IOピンにTRUEを出力する。
+	 */
 	void Out_on();
+	
+	/**
+	 * \brief 
+	 *	IOピンにFALSEを出力する。
+	 */
 	void Out_off();
 	
+	/**
+	 * \brief 
+	 *	クラスに記憶されている出力する値をreturnする。
+	 * 
+	 * \return BOOL 
+	 */
+	BOOL Ret_data();
+	
+	/**
+	 * \brief 
+	 *	使用してるbitをreturnする。
+	 * 
+	 * \return E_IO_NUM
+	 */
 	E_IO_NUM Ret_bit()	{	return _mem_io_out_pin_bit;	}
 };
 

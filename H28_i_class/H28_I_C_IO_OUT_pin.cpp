@@ -1,15 +1,15 @@
 ﻿
-/*
-1ピン用
-
- H28 06 13 ver0.0.0
-*/
-
 #pragma once
 
 #include "H28_I_C_IO_OUT_pin.h"
 
 //	public member
+
+C_IO_OUT_pin :: 
+C_IO_OUT_pin ()
+{
+	_mem_io_out_pin_data = FALSE;
+};
 
 C_IO_OUT_pin ::
 C_IO_OUT_pin
@@ -19,7 +19,7 @@ C_IO_OUT_pin
 )
 : C_IO_base(_arg_io_addr)
 {
-	_mem_io_out_pin_nf_set = FALSE;
+	_mem_io_out_pin_data = FALSE;
 	_mem_io_out_pin_bit = _arg_io_bit;
 	
 	__DDR__  |=  (1 << _arg_io_bit);
@@ -28,33 +28,33 @@ C_IO_OUT_pin
 
 inline BOOL 
 C_IO_OUT_pin :: 
-Ret ()
+Ret_data ()
 {
-	return _mem_io_out_pin_nf_set;
+	return _mem_io_out_pin_data;
 }
 
 inline void 
 C_IO_OUT_pin :: 
-Set (BOOL _arg_set)
+Write_data (BOOL _arg_data)
 {
-	_mem_io_out_pin_nf_set = _arg_set;
+	_mem_io_out_pin_data = _arg_data;
 }
 
 inline void 
 C_IO_OUT_pin :: 
-Chen ()
+Turn_data ()
 {
-	_mem_io_out_pin_nf_set = TURN_TF(_mem_io_out_pin_nf_set);
+	_mem_io_out_pin_data = TURN_TF(_mem_io_out_pin_data);
 }
 
 inline void 
 C_IO_OUT_pin :: 
 Out()
 {
-	switch (_mem_io_out_pin_nf_set)
+	switch (_mem_io_out_pin_data)
 	{
-		case TRUE:	C_IO_OUT::Out_num_on(_mem_io_out_pin_bit);	break;
-		case FALSE:	C_IO_OUT::Out_num_off(_mem_io_out_pin_bit);	break;
+		case TRUE:	C_IO_OUT :: Out_num_on(_mem_io_out_pin_bit);	break;
+		case FALSE:	C_IO_OUT :: Out_num_off(_mem_io_out_pin_bit);	break;
 	}
 }
 
@@ -62,29 +62,25 @@ inline void
 C_IO_OUT_pin::
 Out (BOOL _arg_nf)
 {
-	_mem_io_out_pin_nf_set = _arg_nf;
+	_mem_io_out_pin_data = _arg_nf;
 	
 	switch (_arg_nf)
 	{
-		case TRUE:	C_IO_OUT::Out_num_on(_mem_io_out_pin_bit);	break;
-		case FALSE:	C_IO_OUT::Out_num_off(_mem_io_out_pin_bit);	break;
+		case TRUE:	C_IO_OUT :: Out_num_on(_mem_io_out_pin_bit);	break;
+		case FALSE:	C_IO_OUT :: Out_num_off(_mem_io_out_pin_bit);	break;
 	}
 }
 
 inline void 
 C_IO_OUT_pin::
 Out_on ()
-{
-	_mem_io_out_pin_nf_set = TRUE;
-	
-	C_IO_OUT::Out_num_on(_mem_io_out_pin_bit);
+{	
+	C_IO_OUT :: Out_num_on(_mem_io_out_pin_bit);
 }
 
 inline void 
 C_IO_OUT_pin::
 Out_off ()
 {
-	_mem_io_out_pin_nf_set = FALSE;
-	
-	C_IO_OUT::Out_num_off(_mem_io_out_pin_bit);
+	C_IO_OUT :: Out_num_off(_mem_io_out_pin_bit);
 }
