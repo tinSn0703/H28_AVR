@@ -10,11 +10,12 @@ private:
 	
 	C_TIMER_inside _mem_timer;
 	
-	E_UART_FLAG _mem_uart_r2_flag :2;
-	T_NUM _mem_uart_r2_num :1;
+	E_UART_FLAG _mem_uart_r2_flag_state :2;
+	T_NUM		_mem_uart_r2_num_seccess :1;
 	
-protected:
-
+	BOOL _mem_uart_r2_flag_priority0 :1;
+	BOOL _mem_uart_r2_flag_priority1 :1;
+	
 	E_UART_ADDR _mem_arr_uart_r2_addr[2];	//レジスタ用のアドレス
 	
 #	define __UCSRA_0__	_SFR_MEM8(_mem_arr_uart_r2_addr[0] + 0)
@@ -86,16 +87,18 @@ public:
 	 * 確認中はこの関数で停止します。
 	 * 確認には最長で8ms程かかります
 	 */
-	void Check();
+	void Check_in();
 	
 	/**
 	 * \brief 
 	 * 受信する
-	 * Check()で成功したほうを用いる 
+	 * Check_in()で成功したほうを用いる 
 	 * 
+	 * \param _arg_nf_auto_cut : 自動で通信の確認を終了するかどうか
+	 *
 	 * \return T_DATA : 受信したデータ
 	 */
-	T_DATA In();
+	T_DATA In(BOOL _arg_nf_auto_cut);
 	
 	/**
 	 * \brief 直前の受信状態をreturnする。
@@ -126,7 +129,7 @@ public:
 	/**
 	 * \brief 
 	 * if文などでの受信状態の比較用
-	 * C_UART_R2::Check()のあとで使って
+	 * C_UART_R2::Check_in()のあとで使って
 	 * 
 	 * \param _arg_uart_r2 : みたまま
 	 * \param _arg_uart_flag_comp : 比較するやつ
@@ -138,7 +141,7 @@ public:
 	/**
 	 * \brief 
 	 * if文などでの受信状態の比較用
-	 * C_UART_R2::Check()のあとで使って
+	 * C_UART_R2::Check_in()のあとで使って
 	 * 
 	 * \param _arg_uart_r2 : みたまま
 	 * \param _arg_uart_flag_comp : 比較するやつ

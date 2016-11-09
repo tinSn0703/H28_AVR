@@ -10,7 +10,8 @@
 #include "H28_U_C_UART.h"
 
 #if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
-C_UART::
+
+C_UART ::
 C_UART
 (
 	E_UART_ADDR _arg_uart_addr, 
@@ -21,10 +22,12 @@ C_UART
 {
 	_mem_uart_mode = _arg_uart_mode;
 	
-	Set_isr(_arg_uart_nf_isr);
+	Reset_isr(_arg_uart_nf_isr);
 }
+
 #elif defined(_AVR_IOM88_H_)
-C_UART::
+
+C_UART ::
 C_UART
 (
 	E_UART_MODE _arg_uart_mode,
@@ -34,24 +37,25 @@ C_UART
 {
 	_mem_uart_mode = _arg_uart_mode;
 	
-	Set_isr(_arg_uart_nf_isr);
+	Reset_isr(_arg_uart_nf_isr);
 }
+
 #endif
 
 inline void 
-C_UART::
-Chan_mode (E_UART_MODE _arg_uart_mode)
+C_UART ::
+Reset_mode (E_UART_MODE _arg_uart_mode)
 {
 	_mem_uart_mode = _arg_uart_mode;
 }
 
 inline void 
-C_UART::
-Set_isr (BOOL _arg_uart_nf_isr)
+C_UART ::
+Reset_isr (BOOL _arg_uart_nf_isr)
 {
 	switch(_mem_uart_mode)
 	{
-		case EU_REC:	C_UART_R::Set_isr(_arg_uart_nf_isr);	break;
-		case EU_TRA:	C_UART_T::Set_isr(_arg_uart_nf_isr);	break;
+		case EU_REC:	C_UART_R :: Reset_isr(_arg_uart_nf_isr);	break;
+		case EU_TRA:	C_UART_T :: Reset_isr(_arg_uart_nf_isr);	break;
 	}
 }

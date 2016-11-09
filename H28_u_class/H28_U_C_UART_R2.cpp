@@ -9,16 +9,17 @@
 
 #pragma once
 
-#include "H28_U_C_UART_R2.h"
-
 //public member
 
 inline 
 C_UART_R2 :: 
 C_UART_R2 ()
-: _mem_timer(80)
+: _mem_timer(200)
 {
-	_mem_uart_r2_flag = EU_NONE;
+	_mem_uart_r2_flag_state = EU_NONE;
+	
+	_mem_uart_r2_flag_priority0 = TRUE;
+	_mem_uart_r2_flag_priority1 = TRUE;
 }
 
 
@@ -42,7 +43,10 @@ C_UART_R2
 	Set_isr_0(_arg_uart_nf_isr_0);
 	Set_isr_1(_arg_uart_nf_isr_1);
 	
-	_mem_uart_r2_flag = EU_NONE;
+	_mem_uart_r2_flag_state = EU_NONE;
+	
+	_mem_uart_r2_flag_priority0 = TRUE;
+	_mem_uart_r2_flag_priority1 = TRUE;
 }
 
 inline void 
@@ -91,7 +95,7 @@ Set_bit9_1 (BOOL _arg_uart_nf_bit9)
 
 inline void 
 C_UART_R2::
-Check ()
+Check_in ()
 //受信しなかった方を受信禁止にしたらうまくいった。
 {
 	__UCSRB_0__ |= (1 << RXEN);
@@ -101,70 +105,88 @@ Check ()
 	
 	while (1)
 	{
-		if (CHECK_BIT_TF(__UCSRA_0__,RXC) & _mem_timer.Ret_flag())	//UART0受信完了
+		if (CHECK_BIT_TF(__UCSRA_0__,RXC) & _mem_uart_r2_flag_priority0 & _mem_timer.Ret_state())	//UART0受信完了
 		{
-			_mem_timer.End();
-			
 			__UCSRB_1__ &= ~(1 << RXEN);
 			
-			_mem_uart_r2_flag = EU_SUCCE;
+			_mem_uart_r2_num_seccess = 0;
 			
-			_mem_uart_r2_num = 0;
-		
+			_mem_uart_r2_flag_priority1 = FALSE;
+			
 			break;
 		}
 		
-		if (CHECK_BIT_TF(__UCSRA_1__,RXC) & _mem_timer.Ret_flag())	//UART1受信完了
+		if (CHECK_BIT_TF(__UCSRA_1__,RXC) & _mem_uart_r2_flag_priority1 & _mem_timer.Ret_state())	//UART1受信完了
 		{
-			_mem_timer.End();
-			
 			__UCSRB_0__ &= ~(1 << RXEN);
 			
-			_mem_uart_r2_flag = EU_SUCCE;
+			_mem_uart_r2_num_seccess = 1;
 			
-			_mem_uart_r2_num = 1;
+			_mem_uart_r2_flag_priority0 = FALSE;
 			
-			break;
+			break;;
 		}
 		
 		if (_mem_timer.Check())	//カウント完了(タイムアウト)
 		{
-			_mem_uart_r2_flag = EU_ERROR;
+			__UCSRB_0__ &= ~(1 << RXEN);
+			__UCSRB_1__ &= ~(1 << RXEN);
 			
-			break;
+			_mem_uart_r2_flag_state = EU_ERROR;
+			
+			_mem_uart_r2_flag_priority0 = TRUE;
+			_mem_uart_r2_flag_priority1 = TRUE;
+			
+			return (void)0;
 		}
 	}
+	
+	_mem_timer.End();
+	
+	_mem_uart_r2_flag_state = EU_SUCCE;
 }
 
 T_DATA 
 C_UART_R2::
-In ()
+In (BOOL _arg_nf_auto_cut = TRUE)
 {
-	Check();
+	if (_arg_nf_auto_cut)
+	{
+		Check_in();
+		
+		if (_mem_uart_r2_flag_state == EU_ERROR)	return IN_ERROR;
+	}
+	else
+	{
+		__UCSRB_0__ |= (1 << RXEN);
+		__UCSRB_1__ |= (1 << RXEN);
+		
+		while (1)
+		{
+			if (__UCSRA_0__ & (1 << RXC))	_mem_uart_r2_num_seccess = 0;	break;
+			if (__UCSRA_1__ & (1 << RXC))	_mem_uart_r2_num_seccess = 1;	break;
+		}
+	}
 	
-	if (_mem_uart_r2_flag == EU_ERROR)	return IN_ERROR;
+	T_DATA _ret_data_in = 0;
 	
-	T_DATA _ret_in_data = 0;
-	
-	_mem_uart_base_addr = _mem_arr_uart_r2_addr[_mem_uart_r2_num];	//受信成功したポートにする
+	_mem_uart_base_addr = _mem_arr_uart_r2_addr[_mem_uart_r2_num_seccess];	//受信成功したポートにする
 	
 	if (__UCSRB__ & ((1<<UCSZ2) | (1<<RXB8)))
 	{
-		_ret_in_data |= (1 << 8);	//9bit通信時
+		_ret_data_in |= (1 << 8);	//9bit通信時
 	}
 	
-	_ret_in_data |= __UDR__;
+	_ret_data_in |= __UDR__;
 	
-	_mem_uart_r2_flag = EU_NONE;
-	
-	return _ret_in_data;
+	return _ret_data_in;
 }
 
 inline E_UART_FLAG 
 C_UART_R2 :: 
 Ret_flag ()
 {
-	return _mem_uart_r2_flag;
+	return _mem_uart_r2_flag_state;
 }
 
 void 
@@ -194,7 +216,7 @@ operator ==
 	E_UART_FLAG _arg_uart_flag_comp
 )
 {
-	if (_arg_uart_r2._mem_uart_r2_flag == _arg_uart_flag_comp)	return true;
+	if (_arg_uart_r2._mem_uart_r2_flag_state == _arg_uart_flag_comp)	return true;
 	
 	return false;
 }
@@ -206,7 +228,7 @@ operator !=
 	E_UART_FLAG _arg_uart_flag_comp
 )
 {
-	if (_arg_uart_r2._mem_uart_r2_flag != _arg_uart_flag_comp)	return true;
+	if (_arg_uart_r2._mem_uart_r2_flag_state != _arg_uart_flag_comp)	return true;
 	
 	return false;
 }

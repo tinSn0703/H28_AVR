@@ -13,11 +13,12 @@ private:
 
 	C_TIMER_inside _mem_timer;
 	
-	E_UART_FLAG _mem_uart_r_flag :2; //最後の受信状態の記録
+	E_UART_FLAG _mem_uart_r_flag_state :2; //最後の受信状態の記録
 	
 public:
 	
 #if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
+
 	/**
 	 * \brief 
 	 * コンストラクタ
@@ -35,7 +36,9 @@ public:
 	 * \param _arg_uart_nf_isr : 受信完了割り込みのONOFF
 	 */
 	C_UART_R(E_UART_ADDR _arg_uart_addr, BOOL _arg_uart_nf_isr);
+	
 #elif defined(_AVR_IOM88_H_)
+	
 	/**
 	 * \brief 
 	 * コンストラクタ
@@ -45,6 +48,7 @@ public:
 	 * \param _arg_uart_nf_isr : 受信完了割り込みのONOFF
 	 */
 	C_UART_R(BOOL _arg_uart_nf_isr);
+
 #endif
 
 	/**
@@ -52,18 +56,19 @@ public:
 	 * 
 	 * \param _arg_uart_nf_isr : ONOFFの設定
 	 */
-	void Set_isr(BOOL );
+	void Reset_isr(BOOL );
 	
 	/**
 	 * \brief 
 	 * 受信ができるかを確認する。結果は_mem_uart_r_flagに格納されるので使うときにそっちを読んでほしい。
+	 * Timerを用いて、一定時間で受信できなかった場合は、自動的に終了します
 	 * 確認中はこの関数で停止します。
 	 * 確認には最長で8ms程かかります
 	 */
-	void Check();
+	void Check_in();
 	
 	/**
-	 * \brief 受信する 
+	 * \brief 受信
 	 * 
 	 * \param _arg_nf_auto_cut : 自動で通信を終了するかの使用について
 	 *
@@ -72,11 +77,14 @@ public:
 	T_DATA In(BOOL _arg_nf_auto_cut);
 
 	/**
-	 * \brief 直前の受信状態をreturnする。
+	 * \brief 受信状態をreturnする。
 	 * 
 	 * \return E_UART_FLAG
+	 *	失敗	-> EU_ERROR
+	 *	成功	-> EU_SUCCE
+	 *	その他	-> EU_NONE
 	 */
-	E_UART_FLAG Ret_flag();
+	E_UART_FLAG Ret_state();
 	
 	/**
 	 * \brief 
@@ -100,7 +108,7 @@ public:
 	/**
 	 * \brief 
 	 * if文などでの受信状態の比較用
-	 * C_UART_R::Check()のあとで使って
+	 * C_UART_R::Check_in()のあとで使って
 	 * 
 	 * \param _arg_uart_r : みたまま
 	 * \param _arg_uart_flag_comp : 比較するやつ
@@ -112,7 +120,7 @@ public:
 	/**
 	 * \brief 
 	 * if文などでの受信状態の比較用
-	 * C_UART_R::Check()のあとで使って
+	 * C_UART_R::Check_in()のあとで使って
 	 * 
 	 * \param _arg_uart_r : みたまま
 	 * \param _arg_uart_flag_comp : 比較するやつ

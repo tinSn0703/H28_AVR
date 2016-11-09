@@ -19,11 +19,11 @@ C_UART_R ::
 C_UART_R ()
 : _mem_timer(80)
 {
-	_mem_uart_r_flag = EU_NONE;
+	_mem_uart_r_flag_state = EU_NONE;
 }
 
 inline 
-C_UART_R::
+C_UART_R ::
 C_UART_R
 (
 	E_UART_ADDR _arg_uart_addr, 
@@ -32,29 +32,29 @@ C_UART_R
  : C_UART_base(_arg_uart_addr)
  , _mem_timer(80) //8ms
 {	
-	Set_isr(_arg_uart_nf_isr);
+	Reset_isr(_arg_uart_nf_isr);
 	
-	_mem_uart_r_flag = EU_NONE;
+	_mem_uart_r_flag_state = EU_NONE;
 }
 
 #elif defined(_AVR_IOM88_H_)
 
 inline
-C_UART_R::
+C_UART_R ::
 C_UART_R (BOOL _arg_uart_nf_isr = FALSE)
 : C_UART_base()
 , _mem_timer(80) //8ms
 {
-	Set_isr(_arg_uart_nf_isr);
+	Reset_isr(_arg_uart_nf_isr);
 	
-	_mem_uart_r_flag = EU_NONE;
+	_mem_uart_r_flag_state = EU_NONE;
 }
 
 #endif
 
 inline void 
 C_UART_R::
-Set_isr (BOOL _arg_uart_nf_isr)
+Reset_isr (BOOL _arg_uart_nf_isr)
 {
 	switch (_arg_uart_nf_isr)
 	{
@@ -65,28 +65,28 @@ Set_isr (BOOL _arg_uart_nf_isr)
 
 void 
 C_UART_R::
-Check ()
+Check_in ()
 {
 	__UCSRB__ |= (1 << RXEN); //受信許可
 	
-	_mem_uart_r_flag = EU_NONE;
+	_mem_uart_r_flag_state = EU_NONE;
 	
 	_mem_timer.Start();
 	
 	while (1)
 	{
-		if ((_mem_timer.Ret_flag() & CHECK_BIT_TF(__UCSRA__, RXC)) == TRUE)	//受信完了
+		if ((_mem_timer.Ret_state() & CHECK_BIT_TF(__UCSRA__, RXC)) == TRUE)	//受信完了
 		{
 			_mem_timer.End();
 			
-			_mem_uart_r_flag = EU_SUCCE;
+			_mem_uart_r_flag_state = EU_SUCCE;
 			
 			break;
 		}
 		
 		if (_mem_timer.Check() == TRUE)	//カウント完了(タイムアウト)
 		{
-			_mem_uart_r_flag = EU_ERROR;
+			_mem_uart_r_flag_state = EU_ERROR;
 			
 			break;
 		}
@@ -97,22 +97,26 @@ T_DATA
 C_UART_R::
 In (BOOL _arg_nf_auto_cut = TRUE)
 {
-	do 
+	if (_arg_nf_auto_cut)
 	{
-		Check(); //受信チェック
+		Check_in(); //受信チェック
 		
-		if ((_arg_nf_auto_cut == TRUE) && (_mem_uart_r_flag == EU_ERROR))
-		{
-			return IN_ERROR;	//受信失敗
-		}
+		if (_mem_uart_r_flag_state == EU_ERROR)	return IN_ERROR;	//受信失敗
 	}
-	while (_mem_uart_r_flag != EU_SUCCE); //受信成功まで繰り返し
+	else
+	{
+		_mem_uart_r_flag_state = EU_NONE;
+		
+		__UCSRB__ |= (1 << RXEN); //受信許可
+		
+		while ( ! (__UCSRA__ & (1 << RXC)));
+	}
 	
 	T_DATA _ret_in_data = 0;
 	
 	if (__UCSRA__ & ((1 << FE) | (1 << DOR) | (1 << UPE)))
 	{
-		_mem_uart_r_flag = EU_ERROR;
+		_mem_uart_r_flag_state = EU_ERROR;
 		
 		_ret_in_data = __UDR__;
 		
@@ -127,8 +131,6 @@ In (BOOL _arg_nf_auto_cut = TRUE)
 		_ret_in_data = __UDR__;
 		
 		_ret_in_data |= _ret_in_data_9;
-		
-		_mem_uart_r_flag = EU_NONE;
 	}
 	
 	return _ret_in_data;
@@ -136,9 +138,9 @@ In (BOOL _arg_nf_auto_cut = TRUE)
 
 inline E_UART_FLAG 
 C_UART_R :: 
-Ret_flag()
+Ret_state()
 {
-	return _mem_uart_r_flag;
+	return _mem_uart_r_flag_state;
 }
 
 void 
@@ -169,7 +171,7 @@ operator ==
 	E_UART_FLAG _arg_uart_r_flag_comp
 )
 {	
-	if (_arg_uart_r._mem_uart_r_flag == _arg_uart_r_flag_comp)	return true;
+	if (_arg_uart_r._mem_uart_r_flag_state == _arg_uart_r_flag_comp)	return true;
 	
 	return false;
 }
@@ -181,7 +183,7 @@ operator !=
 	E_UART_FLAG _arg_uart_flag_comp
 )
 {
-	if (_arg_uart_r._mem_uart_r_flag != _arg_uart_flag_comp)	return true;
+	if (_arg_uart_r._mem_uart_r_flag_state != _arg_uart_flag_comp)	return true;
 	
 	return false;
 }

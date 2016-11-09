@@ -20,9 +20,9 @@ public:
 	C_UART(E_UART_MODE ,BOOL);
 #endif
 	
-	void Chan_mode(E_UART_MODE );
+	void Reset_mode(E_UART_MODE );
 	
-	void Set_isr(BOOL );
+	void Reset_isr(BOOL );
 };
 
 #include "H28_U_C_UART.cpp"

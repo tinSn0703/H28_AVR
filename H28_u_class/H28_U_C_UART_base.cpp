@@ -87,7 +87,7 @@ Set_bit9_off ()
 
 inline BOOL 
 C_UART_base :: 
-Ret_bit9 ()
+Ret_nf_bit9 ()
 {
 	return CHECK_BIT_TF(__UCSRB__,UCSZ2);
 }

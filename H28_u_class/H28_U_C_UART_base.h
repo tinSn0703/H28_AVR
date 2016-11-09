@@ -8,11 +8,15 @@ class C_UART_base
 {
 protected:
 
-#	if defined(_AVR_IOM640_H_)
+#if defined(_AVR_IOM640_H_)
+
 	E_UART_ADDR _mem_uart_base_addr :9;	//レジスタ用のアドレス
-#	elif defined(_AVR_IOM164_H_)
+
+#elif defined(_AVR_IOM164_H_)
+
 	E_UART_ADDR _mem_uart_base_addr :8;
-#	endif
+
+#endif
 
 #if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 #	define __UCSRA__ _SFR_MEM8(_mem_uart_base_addr + 0)
@@ -31,6 +35,7 @@ protected:
 #endif
 
 #if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
+
 	/**
 	 * \brief コンストラクタの中身。
 	 * 
@@ -55,6 +60,7 @@ public:
 	 * \param _arg_uart_addr : 使うUART
 	 */
 	C_UART_base(E_UART_ADDR _arg_uart_addr);
+	
 #elif defined(_AVR_IOM88_H_)
 	
 public:
@@ -67,6 +73,7 @@ public:
 	 *		奇数パリティ
 	 */
 	C_UART_base();
+	
 #endif
 
 	/**
@@ -100,7 +107,7 @@ public:
 	 *		TRUE  -> 設定されている
 	 *		FALES -> 設定されていない
 	 */
-	BOOL Ret_bit9();
+	BOOL Ret_nf_bit9();
 };
 
 #include "H28_U_C_UART_base.cpp"

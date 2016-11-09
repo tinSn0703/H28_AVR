@@ -12,6 +12,7 @@
 //public member
 
 #if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
+
 C_UART_T ::
 C_UART_T
 (
@@ -20,20 +21,23 @@ C_UART_T
 )
 : C_UART_base(_arg_uart_addr)
 {	
-	Set_isr(_arg_uart_nf_isr);
+	Reset_isr(_arg_uart_nf_isr);
 }
+
 #elif defined(_AVR_IOM88_H_)
+
 C_UART_T :: 
 C_UART_T (BOOL _arg_uart_nf_isr = FALSE)
 : C_UART_base()
 {
-	Set_isr(_arg_uart_nf_isr);
+	Reset_isr(_arg_uart_nf_isr);
 }
+
 #endif
 
 inline void 
-C_UART_T::
-Set_isr (BOOL _arg_uart_nf_isr)
+C_UART_T ::
+Reset_isr (BOOL _arg_uart_nf_isr)
 {
 	switch (_arg_uart_nf_isr)
 	{
@@ -43,16 +47,16 @@ Set_isr (BOOL _arg_uart_nf_isr)
 }
 
 void 
-C_UART_T::
+C_UART_T ::
 Out (T_DATA _arg_uart_data_out)
 {	
 	__UCSRB__ |= (1 << TXEN); //送信許可する。
 	
 	while (!(__UCSRA__ & (1 << UDRE))); //送信が可能になるまで待機
 	
-	if ((C_UART_base::Ret_bit9() & CHECK_BIT_TF(_arg_uart_data_out,8)) == TRUE)
+	if ((C_UART_base :: Ret_nf_bit9() & CHECK_BIT_TF(_arg_uart_data_out,8)) == TRUE)
 	{
-		__UCSRB__ |= (1 << TXB8);
+		__UCSRB__ |= (1 << TXB8);	//8bit目の送信
 	}
 
 	__UDR__ = (_arg_uart_data_out & 0xff);
@@ -63,7 +67,7 @@ Out (T_DATA _arg_uart_data_out)
 }
 
 void
-C_UART_T::
+C_UART_T ::
 Out (T_DATA_8 _arg_uart_data_out)
 {
 	__UCSRB__ |= (1 << TXEN); //送信許可する。
