@@ -33,7 +33,7 @@ S_UART_set
 	
 	_arg_uart->_mem_uart_flag = EU_NONE;
 	
-	F_uart_set(_arg_uart_addr);
+	F_Uart_set(_arg_uart_addr);
 }
 
 inline void 
@@ -49,7 +49,7 @@ S_UART_R_set
 	
 	_arg_uart_r->_mem_uart_flag = EU_NONE;
 	
-	F_uart_set(_arg_uart_addr);
+	F_Uart_set(_arg_uart_addr);
 }
 
 inline void
@@ -65,7 +65,7 @@ S_UART_T_set
 	
 	_arg_uart_t->_mem_uart_flag = EU_NONE;
 	
-	F_uart_set(_arg_uart_addr);
+	F_Uart_set(_arg_uart_addr);
 }
 
 inline void 
@@ -75,19 +75,19 @@ S_UART_isr
 	BOOL _arg_uart_nf_isr
 )
 {
-	F_uart_isr(_arg_uart->_mem_uart_addr, _arg_uart->_mem_uart_mode, _arg_uart_nf_isr);
+	F_Uart_set_isr(_arg_uart->_mem_uart_addr, _arg_uart->_mem_uart_mode, _arg_uart_nf_isr);
 }
 
 inline void 
 S_UART_isr_on (const S_UART *_arg_uart)
 {
-	F_uart_isr(_arg_uart->_mem_uart_addr, _arg_uart->_mem_uart_mode, TRUE);
+	F_Uart_set_isr(_arg_uart->_mem_uart_addr, _arg_uart->_mem_uart_mode, TRUE);
 }
 
 inline void
 S_UART_isr_off (const S_UART *_arg_uart)
 {
-	F_uart_isr(_arg_uart->_mem_uart_addr, _arg_uart->_mem_uart_mode, FALSE);
+	F_Uart_set_isr(_arg_uart->_mem_uart_addr, _arg_uart->_mem_uart_mode, FALSE);
 }
 
 inline void 
@@ -99,7 +99,7 @@ S_UART_R_isr
 {
 	if (_arg_uart_r->_mem_uart_mode == EU_REC)
 	{
-		F_uart_isr(_arg_uart_r->_mem_uart_addr, EU_REC, _arg_uart_nf_isr);
+		F_Uart_set_isr(_arg_uart_r->_mem_uart_addr, EU_REC, _arg_uart_nf_isr);
 	}
 }
 

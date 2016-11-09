@@ -4,7 +4,7 @@
 #include "H28_u_func.h"
 
 inline void 
-F_uart_set (E_UART_ADDR _arg_uart_addr)
+F_Uart_set (E_UART_ADDR _arg_uart_addr)
 {
 	__UBRRH_F(_arg_uart_addr) = 0x00;
 	__UBRRL_F(_arg_uart_addr) = 0x04;
@@ -17,7 +17,7 @@ F_uart_set (E_UART_ADDR _arg_uart_addr)
 }
 
 inline void 
-F_uart_set_detail
+F_Uart_set_detail
 (
 	E_UART_ADDR _arg_uart_addr, 
 	T_DATA _arg_bps, 
@@ -35,7 +35,7 @@ F_uart_set_detail
 }
 
 inline void 
-F_uart_bit9
+F_Uart_set_bit9
 (
 	E_UART_ADDR _arg_uart_addr, 
 	BOOL _arg_uart_nf_bit9
@@ -49,19 +49,19 @@ F_uart_bit9
 }
 
 inline void 
-F_uart_bit9_on (E_UART_ADDR _arg_uart_addr)
+F_Uart_set_bit9_on (E_UART_ADDR _arg_uart_addr)
 {
 	__UCSRB_F(_arg_uart_addr) |=  (1 << UCSZ2);
 }
 
 inline void
-F_uart_bit9_off (E_UART_ADDR _arg_uart_addr)
+F_Uart_set_bit9_off (E_UART_ADDR _arg_uart_addr)
 {
 	__UCSRB_F(_arg_uart_addr) &=  ~(1 << UCSZ2);
 }
 
 inline void 
-F_uart_isr
+F_Uart_set_isr
 (
 	E_UART_ADDR _arg_uart_addr, 
 	E_UART_MODE _arg_uart_mode, 
@@ -84,31 +84,31 @@ F_uart_isr
 }
 
 inline void 
-F_uart_t_isr_on (E_UART_ADDR _arg_uart_addr)
+F_Uart_set_isr_u_on (E_UART_ADDR _arg_uart_addr)
 {
 	__UCSRB_F(_arg_uart_addr) |= (1 << UDRIE);
 }
 
 inline void
-F_uart_r_isr_on (E_UART_ADDR _arg_uart_addr)
+F_Uart_set_isr_r_on (E_UART_ADDR _arg_uart_addr)
 {
 	__UCSRB_F(_arg_uart_addr) |= (1 << RXCIE);
 }
 
 inline void
-F_uart_t_isr_off (E_UART_ADDR _arg_uart_addr)
+F_Uart_set_isr_u_off (E_UART_ADDR _arg_uart_addr)
 {
 	__UCSRB_F(_arg_uart_addr) &= ~(1 << UDRIE);
 }
 
 inline void
-F_uart_r_isr_off (E_UART_ADDR _arg_uart_addr)
+F_Uart_set_isr_r_off (E_UART_ADDR _arg_uart_addr)
 {
 	__UCSRB_F(_arg_uart_addr) &= ~(1 << RXCIE);
 }
 
 void 
-F_uart_out
+F_Uart_out
 (
 	E_UART_ADDR _arg_uart_addr, 
 	T_DATA _arg_uart_out_data
@@ -124,14 +124,10 @@ F_uart_out
 	}
 
 	__UDR_F(_arg_uart_addr) = (_arg_uart_out_data & 0xff);
-	
-	while (!(__UCSRA_F(_arg_uart_addr) & (1 << TXC))); //送信完了まで待機
-	
-	__UCSRA_F(_arg_uart_addr) |= (1 << TXC);
 }
 
 void 
-F_uart_out_8
+F_Uart_out_8
 (
 	E_UART_ADDR _arg_uart_addr, 
 	T_DATA_8 _arg_uart_out_data
@@ -142,14 +138,10 @@ F_uart_out_8
 	while (!(__UCSRA_F(_arg_uart_addr) & (1 << UDRE))); //送信が可能になるまで待機
 
 	__UDR_F(_arg_uart_addr) = _arg_uart_out_data;
-	
-	while (!(__UCSRA_F(_arg_uart_addr) & (1 << TXC))); //送信完了まで待機
-	
-	__UCSRA_F(_arg_uart_addr) |= (1 << TXC);
 }
 
 E_UART_FLAG 
-F_uart_in 
+F_Uart_in 
 (
 	E_UART_ADDR _arg_uart_addr,
 	T_DATA *_arg_uart_in_data
@@ -180,7 +172,7 @@ F_uart_in
 }
 
 E_UART_FLAG 
-F_uart_in_8 
+F_Uart_in_8 
 (
 	E_UART_ADDR _arg_uart_addr,
 	T_DATA_8 *_arg_uart_in_data
