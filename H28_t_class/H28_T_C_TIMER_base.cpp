@@ -15,9 +15,10 @@ TIMER系の基底クラス
 //protected member
 
 #if defined(_AVR_IOM640_H_)
+
 inline void 
 C_TIMER_base ::
-Set_base
+Set_timer
 (
 	E_TIMER_ADDR _arg_timer_addr,
 	E_TIMER_MODE _arg_timer_mode , 
@@ -43,10 +44,12 @@ Set_base
 	
 	__TCCRC__ = 0x00;
 }
+
 #elif defined(_AVR_IOM164_H_)
+
 inline void
 C_TIMER_base ::
-Set_base
+Set_timer
 (
 	E_TIMER_MODE _arg_timer_mode ,
 	BOOL _arg_timer_nf_isr = FALSE
@@ -58,6 +61,7 @@ Set_base
 	
 	__TCCRC__ = 0x00;
 }
+
 #endif
 
 

@@ -85,7 +85,7 @@ End ()
 
 inline BOOL
 C_TIMER_inside ::
-Ret_flag ()
+Ret_state ()
 {
 	return _mem_timer_inside_flag;
 }

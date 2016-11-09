@@ -21,7 +21,7 @@ C_TIMER
 	BOOL _arg_timer_nf_isr = FALSE
 )
 {
-	C_TIMER_base::Set_base(_arg_timer_addr, _arg_timer_mode, _arg_timer_nf_isr);
+	C_TIMER_base :: Set_timer(_arg_timer_addr, _arg_timer_mode, _arg_timer_nf_isr);
 }
 
 inline 
@@ -35,8 +35,8 @@ C_TIMER
 	BOOL _arg_timer_nf_isr = FALSE
 )
 {
-	C_TIMER_base::Set_base(_arg_timer_addr, _arg_timer_mode, _arg_timer_nf_isr);
-	C_TIMER_base::Set_condition(_arg_timer_clock, _arg_timer_counter);
+	C_TIMER_base :: Set_timer(_arg_timer_addr, _arg_timer_mode, _arg_timer_nf_isr);
+	C_TIMER_base :: Set_condition(_arg_timer_clock, _arg_timer_counter);
 }
 #elif defined(_AVR_IOM164_H_)
 inline
@@ -47,7 +47,7 @@ C_TIMER
 	BOOL _arg_timer_nf_isr = FALSE
 )
 {
-	C_TIMER_base::Set_base(_arg_timer_mode, _arg_timer_nf_isr);
+	C_TIMER_base :: Set_timer(_arg_timer_mode, _arg_timer_nf_isr);
 }
 
 inline
@@ -60,8 +60,8 @@ C_TIMER
 	BOOL _arg_timer_nf_isr = FALSE
 )
 {
-	C_TIMER_base::Set_base(_arg_timer_mode, _arg_timer_nf_isr);
-	C_TIMER_base::Set_condition(_arg_timer_clock, _arg_timer_counter);
+	C_TIMER_base :: Set_timer(_arg_timer_mode, _arg_timer_nf_isr);
+	C_TIMER_base :: Set_condition(_arg_timer_clock, _arg_timer_counter);
 }
 #endif
 

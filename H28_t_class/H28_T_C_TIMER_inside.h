@@ -60,7 +60,7 @@ public:
 	 *	TRUE  -> カウントを行っている
 	 *	FALES -> カウントを行っていない
 	 */
-	BOOL Ret_flag();
+	BOOL Ret_state();
 	
 	/**
 	 * \brief カウントの上限値を変更する演算子
@@ -72,7 +72,7 @@ public:
 	/**
 	 * \brief 
 	 * if文などでの比較用の演算子
-	 * C_TIMER_inside::Ret_flag()と比較する
+	 * C_TIMER_inside::Ret_state()と比較する
 	 * 
 	 * \param _arg_timer_inside : みたまま
 	 * \param _arg_timer_flag_comp : 比較するやつ
@@ -84,7 +84,7 @@ public:
 	/**
 	 * \brief 
 	 * if文などでの比較用の演算子
-	 * C_TIMER_inside::Ret_flag()と比較する
+	 * C_TIMER_inside::Ret_state()と比較する
 	 * 
 	 * \param _arg_timer_inside : みたまま
 	 * \param _arg_timer_flag_comp : 比較するやつ
