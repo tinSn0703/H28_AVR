@@ -12,71 +12,71 @@ UART系のクラスや関数を使うためのマクロやtypdef
 
 #define IN_ERROR 0xfff
 
-typedef enum 
-E_UART_FLAG
+enum E_UART_FLAG
 {
 	EU_NONE  = 0,	
 	EU_SUCCE = 1,	//受信成功
 	EU_ERROR = 2,	//受信失敗
-}
-E_UART_FLAG;
+};
 
 #ifndef _AVR_IOM88_H_
-typedef enum 
-E_UART_ADDR
+
+enum E_UART_ADDR
 {
 	
 #if defined(_AVR_IOM640_H_)
+
 	EU_UART0 = 0xc0,
 	EU_UART1 = 0xc8,
 	EU_UART2 = 0xd0,
 	EU_UART3 = 0x130,
+
 #elif defined(_AVR_IOM164_H_)
+
 	EU_UART0 = 0xc0,
 	EU_UART1 = 0xc8,
+
 #endif
 	
-}
-E_UART_ADDR;
+};
+
 #endif
 
-typedef enum 
-E_UART_MODE
+enum E_UART_MODE
 {
 	EU_TRA  = 0, //送信
 	EU_REC  = 1, //受信
-}
-E_UART_MODE;
+};
 
 //bit UCSRA
-#define RXC  7
-#define TXC	 6
-#define UDRE 5
-#define FE	 4
-#define DOR  3
-#define UPE  2
-#define U2X  1
-#define MPCM 0
+#define RXC  7		//受信完了フラグ
+#define TXC	 6		//送信完了フラグ
+#define UDRE 5		//送信データ空きレジスタフラグ
+#define FE	 4		//フレーミング異常フラグ
+#define DOR  3		//データオーバーランフラグ
+#define UPE  2		//パリティ誤りフラグ
+#define U2X  1		//倍速許可
+#define MPCM 0		//複数プロセッサ通信動作
 
 //bit UCSRB
-#define RXCIE 7
-#define TXCIE 6
-#define UDRIE 5
-#define RXEN  4
-#define TXEN  3
-#define UCSZ2 2
-#define RXB8  1
-#define TXB8  0
+#define RXCIE 7		//受信完了割り込み許可
+#define TXCIE 6		//送信完了割り込み許可
+#define UDRIE 5		//送信データレジスタ空き割り込み許可
+#define RXEN  4		//受信許可
+#define TXEN  3		//送信許可
+#define UCSZ2 2		//データビット長選択2
+#define RXB8  1		//受信データビット8
+#define TXB8  0		//送信データビット8
 
 //bit UCSRC
-#define UMSEL1 7
-#define UMSEL0 6
-#define UPM1   5
-#define UPM0   4
-#define USBS   3
-#define UCSZ1  2
-#define UCSZ0  1
-#define UCPOL  0
+#define UMSEL1 7	//USART動作選択1
+#define UMSEL0 6	//USART動作選択0
+#define UPM1   5	//パリティ選択1
+#define UPM0   4	//パリティ選択0
+#define USBS   3	//停止ビット選択
+#define UCSZ1  2	//データビット長選択1
+#define UCSZ0  1	//データビット長選択0
+#define UCPOL  0	//クロック極性選択
 
 #ifndef __NOT_USE_FUNK_UART__
 #include "H28_u_func/H28_u_func.h"
