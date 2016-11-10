@@ -105,7 +105,7 @@ Check_in ()
 	
 	while (1)
 	{
-		if (CHECK_BIT_TF(__UCSRA_0__,RXC) & _mem_uart_r2_flag_priority0 & _mem_timer.Ret_state())	//UART0受信完了
+		if (F_Check_bit_bool(__UCSRA_0__, RXC) & _mem_uart_r2_flag_priority0 & _mem_timer.Ret_state())	//UART0受信完了
 		{
 			__UCSRB_1__ &= ~(1 << RXEN);
 			
@@ -116,7 +116,7 @@ Check_in ()
 			break;
 		}
 		
-		if (CHECK_BIT_TF(__UCSRA_1__,RXC) & _mem_uart_r2_flag_priority1 & _mem_timer.Ret_state())	//UART1受信完了
+		if (F_Check_bit_bool(__UCSRA_1__, RXC) & _mem_uart_r2_flag_priority1 & _mem_timer.Ret_state())	//UART1受信完了
 		{
 			__UCSRB_0__ &= ~(1 << RXEN);
 			

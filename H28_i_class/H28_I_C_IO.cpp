@@ -6,8 +6,8 @@ IN,OUT両方できるIO系のクラス
 
 #pragma once
 
-#include "H28_I_C_IO_IN.cpp"
-#include "H28_I_C_IO_OUT.cpp"
+#include "H28_I_C_IO_IN.h"
+#include "H28_I_C_IO_OUT.h"
 
 class C_IO : public C_IO_IN , public C_IO_OUT
 {

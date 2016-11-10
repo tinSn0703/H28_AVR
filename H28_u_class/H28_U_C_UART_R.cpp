@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include "H28_U_C_UART_R.h"
-
 //public member
 
 #if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
@@ -75,7 +73,7 @@ Check_in ()
 	
 	while (1)
 	{
-		if ((_mem_timer.Ret_state() & CHECK_BIT_TF(__UCSRA__, RXC)) == TRUE)	//受信完了
+		if ((_mem_timer.Ret_state() & F_Check_bit_bool(__UCSRA__, RXC)) == TRUE)	//受信完了
 		{
 			_mem_timer.End();
 			

@@ -1,8 +1,6 @@
 ﻿
 #pragma once
 
-#include "H28_I_C_IO_OUT_pin.h"
-
 //	public member
 
 C_IO_OUT_pin :: 
@@ -44,7 +42,7 @@ inline void
 C_IO_OUT_pin :: 
 Turn_data ()
 {
-	_mem_io_out_pin_data = TURN_TF(_mem_io_out_pin_data);
+	_mem_io_out_pin_data = F_Turn_bool(_mem_io_out_pin_data);
 }
 
 inline void 

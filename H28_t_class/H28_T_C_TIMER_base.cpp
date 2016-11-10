@@ -10,8 +10,6 @@ TIMER系の基底クラス
 
 #pragma once
 
-#include "H28_T_C_TIMER_base.h"
-
 //protected member
 
 #if defined(_AVR_IOM640_H_)

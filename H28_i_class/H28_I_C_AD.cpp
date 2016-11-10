@@ -11,8 +11,6 @@ AD変換を行うクラス。ポテンジョンメータの値を読むことが
 
 #pragma once
 
-#include "H28_I_C_AD.h"
-
 //public member
 
 C_AD::
@@ -45,8 +43,8 @@ C_AD
 	{
 		case TRUE:
 		{
-			DDRF  &= ~(TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
-			PORTF |=  (TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
+			DDRF  &= ~(F_Turn_bool(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
+			PORTF |=  (F_Turn_bool(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
 			
 			DDRK  &= ~(_mem_ad._mux_bit._mux5 << _mem_ad._ad_num);
 			PORTK |=  (_mem_ad._mux_bit._mux5 << _mem_ad._ad_num);
@@ -55,8 +53,8 @@ C_AD
 		}
 		case FALSE:
 		{
-			DDRF  |=  (TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
-			PORTF &= ~(TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
+			DDRF  |=  (F_Turn_bool(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
+			PORTF &= ~(F_Turn_bool(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
 			
 			DDRK  |=  (_mem_ad._mux_bit._mux5 << _mem_ad._ad_num);
 			PORTK &= ~(_mem_ad._mux_bit._mux5 << _mem_ad._ad_num);
@@ -65,7 +63,7 @@ C_AD
 		}
 	}
 
-	DIDR0 |= (TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
+	DIDR0 |= (F_Turn_bool(_mem_ad._mux_bit._mux5) << _mem_ad._ad_num);
 	DIDR2 |= (_mem_ad._mux_bit._mux5 << _mem_ad._ad_num);
 #elif defined(_AVR_IOM164_H_)
 	switch (_arg_ad_io_turn)

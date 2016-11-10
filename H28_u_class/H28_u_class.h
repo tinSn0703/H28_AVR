@@ -18,4 +18,4 @@ includeするだけのヘッダファイルそれ以上でもそれ以下でもない
 #endif
 
 #include "H28_U_C_UART_T.h"
-#include "H28_U_C_UART.cpp"
+#include "H28_U_C_UART.h"

@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include "H28_U_C_UART.h"
-
 #if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 
 C_UART ::

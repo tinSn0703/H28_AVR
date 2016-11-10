@@ -1,8 +1,6 @@
 ﻿
 #pragma once
 
-#include "H28_I_C_IO_OUT.h"
-
 //public
 
 C_IO_OUT :: 

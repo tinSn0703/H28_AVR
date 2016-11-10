@@ -1,8 +1,6 @@
 ﻿
 #pragma once
 
-#include "H28_I_C_IO_base.h"
-
 //protected member
 
 inline void 
@@ -16,7 +14,7 @@ Set_io_base
 	
 #ifdef _AVR_IOM640_H_
 
-	_mem_io_base_addr_point = CHECK_BIT_TF(_arg_io_addr, 8);
+	_mem_io_base_addr_point = F_Check_bit_bool(_arg_io_addr, 8);
 
 #endif
 

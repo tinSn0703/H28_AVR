@@ -118,7 +118,7 @@ F_Uart_out
 	
 	while (!(__UCSRA_F(_arg_uart_addr) & (1 << UDRE))); //‘—M‚ª‰Â”\‚É‚È‚é‚Ü‚Å‘Ò‹@
 	
-	if ((CHECK_BIT_TF(__UCSRB_F(_arg_uart_addr),UCSZ2) & CHECK_BIT_TF(_arg_uart_out_data,8)) == TRUE)
+	if ((F_Check_bit_bool(__UCSRB_F(_arg_uart_addr), UCSZ2) & F_Check_bit_bool(_arg_uart_out_data, 8)) == TRUE)
 	{
 		__UCSRB_F(_arg_uart_addr) |= (1 << TXB8);
 	}

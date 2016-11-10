@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include "H28_T_C_TIMER.h"
-
 //public
 #if defined(_AVR_IOM640_H_)
 inline 
@@ -116,7 +114,7 @@ inline BOOL
 C_TIMER ::
 Flag_timer_compare (BOOL _arg_timer_continue = TRUE)
 {
-	if (CHECK_BIT_TF(__TIFR__,OCFA))
+	if (F_Check_bit_bool(__TIFR__, OCFA))
 	{
 		__TIFR__ |= (1 << OCFA);
 	

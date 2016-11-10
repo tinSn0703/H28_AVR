@@ -1,8 +1,6 @@
 ﻿
 #pragma once
 
-#include "H28_I_C_IO_IN_pin.h"
-
 //public
 
 C_IO_IN_pin::
@@ -34,5 +32,5 @@ inline BOOL
 C_IO_IN_pin::
 In_turn ()
 {
-	return TURN_TF(C_IO_IN :: In_num(_mem_io_in_pin_bit));
+	return F_Turn_bool(C_IO_IN :: In_num(_mem_io_in_pin_bit));
 }

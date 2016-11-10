@@ -1,8 +1,6 @@
 ﻿
 #pragma once
 
-#include "H28_I_C_IO_IN.h"
-
 //public
 
 C_IO_IN ::
@@ -26,5 +24,5 @@ inline BOOL
 C_IO_IN ::
 In_num (E_IO_NUM _arg_num)
 {		
-	return CHECK_BIT_TF(__PIN__, _arg_num);
+	return F_Check_bit_bool(__PIN__, _arg_num);
 }

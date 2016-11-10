@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include "H28_U_C_UART_T.h"
-
 //public member
 
 #if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
@@ -54,7 +52,7 @@ Out (T_DATA _arg_uart_data_out)
 	
 	while (!(__UCSRA__ & (1 << UDRE))); //送信が可能になるまで待機
 	
-	if ((C_UART_base :: Ret_nf_bit9() & CHECK_BIT_TF(_arg_uart_data_out,8)) == TRUE)
+	if ((C_UART_base :: Ret_nf_bit9() & F_Check_bit_bool(_arg_uart_data_out, 8)) == TRUE)
 	{
 		__UCSRB__ |= (1 << TXB8);	//8bit目の送信
 	}

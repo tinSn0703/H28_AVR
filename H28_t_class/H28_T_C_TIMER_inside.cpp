@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include "H28_T_C_TIMER_inside.h"
-
 //public member
 
 C_TIMER_inside :: 
@@ -50,7 +48,7 @@ inline BOOL
 C_TIMER_inside ::
 Check ()
 {
-	if ((_mem_timer_inside_flag & CHECK_BIT_TF(TIFR0,TOV0)) == TRUE)
+	if ((_mem_timer_inside_flag & F_Check_bit_bool(TIFR0, TOV0)) == TRUE)
 	{
 		TCNT0  = 130; //100us
 		

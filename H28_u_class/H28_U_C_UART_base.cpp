@@ -7,8 +7,6 @@ UART系の基底となるクラス。こいつは宣言しないでね
 
 #pragma once
 
-#include "H28_U_C_UART_base.h"
-
 #if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
 //protected member
 
@@ -89,5 +87,5 @@ inline BOOL
 C_UART_base :: 
 Ret_nf_bit9 ()
 {
-	return CHECK_BIT_TF(__UCSRB__,UCSZ2);
+	return F_Check_bit_bool(__UCSRB__, UCSZ2);
 }
