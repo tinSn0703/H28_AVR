@@ -4,7 +4,9 @@
 #include "H28_t_class.h"
 
 /**
- * TIMER系クラスの基底クラス
+ *	　TIMER系クラスの基底クラス
+ *	　なんでこんなものがあるかというと、最初はもっと派生先がある予定だったの
+ *	ですが、C_TIMERだけでいいんじゃね、となったからです。
  */
 class C_TIMER_base
 {
@@ -69,7 +71,7 @@ protected:
 	/**
 	 * \brief レジスタの初期設定を行う
 	 *
-	 * \param _arg_timer_mode : TIMERのモード
+	 * \param _arg_timer_mode	: TIMERのモード
 	 * \param _arg_timer_nf_isr : 割り込み処理を用いるかどうか
 	 */
 	void Set_timer (E_TIMER_MODE _arg_timer_mode, BOOL _arg_timer_nf_isr);
@@ -79,7 +81,7 @@ protected:
 	/**
 	 * \brief TIMERのモード、割り込みについての設定を行う
 	 * 
-	 * \param _arg_timer_mode : 設定するTIMERのモード
+	 * \param _arg_timer_mode	: 設定するTIMERのモード
 	 * \param _arg_timer_nf_isr : 割り込み処理を用いるかどうか
 	 */
 	void Set_mode(E_TIMER_MODE _arg_timer_mode, BOOL _arg_timer_nf_isr);
@@ -89,7 +91,7 @@ public:
 	/**
 	 * \brief 分周値、カウント用レジスタの設定
 	 * 
-	 * \param _arg_timer_clock : 分周値
+	 * \param _arg_timer_clock	 : 分周値
 	 * \param _arg_timer_counter : レジスタに入れる値
 	 */
 	void Set_condition(E_CLOCK _arg_timer_clock, usint _arg_timer_counter);

@@ -58,8 +58,8 @@ Out_num
 {
 	switch (_arg_nf)
 	{
-		case TRUE:  Out_num_on(_arg_num);	break;
-		case FALSE: Out_num_off(_arg_num);	break;
+		case TRUE:  Out_num_high(_arg_num);	break;
+		case FALSE: Out_num_low(_arg_num);	break;
 	}
 }
 
@@ -73,35 +73,35 @@ Out_num
 {
 	switch (_arg_nf)
 	{
-		case TRUE:  Out_num_on(_arg_num);	break;
-		case FALSE: Out_num_off(_arg_num);	break;
+		case TRUE:  Out_num_high(_arg_num);	break;
+		case FALSE: Out_num_low(_arg_num);	break;
 	}
 }
 
 inline void 
 C_IO_OUT :: 
-Out_num_on (E_IO_NUM _arg_num)
+Out_num_high (E_IO_NUM _arg_num)
 {	
 	__PORT__ |= (1 << _arg_num);
 }
 
 inline void 
 C_IO_OUT :: 
-Out_num_on (usint _arg_num)
+Out_num_high (usint _arg_num)
 {	
 	__PORT__ |= (1 << _arg_num);
 }
 
 inline void 
 C_IO_OUT :: 
-Out_num_off (E_IO_NUM _arg_num)
+Out_num_low (E_IO_NUM _arg_num)
 {
 	__PORT__ &= ~(1 << _arg_num);
 }
 
 inline void 
 C_IO_OUT :: 
-Out_num_off (usint _arg_num)
+Out_num_low (usint _arg_num)
 {	
 	__PORT__ &= ~(1 << _arg_num);
 }

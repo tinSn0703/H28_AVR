@@ -56,7 +56,7 @@ public:
 	 * 
 	 * \param _arg_uart_nf_isr : ONOFFの設定
 	 */
-	void Reset_isr(BOOL );
+	void Reset_isr(BOOL _arg_uart_nf_isr);
 	
 	/**
 	 * \brief 
@@ -70,7 +70,7 @@ public:
 	/**
 	 * \brief 受信
 	 * 
-	 * \param _arg_nf_auto_cut : 自動で通信を終了するかの使用について
+	 * \param _arg_nf_auto_cut : 自動で通信を終了する機能の使用について
 	 *
 	 * \return T_DATA : 受信したデータ
 	 */

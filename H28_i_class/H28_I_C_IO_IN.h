@@ -12,6 +12,9 @@
 
 #include "H28_I_C_IO_base.h"
 
+/**
+ * IOレジスタを入力モードで扱うためのクラス
+ */
 class C_IO_IN : public virtual C_IO_base
 {
 	
@@ -34,7 +37,7 @@ public:
 
 	/**
 	 * \brief 
-	 *	PORTを読む。
+	 *	PORTで読む。
 	 * 
 	 * \return T_PORT 
 	 */

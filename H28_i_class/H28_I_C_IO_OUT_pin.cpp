@@ -51,8 +51,8 @@ Out()
 {
 	switch (_mem_io_out_pin_data)
 	{
-		case TRUE:	C_IO_OUT :: Out_num_on(_mem_io_out_pin_bit);	break;
-		case FALSE:	C_IO_OUT :: Out_num_off(_mem_io_out_pin_bit);	break;
+		case TRUE:	C_IO_OUT :: Out_num_high(_mem_io_out_pin_bit);	break;
+		case FALSE:	C_IO_OUT :: Out_num_low(_mem_io_out_pin_bit);	break;
 	}
 }
 
@@ -64,21 +64,21 @@ Out (BOOL _arg_nf)
 	
 	switch (_arg_nf)
 	{
-		case TRUE:	C_IO_OUT :: Out_num_on(_mem_io_out_pin_bit);	break;
-		case FALSE:	C_IO_OUT :: Out_num_off(_mem_io_out_pin_bit);	break;
+		case TRUE:	C_IO_OUT :: Out_num_high(_mem_io_out_pin_bit);	break;
+		case FALSE:	C_IO_OUT :: Out_num_low(_mem_io_out_pin_bit);	break;
 	}
 }
 
 inline void 
 C_IO_OUT_pin::
-Out_on ()
+Out_high ()
 {	
-	C_IO_OUT :: Out_num_on(_mem_io_out_pin_bit);
+	C_IO_OUT :: Out_num_high(_mem_io_out_pin_bit);
 }
 
 inline void 
 C_IO_OUT_pin::
-Out_off ()
+Out_low ()
 {
-	C_IO_OUT :: Out_num_off(_mem_io_out_pin_bit);
+	C_IO_OUT :: Out_num_low(_mem_io_out_pin_bit);
 }

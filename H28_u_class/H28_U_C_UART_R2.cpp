@@ -141,7 +141,7 @@ Check_in ()
 		}
 	}
 	
-	_mem_timer.End();
+	_mem_timer.Stop();
 	
 	_mem_uart_r2_flag_state = EU_SUCCE;
 }

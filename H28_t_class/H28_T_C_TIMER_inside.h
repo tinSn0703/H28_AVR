@@ -28,8 +28,10 @@ public:
 	C_TIMER_inside();
 	
 	/**
-	 * \brief コンストラクタ
-	 * 
+	 * \brief 
+	 *	コンストラクタ
+	 *	TIMERの初期設定を行う。 
+	 *
 	 * \param _arg_limit : カウント上限。1カウントにつき100us
 	 */
 	C_TIMER_inside(usint _arg_timer_limit);
@@ -51,7 +53,7 @@ public:
 	/**
 	 * \brief タイマの終了
 	 */
-	void End();
+	void Stop();
 	
 	/**
 	 * \brief カウントの動作フラグの値を返す

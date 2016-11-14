@@ -9,6 +9,9 @@
 
 #include "H28_I_C_IO_IN.cpp"
 
+/**
+ *	IOピンを入力モードで扱うためのクラス
+ */
 class C_IO_IN_pin : protected C_IO_IN
 {
 	

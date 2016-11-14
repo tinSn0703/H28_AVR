@@ -13,7 +13,7 @@ OUTのみのIO系のクラス
 #include "H28_I_C_IO_base.h"
 
 /**
- * PORTでOUTを扱うクラス
+ * IOレジスタをOUTモードで扱うクラス
  */
 class C_IO_OUT : public virtual C_IO_base
 {
@@ -57,9 +57,9 @@ public:
 	
 	/**
 	 * \brief 
-	 *	引数の値を出力する
+	 *	IOレジスタに出力する
 	 * 
-	 * \param _arg_data_out : 出力の値
+	 * \param _arg_data_out : 出力する値
 	 */
 	void Out (T_PORT _arg_data_out);
 	
@@ -83,37 +83,37 @@ public:
 	
 	/**
 	 * \brief 
-	 *	指定されたビットにTRUEを出力する
+	 *	指定されたIOピンに1を出力する
 	 * 
 	 * \param _arg_num : 出力するピン
 	 */
-	void Out_num_on (E_IO_NUM _arg_num);
+	void Out_num_high (E_IO_NUM _arg_num);
 	
 	/**
 	 * \brief 
-	 *	指定されたビットにTRUEを出力する
+	 *	指定されたIOピンに1を出力する
 	 *	だいたいの型がいけるver 
 	 *
 	 * \param _arg_num : 出力するピン
 	 */
-	void Out_num_on (usint _arg_num);
+	void Out_num_high (usint _arg_num);
 	
 	/**
 	 * \brief 
-	 *	指定されたビットにFALSEを出力する
+	 *	指定されたIOピンに0を出力する
 	 * 
 	 * \param _arg_num : 出力するピン
 	 */
-	void Out_num_off (E_IO_NUM _arg_num);
+	void Out_num_low (E_IO_NUM _arg_num);
 	
 	/**
 	 * \brief 
-	 *	指定されたビットにFALSEを出力する
+	 *	指定されたIOピンに0を出力する
 	 *	だいたいの型がいけるver 
 	 *
 	 * \param _arg_num : 出力するピン
 	 */
-	void Out_num_off (usint _arg_num);
+	void Out_num_low (usint _arg_num);
 	
 	/**
 	 * \brief 

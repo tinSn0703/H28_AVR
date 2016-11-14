@@ -75,7 +75,7 @@ Check_in ()
 	{
 		if ((_mem_timer.Ret_state() & F_Check_bit_bool(__UCSRA__, RXC)) == TRUE)	//受信完了
 		{
-			_mem_timer.End();
+			_mem_timer.Stop();
 			
 			_mem_uart_r_flag_state = EU_SUCCE;
 			

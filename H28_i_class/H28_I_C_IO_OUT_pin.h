@@ -68,13 +68,13 @@ public:
 	 * \brief 
 	 *	IOピンにTRUEを出力する。
 	 */
-	void Out_on();
+	void Out_high();
 	
 	/**
 	 * \brief 
 	 *	IOピンにFALSEを出力する。
 	 */
-	void Out_off();
+	void Out_low();
 	
 	/**
 	 * \brief 

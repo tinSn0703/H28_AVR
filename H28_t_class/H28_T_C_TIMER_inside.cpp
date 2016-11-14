@@ -62,7 +62,7 @@ Check ()
 		else
 		//カウント完了
 		{			
-			End();
+			Stop();
 			
 			return TRUE;
 		}
@@ -73,7 +73,7 @@ Check ()
 
 inline void 
 C_TIMER_inside ::
-End ()
+Stop ()
 {
 	TCCR0B = 0;
 	
