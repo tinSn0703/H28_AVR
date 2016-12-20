@@ -12,46 +12,63 @@
 
 #include "H28_I_C_IO_base.h"
 
-/**
- * IOレジスタを入力モードで扱うためのクラス
- */
+/*************************************************************************
+
+IOレジスタを入力モードで操作するためのクラス
+
+*************************************************************************/
+
 class C_IO_IN : public virtual C_IO_base
 {
 	
 public:
-
-	/**
-	 * \brief 
-	 *	空のコンストラクタ。何もしない。
-	 */
-	C_IO_IN()	{}
+	
+	C_IO_IN ()	{}
 	
 	/**
-	 * \brief 
-	 *	使用するレジスタの設定を行う。 
+	 * \brief	使用するレジスタの設定を行う。 
 	 *
 	 * \param _arg_io_addr		: 使用するレジスタ
 	 * \param _arg_set_io_pin	: 使用するピン。bitが対応するピンが入力に設定する
 	 */
-	C_IO_IN(E_IO_PORT_ADDR _arg_io_addr, T_PORT _arg_set_io_pin);
+	C_IO_IN (E_IO_PORT_ADDR _arg_io_addr, T_PORT _arg_set_io_pin);
 
 	/**
-	 * \brief 
-	 *	PORTで読む。
-	 * 
-	 * \return T_PORT 
+	 * \brief	PORTを読む。
 	 */
-	T_PORT In();
+	T_PORT In ();
 	
 	/**
-	 * \brief 
-	 *	指定されたピンを読む。
+	 * \brief	指定されたピンを読む。
 	 *
 	 * \param _arg_num : 読むピン
-	 * 
-	 * \return BOOL
 	 */
-	BOOL In_num(E_IO_NUM _arg_num);
+	BOOL In_num (E_IO_NUM _arg_num);
 };
 
-#include "H28_I_C_IO_IN.cpp"
+/************************************************************************/
+//public
+
+C_IO_IN ::
+C_IO_IN
+(
+	const E_IO_PORT_ADDR	_arg_io_addr,
+	const T_PORT			_arg_set_io_pin = 0xff
+)
+{
+	C_IO_base :: Set_io_base(_arg_io_addr, EI_IN, _arg_set_io_pin);
+}
+
+inline T_PORT
+C_IO_IN ::
+In ()
+{
+	return __PIN__;
+}
+
+inline BOOL
+C_IO_IN ::
+In_num (const E_IO_NUM _arg_num)
+{
+	return F_Check_bit_bool(__PIN__, _arg_num);
+}

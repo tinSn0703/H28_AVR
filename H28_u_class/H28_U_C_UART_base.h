@@ -1,9 +1,18 @@
 
+/*
+UART系の基底となるクラス。こいつは宣言しないでね
+ H28 05 18 ver0.0.0
+ H28 05 23 ver0.1.0 コンストラクタ消しといた。
+*/
+
 #pragma once
 
-/**
- * UART系の基底となるクラス
- */
+/*************************************************************************
+
+UART系の基底となるクラス
+
+*************************************************************************/
+
 class C_UART_base
 {
 protected:
@@ -41,14 +50,11 @@ protected:
 	 * 
 	 * \param _arg_uart_addr : コンストラクタ参照
 	 */
-	void Set(E_UART_ADDR _arg_uart_addr);
+	void Set (E_UART_ADDR _arg_uart_addr);
 
 public:
-
-	/**
-	 * \brief 空のコンストラクタ.何もしない
-	 */
-	C_UART_base()	{}
+	
+	C_UART_base ()	{}
 	
 	/**
 	 * \brief 
@@ -59,7 +65,7 @@ public:
 	 * 
 	 * \param _arg_uart_addr : 使うUART
 	 */
-	C_UART_base(E_UART_ADDR _arg_uart_addr);
+	C_UART_base (E_UART_ADDR _arg_uart_addr);
 	
 #elif defined(_AVR_IOM88_H_)
 	
@@ -72,7 +78,7 @@ public:
 	 *		倍速許可
 	 *		奇数パリティ
 	 */
-	C_UART_base();
+	C_UART_base ();
 	
 #endif
 
@@ -83,31 +89,114 @@ public:
 	 *
 	 * \param _arg_uart_nf_bit9 : ON/OFF
 	 */
-	void Set_bit9(BOOL _arg_uart_nf_bit9);
+	void Set_bit9 (BOOL _arg_uart_nf_bit9);
 	
 	/**
 	 * \brief 
 	 * 9bit通信をONにする
 	 * 8bitと9bitどうしではうまく通信できないので注意
 	 */
-	void Set_bit9_on();
+	void Set_bit9_on ();
 	
 	/**
 	 * \brief 
 	 * 9bit通信をOFFにする
 	 * 8bitと9bitどうしではうまく通信できないので注意
 	 */
-	void Set_bit9_off();
+	void Set_bit9_off ();
 	
 	/**
-	 * \brief 
-	 * 9bit通信が設定されているかの確認。
+	 * \brief 9bit通信が設定されているかの確認。
 	 * 
 	 * \return BOOL 
 	 *		TRUE  -> 設定されている
 	 *		FALES -> 設定されていない
 	 */
-	BOOL Ret_nf_bit9();
+	BOOL Ret_nf_bit9 ();
 };
 
-#include "H28_U_C_UART_base.cpp"
+/************************************************************************/
+//protected
+
+#if defined(_AVR_IOM640_H_) || defined(_AVR_IOM164_H_)
+
+inline void
+C_UART_base ::
+Set (const E_UART_ADDR _arg_uart_addr)
+{
+	_mem_uart_base_addr = _arg_uart_addr;
+	
+	__UBRRH__ = 0x00;
+	__UBRRL__ = 0x04;
+	//F_CPU = 10[MHz] 250[kbps]
+	
+	__UCSRA__ = (1<<U2X);
+	//倍速許可
+	
+	__UCSRB__ &= ~((1<<RXCIE) | (1<<TXCIE) | (1<<UDRIE));
+	//割り込み許可以外は全部OFF。おあとに設定してね
+	
+	__UCSRC__ = ((1<<UPM1) | (1<<UPM0) | (1<<UCSZ1) | (1<<UCSZ0));
+	//奇数パリティ
+}
+
+/************************************************************************/
+//public
+
+inline C_UART_base ::
+C_UART_base (const E_UART_ADDR _arg_uart_addr)
+{
+	Set(_arg_uart_addr);
+};
+#elif defined(_AVR_IOM88_H_)
+//public member
+
+inline C_UART_base ::
+C_UART_base ()
+{
+	__UBRRH__ = 0x00;
+	__UBRRL__ = 0x04;
+	//F_CPU=10MHz 250kbps
+	
+	__UCSRA__ = (1<<U2X);
+	//Double teransmission spead
+	
+	__UCSRB__ &= ~((1<<RXCIE) | (1<<TXCIE) | (1<<UDRIE));
+	//割り込み許可以外は全部OFF。おあとに設定してね
+	
+	__UCSRC__ = ((1<<UPM1) | (1<<UPM0) | (1<<UCSZ1) | (1<<UCSZ0));
+	//Odd parity mode_i
+};
+#endif
+
+inline void
+C_UART_base ::
+Set_bit9 (const BOOL _arg_uart_nf_bit9)
+{
+	switch (_arg_uart_nf_bit9)
+	{
+		case TRUE:	__UCSRB__ |=  (1 << UCSZ2);	break; //On
+		case FALSE:	__UCSRB__ &= ~(1 << UCSZ2);	break; //Off
+	}
+}
+
+inline void
+C_UART_base ::
+Set_bit9_on ()
+{
+	__UCSRB__ |=  (1 << UCSZ2);
+}
+
+inline void
+C_UART_base ::
+Set_bit9_off ()
+{
+	__UCSRB__ &= ~(1 << UCSZ2);
+}
+
+inline BOOL
+C_UART_base ::
+Ret_nf_bit9 ()
+{
+	return F_Check_bit_bool(__UCSRB__, UCSZ2);
+}

@@ -11,15 +11,14 @@ IOŒn‚ÌƒNƒ‰ƒX‚ðinclude‚·‚é‚¾‚¯
 #	error "Include <H28_AVR.h>"
 #endif
 
-//#include "H28_I_C_IO_adju.cpp"
 #include "H28_I_C_IO_base.h"
 #include "H28_I_C_IO_IN.h"
 #include "H28_I_C_IO_IN_pin.h"
-//#include "H28_I_C_IO_IN_time.cpp"
 #include "H28_I_C_IO_OUT.h"
 #include "H28_I_C_IO_OUT_pin.h"
-#include "H28_I_C_IO.cpp"
+#include "H28_I_C_IO.h"
 #include "H28_I_C_AD.h"
-//#include "H28_I_C_AD_mem.cpp"
 
-//#include "H28_I_C_AD_school.h"
+//#include "H28_I_C_IO_adju.cpp"
+//#include "H28_I_C_IO_IN_time.cpp"
+//#include "H28_I_C_AD_mem.cpp"

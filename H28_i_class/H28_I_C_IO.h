@@ -13,22 +13,25 @@ class C_IO : public C_IO_IN , public C_IO_OUT
 {
 protected:
 
-	void Set(E_IO_PORT_ADDR ,E_IO_MODE ,T_PORT );
+	void Set (E_IO_PORT_ADDR ,E_IO_MODE ,T_PORT );
 	
 public:
-	C_IO(){}
-	C_IO(E_IO_PORT_ADDR ,E_IO_MODE ,T_PORT );
+
+	C_IO ()	{}
+	
+	C_IO (E_IO_PORT_ADDR ,E_IO_MODE ,T_PORT );
 };
 
-//prptected member
+/************************************************************************/
+//prptected
 
 inline void 
 C_IO::
 Set
 (
-	E_IO_PORT_ADDR _arg_io_addr, 
-	E_IO_MODE _arg_io_mode, 
-	T_PORT _arg_io_set
+	E_IO_PORT_ADDR	_arg_io_addr, 
+	E_IO_MODE		_arg_io_mode, 
+	T_PORT			_arg_io_set
 )
 {
 	switch (_arg_io_mode)
@@ -44,14 +47,15 @@ Set
 	}
 }
 
-//public member
+/************************************************************************/
+//public 
 
-C_IO::
+C_IO ::
 C_IO
 (
-	E_IO_PORT_ADDR _arg_io_addr, 
-	E_IO_MODE _arg_io_mode, 
-	T_PORT _arg_io_set
+	E_IO_PORT_ADDR	_arg_io_addr, 
+	E_IO_MODE		_arg_io_mode, 
+	T_PORT			_arg_io_set
 )
 {
 	Set(_arg_io_addr, _arg_io_mode, _arg_io_set);

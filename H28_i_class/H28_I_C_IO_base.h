@@ -15,6 +15,12 @@ IOピン用クラスの基礎。宣言しないでね。
 
 #include "H28_i_class.h"
 
+/*************************************************************************
+
+IOレジスタを操作するためのクラスのベース。継承してね。
+
+*************************************************************************/
+
 class C_IO_base
 {
 protected:
@@ -39,29 +45,23 @@ protected:
 #endif
 	
 	/**
-	 * \brief
-	 *	使うIOレジスタの登録を行う
+	 * \brief	使うIOレジスタの登録を行う
 	 *
 	 * \param _arg_io_addr : 設定するIO
 	 */
 	void Set_io_base(E_IO_PORT_ADDR _arg_io_addr);
 
 	/**
-	 * \brief
-	 *	使うIOレジスタの登録,設定を行う
+	 * \brief	使うIOレジスタの登録,設定を行う
 	 * 
-	 * \param _arg_io_addr : 使用するレジスタ
-	 * \param _arg_io_mode : 設定するモード
-	 * \param _arg_set_io_pin  : 使用するピンの設定。1になっているbitに対応するレジスタのbitが_arg_io_modeの機能に設定される
+	 * \param _arg_io_addr		: 使用するレジスタ
+	 * \param _arg_io_mode		: 設定するモード
+	 * \param _arg_set_io_pin	: 使用するピンの設定。1になっているbitに対応するレジスタのbitが_arg_io_modeの機能に設定される
 	 */
 	void Set_io_base(E_IO_PORT_ADDR _arg_io_addr, E_IO_MODE _arg_io_mode, T_PORT _arg_io_num);
 	
 public:
 	
-	/**
-	 * \brief 
-	 *	空のコンストラクタ。
-	 */
 	C_IO_base()	{}
 	
 	/**
@@ -74,14 +74,78 @@ public:
 	C_IO_base(E_IO_PORT_ADDR _arg_io_addr);
 	
 	/**
-	 * \brief 
-	 *	使うIOレジスタの登録と設定を行う 
+	 * \brief	使うIOレジスタの登録と設定を行う 
 	 *
-	 * \param _arg_io_addr : 使用するレジスタ
-	 * \param _arg_io_mode : 設定するモード
-	 * \param _arg_set_io_pin  : 使用するピンの設定。1になっているbitに対応するレジスタのbitが_arg_io_modeの機能に設定される
+	 * \param _arg_io_addr		: 使用するレジスタ
+	 * \param _arg_io_mode		: 設定するモード
+	 * \param _arg_set_io_pin	: 使用するピンの設定。1になっているbitに対応するレジスタのbitが_arg_io_modeの機能に設定される
 	 */
 	C_IO_base(E_IO_PORT_ADDR _arg_io_addr, E_IO_MODE _arg_io_mode, T_PORT _arg_set_io_pin);
 };
 
-#include "H28_I_C_IO_base.cpp"
+/************************************************************************/
+//protected
+
+inline void
+C_IO_base ::
+Set_io_base (const E_IO_PORT_ADDR _arg_io_addr)
+{
+	_mem_io_base_addr = _arg_io_addr;
+	
+	#ifdef _AVR_IOM640_H_
+
+	_mem_io_base_addr_point = F_Check_bit_bool(_arg_io_addr, 8);
+
+	#endif
+
+}
+
+inline void
+C_IO_base::
+Set_io_base
+(
+	const E_IO_PORT_ADDR	_arg_io_addr,
+	const E_IO_MODE			_arg_io_mode,
+	const T_PORT			_arg_set_io_pin
+)
+{
+	Set_io_base(_arg_io_addr);
+	
+	switch (_arg_io_mode)
+	{
+		case EI_IN:
+		{
+			__DDR__  = ~_arg_set_io_pin;
+			__PORT__ =  _arg_set_io_pin;
+			
+			break;
+		}
+		case EI_OUT:
+		{
+			__DDR__  =  _arg_set_io_pin;
+			__PORT__ = ~_arg_set_io_pin;
+			
+			break;
+		}
+	}
+}
+
+/************************************************************************/
+//public
+
+C_IO_base ::
+C_IO_base (const E_IO_PORT_ADDR _arg_io_addr)
+{
+	Set_io_base(_arg_io_addr);
+}
+
+C_IO_base ::
+C_IO_base
+(
+	const E_IO_PORT_ADDR	_arg_io_addr,
+	const E_IO_MODE			_arg_io_mode,
+	const T_PORT			_arg_set_io_pin
+)
+{
+	Set_io_base(_arg_io_addr, _arg_io_mode, _arg_set_io_pin);
+}
